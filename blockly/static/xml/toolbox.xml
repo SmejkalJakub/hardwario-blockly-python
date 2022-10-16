@@ -1,0 +1,71 @@
+<xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+  <category name="Initialization">
+    <block type="application_init"></block>
+    <block type="initialize_button">
+      <field name="GPIO">TWR_GPIO_BUTTON</field>
+      <field name="PULL">TWR_GPIO_PULL_DOWN</field>
+      <field name="STATE">TRUE</field>
+    </block>
+    <block type="initialize_radio">
+      <field name="RADIO_MODE">TWR_RADIO_MODE_NODE_SLEEPING</field>
+      <field name="FIRMWARE_NAME">twr-blockly-firmware</field>
+    </block>
+    <block type="initialize_led"></block>
+    <block type="initialize_logging"></block>
+    <block type="initialize_core_module_tmp112">
+      <field name="UPDATE_INTERVAL">5000</field>
+    </block>
+  </category>
+  <category name="Button">
+    <block type="on_button">
+      <field name="NAME">PRESS</field>
+    </block>
+    <block type="publish_button_event_count"></block>
+  </category>
+  <category name="Radio">
+    <block type="send_over_radio_string">
+      <field name="STRING_TO_BE_SEND">STRING</field>
+      <field name="SUBTOPIC">string</field>
+    </block>
+    <block type="send_over_radio_int">
+      <field name="INT_TO_BE_SEND">1</field>
+      <field name="SUBTOPIC">int</field>
+    </block>
+    <block type="send_over_radio_float">
+      <field name="FLOAT_TO_BE_SEND">1.0</field>
+      <field name="SUBTOPIC">float</field>
+    </block>
+    <block type="send_over_radio_boolean">
+      <field name="BOOL_TO_BE_SEND">true</field>
+      <field name="SUBTOPIC">bool</field>
+    </block>
+  </category>
+  <category name="LED">
+    <block type="led_blink">
+      <field name="COUNT">1</field>
+    </block>
+    <block type="led_pulse">
+      <field name="DURATION">1000</field>
+    </block>
+    <block type="led_mode">
+      <field name="MODE">TWR_LED_MODE_BLINK</field>
+    </block>
+  </category>
+  <category name="Logging">
+    <block type="log_info">
+      <field name="MESSAGE">Info</field>
+    </block>
+    <block type="log_warning">
+      <field name="MESSAGE">Warning</field>
+    </block>
+    <block type="log_debug">
+      <field name="MESSAGE">Debug</field>
+    </block>
+    <block type="log_error">
+      <field name="MESSAGE">Error</field>
+    </block>
+  </category>
+  <category name="Temperature">
+    <block type="core_temperature"></block>
+  </category>
+</xml>

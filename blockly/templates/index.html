@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>HARDWARIO Visual Editor</title>
+
+  <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+
+<body>
+  <div>
+    <div id="blocklyDiv" style="height: 900px; width: 1500px;"></div>   
+    <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none"></xml>
+    <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+      <category name="Initialization">
+        <block type="application_init"></block>
+        <block type="initialize_button">
+          <field name="GPIO">TWR_GPIO_BUTTON</field>
+          <field name="PULL">TWR_GPIO_PULL_DOWN</field>
+          <field name="STATE">TRUE</field>
+        </block>
+        <block type="initialize_radio">
+          <field name="RADIO_MODE">TWR_RADIO_MODE_NODE_SLEEPING</field>
+          <field name="FIRMWARE_NAME">twr-blockly-firmware</field>
+        </block>
+        <block type="initialize_led"></block>
+        <block type="initialize_logging"></block>
+        <block type="initialize_core_module_tmp112">
+          <field name="UPDATE_INTERVAL">5000</field>
+        </block>
+      </category>
+      <category name="Button">
+        <block type="on_button">
+          <field name="NAME">PRESS</field>
+        </block>
+        <block type="publish_button_event_count"></block>
+      </category>
+      <category name="Radio">
+        <block type="send_over_radio_string">
+          <field name="STRING_TO_BE_SEND">STRING</field>
+          <field name="SUBTOPIC">string</field>
+        </block>
+        <block type="send_over_radio_int">
+          <field name="INT_TO_BE_SEND">1</field>
+          <field name="SUBTOPIC">int</field>
+        </block>
+        <block type="send_over_radio_float">
+          <field name="FLOAT_TO_BE_SEND">1.0</field>
+          <field name="SUBTOPIC">float</field>
+        </block>
+        <block type="send_over_radio_boolean">
+          <field name="BOOL_TO_BE_SEND">true</field>
+          <field name="SUBTOPIC">bool</field>
+        </block>
+      </category>
+      <category name="LED">
+        <block type="led_blink">
+          <field name="COUNT">1</field>
+        </block>
+        <block type="led_pulse">
+          <field name="DURATION">1000</field>
+        </block>
+        <block type="led_mode">
+          <field name="MODE">TWR_LED_MODE_BLINK</field>
+        </block>
+      </category>
+      <category name="Logging">
+        <block type="log_info">
+          <field name="MESSAGE">Info</field>
+        </block>
+        <block type="log_warning">
+          <field name="MESSAGE">Warning</field>
+        </block>
+        <block type="log_debug">
+          <field name="MESSAGE">Debug</field>
+        </block>
+        <block type="log_error">
+          <field name="MESSAGE">Error</field>
+        </block>
+      </category>
+      <category name="Temperature">
+        <block type="core_temperature"></block>
+      </category>
+    </xml>
+  </xml>     
+</div>
+
+<button id="connectButton" type="button">Flash</button>
+
+<script type="module" src="{% static 'js/flasher.js' %}"></script>
+
+<script src="https://unpkg.com/blockly"></script>  
+<script src="{% static 'js/blocks.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+  function parse_code(){
+    $.ajax({
+      url: "/parse_code",
+      type: "GET",
+          data: {
+          Code: exportJSON(),
+      },
+  
+    }).done(function() {
+      window.location = "/download_code";
+    });
+  }
+  </script>
+  
+<input id="clickMe" type="button" value="Compile And Download" onclick="parse_code();" />
+
+
+
+<button onclick="connectDevices()">Connect Device</button>
+
+<button onclick="save()">Save</button>
+<button onclick="restore()">Load</button>
+
+
+</body>
+</html>
