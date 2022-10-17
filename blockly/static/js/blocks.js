@@ -305,3 +305,49 @@ Blockly.Blocks['core_temperature'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['integer_value'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Integer")
+        .appendField(new Blockly.FieldNumber(0), "VALUE");
+    this.setOutput(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['string_value'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("String")
+        .appendField(new Blockly.FieldTextInput("text"), "VALUE");
+    this.setOutput(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['button_clicks'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Button Clicks");
+    this.setOutput(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['button_holds'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Button Holds");
+    this.setOutput(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};

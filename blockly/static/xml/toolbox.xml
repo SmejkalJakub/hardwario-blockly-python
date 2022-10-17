@@ -21,6 +21,8 @@
       <field name="NAME">PRESS</field>
     </block>
     <block type="publish_button_event_count"></block>
+    <block type="button_clicks"></block>
+    <block type="button_holds"></block>
   </category>
   <category name="Radio">
     <block type="send_over_radio_string">
@@ -67,5 +69,13 @@
   </category>
   <category name="Temperature">
     <block type="core_temperature"></block>
+  </category>
+  <category name="Variables">
+    <block type="integer_value">
+      <field name="VALUE">0</field>
+    </block>
+    <block type="string_value">
+      <field name="VALUE">text</field>
+    </block>
   </category>
 </xml>

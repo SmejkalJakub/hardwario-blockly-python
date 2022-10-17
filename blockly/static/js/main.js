@@ -37,8 +37,8 @@ function checkUniqueBlock(block_type, event){
 
 function checkCategories() {
   for (const category of workspace.toolbox_.contents_) {
-    if(category.id_ != 'blockly-0') {
-      document.getElementById(category.id_).style.display = 'none'
+    if(category.id_ != 'blockly-0' && category.id_ != 'blockly-6') {
+      document.getElementById(category.id_).style.display = 'none';
     }
   }
   for (const block of workspace.blockDB.values()) {
