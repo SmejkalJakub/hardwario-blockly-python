@@ -93,7 +93,6 @@ function save(){
     var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
     localStorage.setItem("test", Blockly.Xml.domToText(xml));
     console.log("backuped");
-    Blockly.getMainWorkspace().clear();
   }
 }
 
