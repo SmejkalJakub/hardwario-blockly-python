@@ -37,25 +37,34 @@ function checkUniqueBlock(block_type, event){
 
 function checkCategories() {
   for (const category of workspace.toolbox_.contents_) {
-    if(category.id_ != 'blockly-0' && category.id_ != 'blockly-6') {
+    if(category.name_ != 'Initialization' && category.name_ != 'Values' && category.name_ != 'Variables' && category.name_ != 'Controls') {
       document.getElementById(category.id_).style.display = 'none';
     }
   }
   for (const block of workspace.blockDB.values()) {
     if(block.type == 'initialize_button') {
-      document.getElementById('blockly-1').style.display = '';
-    }
-    else if(block.type == 'initialize_radio') {
       document.getElementById('blockly-2').style.display = '';
     }
-    else if(block.type == 'initialize_led') {
+    else if(block.type == 'initialize_radio') {
       document.getElementById('blockly-3').style.display = '';
     }
-    else if(block.type == 'initialize_logging') {
+    else if(block.type == 'initialize_led') {
       document.getElementById('blockly-4').style.display = '';
     }
-    else if(block.type == 'initialize_core_module_tmp112') {
+    else if(block.type == 'initialize_logging') {
       document.getElementById('blockly-5').style.display = '';
+    }
+    else if(block.type == 'initialize_core_module_tmp112') {
+      document.getElementById('blockly-6').style.display = '';
+    }
+  }
+}
+
+function checkBlocks() {
+  for (const block of workspace.blockDB.values()) {
+    console.log(block);
+    if(block.type == 'initialize_button') {
+      document.getElementById('blockly-2').style.display = '';
     }
   }
 }
@@ -69,6 +78,7 @@ function onBlockEvent(event) {
       }
       else {
         checkCategories();
+        checkBlocks();
       }
     }
   }
@@ -80,25 +90,47 @@ function onBlockEvent(event) {
   }
 }
 
+function exportWorkspace() {
+  var xml = Blockly.Xml.workspaceToDom(workspace);
+  var xml_text = Blockly.Xml.domToPrettyText(xml);
+  var blob = new Blob([xml_text], {type: "text/plain;charset=utf-8"});
+
+  const link = document.createElement('a')
+  const url = URL.createObjectURL(blob)
+
+  link.href = url
+  link.download = "workspace.xml"
+  document.body.appendChild(link)
+  link.click()
+
+  document.body.removeChild(link)
+  window.URL.revokeObjectURL(url)
+}
+
+function importWorkspace() {
+  Blockly.getMainWorkspace().clear()
+  var file = document.getElementById('importFile').files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var contents = e.target.result;
+    var xml = Blockly.Xml.textToDom(contents);
+    Blockly.Xml.domToWorkspace(xml, workspace);
+  };
+  reader.readAsText(file);
+}
+
 workspace.addChangeListener(onBlockEvent);
-
-/* TODO: Change workspace blocks XML ID if necessary. Can export workspace blocks XML from Workspace Factory. */
-//var workspaceBlocks = document.getElementById("workspaceBlocks"); 
-
-/* Load blocks to workspace. */
-//Blockly.Xml.domToWorkspace(workspaceBlocks, workspace);
 
 function save(){
   if(typeof(Storage) !== "undefined") {
     var xml = Blockly.Xml.workspaceToDom(Blockly.getMainWorkspace());
-    localStorage.setItem("test", Blockly.Xml.domToText(xml));
-    console.log("backuped");
+    localStorage.setItem("workspace", Blockly.Xml.domToText(xml));
   }
 }
 
 function restore(){
   Blockly.getMainWorkspace().clear();
-  var nameOfTheProject = "test";
+  var nameOfTheProject = "workspace";
   if(typeof(Storage) !== "undefined") {
     if(localStorage.length > 0) {
       console.log("NOT NULL");

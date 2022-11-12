@@ -10,6 +10,9 @@
 
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
   <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -17,7 +20,7 @@
     <div id="blocklyDiv" style="height: 900px; width: 1500px;"></div>   
     <xml xmlns="https://developers.google.com/blockly/xml" id="workspaceBlocks" style="display: none"></xml>
     <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
-      <category name="Initialization">
+      <category name="Initialization" colour="#E30427">
         <block type="application_init"></block>
         <block type="initialize_button">
           <field name="GPIO">TWR_GPIO_BUTTON</field>
@@ -34,7 +37,19 @@
           <field name="UPDATE_INTERVAL">5000</field>
         </block>
       </category>
-      <category name="Button">
+      <category name="Controls" colour="#E30427">
+        <block type="application_task">
+          <field name="task_interval">1000</field>
+        </block>
+        <block type="controls_if"></block>
+        <block type="controls_for">
+          <field name="VAR" id="4_;tDP{{.XS50_p!:Ov8">i</field>
+        </block>
+        <block type="controls_whileUntil">
+          <field name="MODE">WHILE</field>
+        </block>
+      </category>
+      <category name="Button" colour="#009900">
         <block type="on_button">
           <field name="NAME">PRESS</field>
         </block>
@@ -42,7 +57,7 @@
         <block type="button_clicks"></block>
         <block type="button_holds"></block>
       </category>
-      <category name="Radio">
+      <category name="Radio" colour="#CC6600">
         <block type="send_over_radio_string">
           <field name="STRING_TO_BE_SEND">STRING</field>
           <field name="SUBTOPIC">string</field>
@@ -60,7 +75,7 @@
           <field name="SUBTOPIC">bool</field>
         </block>
       </category>
-      <category name="LED">
+      <category name="LED" colour="#FF3333">
         <block type="led_blink">
           <field name="COUNT">1</field>
         </block>
@@ -71,7 +86,7 @@
           <field name="MODE">TWR_LED_MODE_BLINK</field>
         </block>
       </category>
-      <category name="Logging">
+      <category name="Logging" colour="#6600CC">
         <block type="log_info">
           <field name="MESSAGE">Info</field>
         </block>
@@ -85,10 +100,10 @@
           <field name="MESSAGE">Error</field>
         </block>
       </category>
-      <category name="Temperature">
+      <category name="Temperature" colour="#0066CC">
         <block type="core_temperature"></block>
       </category>
-      <category name="Variables">
+      <category name="Values" colour="#E30427">
         <block type="integer_value">
           <field name="VALUE">0</field>
         </block>
@@ -96,11 +111,13 @@
           <field name="VALUE">text</field>
         </block>
       </category>
+      <category name="Variables" colour="#a55b80" custom="VARIABLE"></category>
     </xml>
   </xml>     
 </div>
 
-<button id="connectButton" type="button">Flash</button>
+<button class="btn btn-primary" id="connectButton" type="button">Flash</button>
+<button class="btn btn-primary" onclick="connectDevices()">Connect Device</button>
 
 <script type="module" src="{% static 'js/flasher.js' %}"></script>
 
@@ -126,15 +143,14 @@
   }
   </script>
   
-<input id="clickMe" type="button" value="Compile And Download" onclick="parse_code();" />
+<input id="compileAndDownload" type="button" class="btn btn-success" value="Compile And Download" onclick="parse_code();" />
 
 
+<button class="btn btn-warning" onclick="save()">Save Workspace</button>
+<button class="btn btn-warning" onclick="restore()">Load Workspace</button>
 
-<button onclick="connectDevices()">Connect Device</button>
-
-<button onclick="save()">Save</button>
-<button onclick="restore()">Load</button>
-
+<button class="btn btn-warning" onclick="exportWorkspace()">Export Workspace</button>
+<input class="form-control form-control-sm" id="importFile" type="file" onchange="importWorkspace()" />
 
 </body>
 </html>

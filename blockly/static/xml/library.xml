@@ -1297,4 +1297,68 @@
         <field name="HUE">230</field>
       </block>
     </value>
+  </block><block type="factory_base" id="2WYdyAFj4$O:!Kq1O`Gt" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="NONE"></mutation>
+    <field name="NAME">application_task</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">NONE</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="2/o`Dgx!-6/--?ko4RTd">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="l)%ln;Y(|Y?:Q8W/}.-P">
+            <field name="TEXT">Application Task</field>
+          </block>
+        </statement>
+        <next>
+          <block type="input_dummy" id="UqxC+TLKfP_h:(saTd+i">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="g,)OH[Fdb[COI9g6FRsF">
+                <field name="TEXT">Repeat every</field>
+                <next>
+                  <block type="field_number" id="ZxutDsjz{S{D`bX0u`3|">
+                    <field name="VALUE">1000</field>
+                    <field name="FIELDNAME">task_interval</field>
+                    <field name="MIN">100</field>
+                    <field name="MAX">Infinity</field>
+                    <field name="PRECISION">0</field>
+                    <next>
+                      <block type="field_static" id="CmSC920#k@VL)Kq,0)a=">
+                        <field name="TEXT">ms</field>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="input_statement" id="`nBNkz$,7cRlUmz2^svS">
+                <field name="INPUTNAME">application_task</field>
+                <field name="ALIGN">LEFT</field>
+                <value name="TYPE">
+                  <shadow type="type_null" id="U}(AT?(v~,{S4KEb|z7T"></shadow>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="59rx})L)%vVFjX;9%dfr" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="n]RVM:rt|XzYT:Ae+9#5" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id=":|y1w1yb24q^B_AI_q0[">
+        <mutation colour="#5b67a5"></mutation>
+        <field name="HUE">230</field>
+      </block>
+    </value>
   </block></xml>

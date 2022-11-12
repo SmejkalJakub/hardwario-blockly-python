@@ -89,6 +89,19 @@ def add_action(action, json, output):
 
     return output
 
+def construct_application_task(block, output):
+    print(block)
+    interval = block['fields']['task_interval']
+    output = output.replace('---APPLICATION TASK SCHEDULE---', '\ttwr_scheduler_plan_from_now(0, {interval});'.format(interval=interval))
+
+    output = output.replace('---APPLICATION TASK---', 'void application_task()\r\n{\r\n---APPLICATION TASK ACTION---\r\n}')
+
+    output = add_action('---APPLICATION TASK ACTION---', block['inputs']['application_task']['block'], output)
+
+    output = output.replace('---APPLICATION TASK ACTION---', '\ttwr_scheduler_plan_current_relative({interval});'.format(interval=interval))
+
+    return output
+
 def construct_event_handler(event_handler, output):
     if(event_handler['type'] == 'on_button'):
         if '---BUTTON SET EVENT HANDLER---' in output:
@@ -124,11 +137,12 @@ def construct_initialization(application_init_json, output):
 void application_init(void)
 {\n\t"""
 
+    print(application_init_json)
     output = add_initialization_part(application_init_json['inputs']['application_init']['block'], output)
 
     output = output[:-1]
 
-    output += '}'
+    output += '---APPLICATION TASK SCHEDULE---\r\n}\r\n\r\n---APPLICATION TASK---'
 
     return output
 
@@ -146,6 +160,10 @@ def generate_code(code):
     for i in data['blocks']['blocks']:
         if(i['type'] == 'on_button'):
             output = construct_event_handler(i, output)
+
+    for i in data['blocks']['blocks']:
+        if(i['type'] == 'application_task'):
+            output = construct_application_task(i, output)
 
     output = re.sub('---.*---', '', output)
 

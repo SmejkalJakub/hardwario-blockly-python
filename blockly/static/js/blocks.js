@@ -4,7 +4,7 @@ Blockly.Blocks['application_init'] = {
         .appendField("Application Initialization");
     this.appendStatementInput("application_init")
         .setCheck(null);
-    this.setColour(230);
+    this.setColour("#E30427");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -25,7 +25,7 @@ Blockly.Blocks['initialize_button'] = {
         .appendField(new Blockly.FieldDropdown([["TRUE","TRUE"], ["FALSE","FALSE"]]), "STATE");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#009900");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -38,7 +38,7 @@ Blockly.Blocks['on_button'] = {
         .appendField(new Blockly.FieldDropdown([["PRESS","PRESS"], ["RELEASE","RELEASE"], ["CLICK","CLICK"], ["HOLD","HOLD"]]), "NAME");
     this.appendStatementInput("button_statements")
         .setCheck(null);
-    this.setColour(230);
+    this.setColour("#006600");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -56,7 +56,7 @@ Blockly.Blocks['initialize_radio'] = {
         .appendField(new Blockly.FieldTextInput("twr-blockly-firmware"), "FIRMWARE_NAME");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#CC6600");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -73,7 +73,7 @@ Blockly.Blocks['send_over_radio_string'] = {
         .appendField(new Blockly.FieldTextInput("string"), "SUBTOPIC");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#CC6600");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -90,7 +90,7 @@ Blockly.Blocks['send_over_radio_int'] = {
         .appendField(new Blockly.FieldTextInput("int"), "SUBTOPIC");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#CC6600");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -107,7 +107,7 @@ Blockly.Blocks['send_over_radio_float'] = {
         .appendField(new Blockly.FieldTextInput("float"), "SUBTOPIC");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#CC6600");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -124,7 +124,7 @@ Blockly.Blocks['send_over_radio_boolean'] = {
         .appendField(new Blockly.FieldTextInput("bool"), "SUBTOPIC");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#CC6600");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -138,7 +138,7 @@ Blockly.Blocks['led_blink'] = {
         .appendField("times");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#FF3333");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -152,7 +152,7 @@ Blockly.Blocks['led_pulse'] = {
         .appendField("milliseconds");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#FF3333");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -165,7 +165,7 @@ Blockly.Blocks['led_mode'] = {
         .appendField(new Blockly.FieldDropdown([["TWR_LED_MODE_BLINK","TWR_LED_MODE_BLINK"], ["TWR_LED_MODE_BLINK_FAST","TWR_LED_MODE_BLINK_FAST"], ["TWR_LED_MODE_BLINK_SLOW","TWR_LED_MODE_BLINK_SLOW"], ["TWR_LED_MODE_FLASH","TWR_LED_MODE_FLASH"], ["TWR_LED_MODE_OFF","TWR_LED_MODE_OFF"], ["TWR_LED_MODE_ON","TWR_LED_MODE_ON"], ["TWR_LED_MODE_TOGGLE","TWR_LED_MODE_TOGGLE"]]), "MODE");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#FF3333");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -177,7 +177,7 @@ Blockly.Blocks['publish_button_event_count'] = {
         .appendField("Publish button event over the radio");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#009900");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -189,7 +189,7 @@ Blockly.Blocks['initialize_led'] = {
         .appendField("Initialize LED");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#FF3333");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -201,7 +201,7 @@ Blockly.Blocks['initialize_logging'] = {
         .appendField("Initialize Logging");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#6600CC");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -289,7 +289,7 @@ Blockly.Blocks['initialize_core_module_tmp112'] = {
         .appendField("ms");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(345);
+    this.setColour("#0066CC");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -300,7 +300,7 @@ Blockly.Blocks['core_temperature'] = {
     this.appendDummyInput()
         .appendField("Core Temperature");
     this.setOutput(true, null);
-    this.setColour(230);
+    this.setColour("#0066CC");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -312,7 +312,7 @@ Blockly.Blocks['integer_value'] = {
         .appendField("Integer")
         .appendField(new Blockly.FieldNumber(0), "VALUE");
     this.setOutput(true, null);
-    this.setColour(230);
+    this.setColour("#E30427");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -324,7 +324,7 @@ Blockly.Blocks['string_value'] = {
         .appendField("String")
         .appendField(new Blockly.FieldTextInput("text"), "VALUE");
     this.setOutput(true, null);
-    this.setColour(230);
+    this.setColour("#E30427");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -335,7 +335,7 @@ Blockly.Blocks['button_clicks'] = {
     this.appendDummyInput()
         .appendField("Button Clicks");
     this.setOutput(true, null);
-    this.setColour(230);
+    this.setColour("#009900");
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -346,7 +346,23 @@ Blockly.Blocks['button_holds'] = {
     this.appendDummyInput()
         .appendField("Button Holds");
     this.setOutput(true, null);
-    this.setColour(230);
+    this.setColour("#009900");
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['application_task'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Application Task");
+    this.appendDummyInput()
+        .appendField("Repeat every")
+        .appendField(new Blockly.FieldNumber(1000, 100), "task_interval")
+        .appendField("ms");
+    this.appendStatementInput("application_task")
+        .setCheck(null);
+    this.setColour("#E30427");
  this.setTooltip("");
  this.setHelpUrl("");
   }
