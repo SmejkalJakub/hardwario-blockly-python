@@ -178,4 +178,3 @@ def generate_code(code):
     command = "cmake skeleton -B skeleton/obj/debug -G Ninja -DCMAKE_TOOLCHAIN_FILE=sdk/toolchain/toolchain.cmake -DTYPE=debug && ninja -C skeleton/obj/debug"
     ret = subprocess.run(command, capture_output=True, shell=True)
     print(ret.stdout.decode())
-            

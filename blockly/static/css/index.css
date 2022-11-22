@@ -73,4 +73,10 @@ main {
     margin: 1em 0;
     float: right;
   }
+
+  /*Div that resizes with the page*/
+  .area {
+    height: 90vh;
+  }
+
   
