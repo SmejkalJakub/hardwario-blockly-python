@@ -17,3 +17,9 @@ To run the server on your `localhost` use:
 ```
 python manage.py runserver
 ```
+
+After that, the webpage will be available at `http://127.0.0.1:8000`.
+
+## Update
+
+If you update something in the code, you don't have to restart the server. Just save the changes and reload the page.
