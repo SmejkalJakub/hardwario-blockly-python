@@ -3,10 +3,8 @@ import re
 import string
 import random
 from git import Repo
-from telnetlib import OUTMRK
 import subprocess
 import os
-import time
 import shutil
 
 random_core_temperature_suffix = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(5)])
