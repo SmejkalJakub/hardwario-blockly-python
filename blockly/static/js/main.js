@@ -80,6 +80,9 @@ function checkCategories() {
     else if(block.type == 'initialize_core_module_tmp112') {
       document.getElementById('blockly-6').style.display = '';
     }
+    else if(block.type == 'initialize_motion_detector') {
+      document.getElementById('blockly-7').style.display = '';
+    }
   }
 }
 

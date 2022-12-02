@@ -37,6 +37,12 @@ def add_initialization_part(block, output):
 
         output = output.replace('---EVENT HANDLER---', 'void core_tmp112_event_handler(twr_tmp112_t *self, twr_tmp112_event_t event, void *event_param)\n{{\n\tif (event == TWR_TMP112_EVENT_UPDATE) {{\n\ttwr_tmp112_get_temperature_celsius(self, &core_module_temperature_{random_suffix});\n\t}}\n}}\n\n---EVENT HANDLER---'.format(random_suffix=random_core_temperature_suffix))
 
+    elif(block['type'] == 'initialize_motion_detector'):
+        output = output.replace("---GLOBAL VARIABLE---", "twr_module_pir_t pir;\n---GLOBAL VARIABLE---")
+        output += 'twr_module_pir_init(&pir);\n\t'
+        output += 'twr_module_pir_set_sensitivity(&pir, {sensitivity});\n\n\t'.format(sensitivity=block['fields']['SENSITIVITY'])
+        output += '---PIR SET EVENT HANDLER---\n\n\t'
+
     if 'next' in block.keys():
         output = add_initialization_part(block['next']['block'], output)
 
@@ -107,19 +113,19 @@ def construct_event_handler(event_handler, output):
             output = output.replace('---EVENT HANDLER---', 'void button_event_handler(twr_button_t *self, twr_button_event_t event, void *event_param)\n{\n\t---BUTTON EVENT---\n}\n---EVENT HANDLER---')
 
         if('---ELSE BUTTON EVENT---' in output):
-            output = output.replace('---ELSE BUTTON EVENT---', '''\telse if (event == TWR_BUTTON_EVENT_{event})
-    \t{{
-    ---{event} ACTION---
-    \t}}
-        ---ELSE BUTTON EVENT---'''.format(event=event_handler['fields']['NAME']))
+            output = output.replace('---ELSE BUTTON EVENT---', '''\telse if (event == TWR_BUTTON_EVENT_{event})\n\t{{\n\t---{event} ACTION---\n\t}}\n\t\t---ELSE BUTTON EVENT---'''.format(event=event_handler['fields']['NAME']))
         else:
-            output = output.replace('---BUTTON EVENT---', '''if (event == TWR_BUTTON_EVENT_{event})
-    \t{{
-    ---{event} ACTION---
-    \t}}
-        ---ELSE BUTTON EVENT---'''.format(event=event_handler['fields']['NAME']))
+            output = output.replace('---BUTTON EVENT---', '''if (event == TWR_BUTTON_EVENT_{event})\n\t{{\n\t---{event} ACTION---\n\t}}\n\t\t---ELSE BUTTON EVENT---'''.format(event=event_handler['fields']['NAME']))
+        output = add_action('---{event} ACTION---'.format(event=event_handler['fields']['NAME']), event_handler['inputs']['button_statements']['block'], output)
+    if(event_handler['type'] == 'on_movement'):
+        if '---PIR SET EVENT HANDLER---' in output:
+            output = output.replace('---PIR SET EVENT HANDLER---', 'twr_module_pir_set_event_handler(&pir, pir_event_handler, NULL);')
+            output = output.replace('---EVENT HANDLER---', 'void pir_event_handler(twr_module_pir_t *self, twr_module_pir_event_t event, void *event_param)\n{\n\t---PIR EVENT---\n}\n---EVENT HANDLER---')
+        
+        output = output.replace('---PIR EVENT---', '''if (event == TWR_MODULE_PIR_EVENT_MOTION)\n\t{\n\t---PIR ACTION---\n\t}\n\t\t''')
 
-    output = add_action('---{event} ACTION---'.format(event=event_handler['fields']['NAME']), event_handler['inputs']['button_statements']['block'], output)
+        output = add_action('---PIR ACTION---', event_handler['inputs']['motion_statements']['block'], output)
+
 
     print(json.dumps(event_handler, indent = 4, sort_keys=True))
 
@@ -157,6 +163,8 @@ def generate_code(code):
 
     for i in data['blocks']['blocks']:
         if(i['type'] == 'on_button'):
+            output = construct_event_handler(i, output)
+        elif(i['type'] == 'on_movement'):
             output = construct_event_handler(i, output)
 
     for i in data['blocks']['blocks']:

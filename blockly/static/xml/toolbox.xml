@@ -15,6 +15,13 @@
     <block type="initialize_core_module_tmp112">
       <field name="UPDATE_INTERVAL">5000</field>
     </block>
+    <block type="initialize_motion_detector">
+      <field name="SENSITIVITY">TWR_MODULE_PIR_SENSITIVITY_LOW</field>
+    </block>
+    <block type="initialize_power_module"></block>
+    <block type="initialize_led_strip">
+      <field name="LEDS">36</field>
+    </block>
   </category>
   <category name="Controls" colour="#E30427">
     <block type="application_task">
@@ -81,6 +88,15 @@
   </category>
   <category name="Temperature" colour="#0066CC">
     <block type="core_temperature"></block>
+  </category>
+  <category name="Motion Detector">
+    <block type="on_movement"></block>
+  </category>
+  <category name="Power Module">
+    <block type="power_module_relay_set_state">
+      <field name="STATE">ON</field>
+    </block>
+    <block type="power_module_relay_state"></block>
   </category>
   <category name="Values" colour="#E30427">
     <block type="integer_value">
