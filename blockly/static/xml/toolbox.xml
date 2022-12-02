@@ -22,6 +22,7 @@
     <block type="initialize_led_strip">
       <field name="LEDS">36</field>
     </block>
+    <block type="initialize_lcd"></block>
   </category>
   <category name="Controls" colour="#E30427">
     <block type="application_task">
@@ -98,6 +99,7 @@
     </block>
     <block type="power_module_relay_state"></block>
   </category>
+  <category name="LCD Module"></category>
   <category name="Values" colour="#E30427">
     <block type="integer_value">
       <field name="VALUE">0</field>

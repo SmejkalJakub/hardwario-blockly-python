@@ -83,6 +83,12 @@ function checkCategories() {
     else if(block.type == 'initialize_motion_detector') {
       document.getElementById('blockly-7').style.display = '';
     }
+    else if(block.type == 'initialize_power_module') {
+      document.getElementById('blockly-8').style.display = '';
+    }
+    else if(block.type == 'initialize_lcd') {
+      document.getElementById('blockly-9').style.display = '';
+    }
   }
 }
 

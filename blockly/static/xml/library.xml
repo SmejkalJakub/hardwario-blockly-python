@@ -1616,14 +1616,12 @@
                 <field name="TEXT">State: </field>
                 <next>
                   <block type="field_dropdown" id="6m^$u...DM,3rjyCba/4">
-                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;]"></mutation>
                     <field name="FIELDNAME">STATE</field>
                     <field name="USER0">ON</field>
                     <field name="CPU0">ON</field>
                     <field name="USER1">OFF</field>
                     <field name="CPU1">OFF</field>
-                    <field name="USER2">TOGGLE</field>
-                    <field name="CPU2">TOGGLE</field>
                   </block>
                 </next>
               </block>
@@ -1650,6 +1648,43 @@
     </value>
     <value name="COLOUR">
       <block type="colour_hue" id="YfMg)XKI/-CO}C?}FAQo">
+        <mutation colour="#5b67a5"></mutation>
+        <field name="HUE">230</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="vNe#EUCdZNAGNLkgit9Y" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">initialize_lcd</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="wiF?+Fk{;wRPor/u;s]D">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="X.zf+_,3Em?{b$!Zrj65">
+            <field name="TEXT">Initialize LCD Module</field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="r==QO=@TnFdU9;E@=Alm" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="|f9C%%2p;TH{uKN+]b5j" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id=")LS#,)!pkMB|k5+Z15.H"></shadow>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="~J!@O8Mmf%4RE:w0,{4L"></shadow>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="y[P]Ei-B1ISR5EuX|[?$">
         <mutation colour="#5b67a5"></mutation>
         <field name="HUE">230</field>
       </block>

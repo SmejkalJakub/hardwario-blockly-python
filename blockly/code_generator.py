@@ -42,7 +42,86 @@ def add_initialization_part(block, output):
         output += 'twr_module_pir_init(&pir);\n\t'
         output += 'twr_module_pir_set_sensitivity(&pir, {sensitivity});\n\n\t'.format(sensitivity=block['fields']['SENSITIVITY'])
         output += '---PIR SET EVENT HANDLER---\n\n\t'
+        
+    elif(block['type'] == 'initialize_power_module'):
+        output += 'twr_module_power_init();\n\t'
 
+    elif(block['type'] == 'initialize_led_strip'):
+        if(not 'twr_module_power_init();' in output):
+            output += 'twr_module_power_init();\n\t'
+
+        output = output.replace("---GLOBAL VARIABLE---", '''#define LED_STRIP_COUNT {count}
+                                
+#define LED_STRIP_TYPE 4
+
+#define LED_STRIP_SWAP_RG 0
+---GLOBAL VARIABLE---'''.format(count=block['fields']['LEDS']))
+        
+        output = output.replace("---GLOBAL VARIABLE---", '''static uint32_t _twr_module_power_led_strip_dma_buffer[LED_STRIP_COUNT * LED_STRIP_TYPE * 2];
+const twr_led_strip_buffer_t led_strip_buffer =
+{
+    .type = LED_STRIP_TYPE,
+    .count = LED_STRIP_COUNT,
+    .buffer = _twr_module_power_led_strip_dma_buffer
+};
+
+static struct
+{
+    enum
+    {
+        LED_STRIP_SHOW_COLOR = 0,
+        LED_STRIP_SHOW_COMPOUND = 1,
+        LED_STRIP_SHOW_EFFECT = 2,
+        LED_STRIP_SHOW_THERMOMETER = 3
+
+    } show;
+    twr_led_strip_t self;
+    uint32_t color;
+    struct
+    {
+        uint8_t data[TWR_RADIO_NODE_MAX_COMPOUND_BUFFER_SIZE];
+        int length;
+    } compound;
+    struct
+    {
+        float temperature;
+        int8_t min;
+        int8_t max;
+        uint8_t white_dots;
+        float set_point;
+        uint32_t color;
+
+    } thermometer;
+
+    twr_scheduler_task_id_t update_task_id;
+
+} led_strip = { .show = LED_STRIP_SHOW_COLOR, .color = 0 };\n---GLOBAL VARIABLE---''')
+        output = output.replace("---GLOBAL VARIABLE---", '''---GLOBAL VARIABLE---\nvoid led_strip_update_task(void *param)
+{
+    (void) param;
+
+    if (!twr_led_strip_is_ready(&led_strip.self))
+    {
+        twr_scheduler_plan_current_now();
+
+        return;
+    }
+
+    twr_led_strip_write(&led_strip.self);
+
+    twr_scheduler_plan_current_relative(250);
+}\n''')
+
+        output += '''twr_led_strip_init(&led_strip.self, twr_module_power_get_led_strip_driver(), &led_strip_buffer);\n\tled_strip.update_task_id = twr_scheduler_register(led_strip_update_task, NULL, 0);\n'''
+        
+    elif(block['type'] == 'initialize_lcd'):
+        output = output.replace("---GLOBAL VARIABLE---", "twr_gfx_t *pgfx;\n---GLOBAL VARIABLE---")
+        output += "twr_module_lcd_init();\n\t"
+        output += 'pgfx = twr_module_lcd_get_gfx();\n\t'
+        output += 'twr_gfx_set_font(pgfx, &twr_font_ubuntu_13);\n\t'
+        output += 'twr_gfx_draw_string(pgfx, 50, 50, "LCD WORKING", true);\n\t'    
+        output += 'twr_gfx_update(pgfx);\n'
+    
     if 'next' in block.keys():
         output = add_initialization_part(block['next']['block'], output)
 

@@ -369,7 +369,6 @@ Blockly.Blocks['application_task'] = {
 };
 */
 
-
 Blockly.Blocks['application_init'] = {
   init: function() {
     this.appendDummyInput()
@@ -811,7 +810,19 @@ Blockly.Blocks['power_module_relay_set_state'] = {
         .appendField("Power Module Relay Set State");
     this.appendDummyInput()
         .appendField("State: ")
-        .appendField(new Blockly.FieldDropdown([["ON","ON"], ["OFF","OFF"], ["TOGGLE","TOGGLE"]]), "STATE");
+        .appendField(new Blockly.FieldDropdown([["ON","ON"], ["OFF","OFF"]]), "STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['initialize_lcd'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Initialize LCD Module");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(230);
