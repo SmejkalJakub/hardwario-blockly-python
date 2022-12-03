@@ -60,7 +60,7 @@ function checkUniqueBlock(block_type, event){
 
 function checkCategories() {
   for (const category of workspace.toolbox_.contents_) {
-    if(category.name_ != 'Initialization' && category.name_ != 'Values' && category.name_ != 'Variables' && category.name_ != 'Controls') {
+    if(category.name_ != 'Initialization' && category.name_ != 'Values' && category.name_ != 'Variables' && category.name_ != 'Controls' && category.name_ != 'Logic' && category.name_ != 'Math') {
       document.getElementById(category.id_).style.display = 'none';
     }
   }

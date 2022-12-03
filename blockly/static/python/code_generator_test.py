@@ -128,6 +128,7 @@ static struct
     return output
 
 def add_action(action, json, output):
+    print(json['type'])
     if(json['type'] == 'send_over_radio_string'):
         output = output.replace(action, '\t\ttwr_radio_pub_string("{subtopic}", "{value}");\n{action}'.format(subtopic=json['fields']['SUBTOPIC'], value=json['fields']['STRING_TO_BE_SEND'], action=action))
     elif(json['type'] == 'send_over_radio_int'):
@@ -172,15 +173,49 @@ def add_action(action, json, output):
             state = 'true';
         output = output.replace(action, '\t\ttwr_module_power_relay_set_state({state});\n{action}'.format(state=state, action=action))
 
-
+    elif(json['type'] == 'controls_if'):
+        output = construct_if_statement(json, action, output)
 
     if 'next' in json.keys():
         output = add_action(action, json['next']['block'], output)
 
     return output
 
+def construct_if_statement(block, action, output):    
+    if_index = 0
+    if_random_signature = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
+    print(action)
+    
+    for if_statement in block['inputs']:
+        if_json = block['inputs']['IF{index}'.format(index=if_index)]['block']
+        if(if_index == 0):
+            output = output.replace(action, '\tif(---{if_random_signature}---){{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t{action}'.format(if_random_signature=if_random_signature, action=action))
+            if(if_json['type'] == 'logic_operation'):
+                output = output.replace('---{if_random_signature}---'.format(if_random_signature=if_random_signature), '({left_side}) && ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+
+        else:
+            output = output.replace(action, '\telse if(---{if_random_signature}---){{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t{action}'.format(if_random_signature=if_random_signature, action=action))
+            if(if_json['type'] == 'logic_operation'):
+                output = output.replace('---{if_random_signature}---'.format(if_random_signature=if_random_signature), '({left_side}) && ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+            
+        if_index += 1
+        print(json.dumps(if_json, indent = 4))
+    return output
+
+def construct_sub_section(block):
+    if(block['type'] == 'logic_compare'):
+        return '({left_side}) == ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+    elif(block['type'] == 'math_number'):
+        return block['fields']['NUM']
+    elif(block['type'] == 'logic_operation'):
+        return '({left_side}) && ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+    elif(block['type'] == 'math_arithmetic'):
+        return '({left_side}) + ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+    
+    print(json.dumps(block, indent = 4))
+    
+
 def construct_application_task(block, output):
-    print(block)
     interval = block['fields']['task_interval']
     output = output.replace('---APPLICATION TASK SCHEDULE---', '\ttwr_scheduler_plan_from_now(0, {interval});'.format(interval=interval))
 
@@ -212,9 +247,6 @@ def construct_event_handler(event_handler, output):
 
         output = add_action('---PIR ACTION---', event_handler['inputs']['motion_statements']['block'], output)
 
-
-    print(json.dumps(event_handler, indent = 4, sort_keys=True))
-
     return output
 
 def construct_initialization(application_init_json, output):
@@ -227,7 +259,6 @@ def construct_initialization(application_init_json, output):
 void application_init(void)
 {\n\t"""
 
-    print(application_init_json)
     output = add_initialization_part(application_init_json['inputs']['application_init']['block'], output)
 
     output = output[:-1]
@@ -236,10 +267,14 @@ void application_init(void)
 
     return output
 
-def generate_code(code):  
-    data = json.loads(code)
-
-    print(json.dumps(data, indent = 4, sort_keys=True))
+def generate_code():  
+    
+    data = ''
+    
+    with open('output.json') as json_file:
+        data = json.load(json_file)
+        
+    #print(json.dumps(data, indent = 4, sort_keys=True))
 
     output = ""
 
@@ -261,14 +296,18 @@ def generate_code(code):
 
     print(output)
 
-    if os.path.exists('skeleton') and os.path.isdir('skeleton'):
-        shutil.rmtree('skeleton')
-
-    Repo.clone_from('https://github.com/hardwario/twr-skeleton.git', 'skeleton', recursive=True)
-
-    with open('skeleton/src/application.c', 'w') as f:
-        f.write(output)
-
-    command = "cmake skeleton -B skeleton/obj/debug -G Ninja -DCMAKE_TOOLCHAIN_FILE=sdk/toolchain/toolchain.cmake -DTYPE=debug && ninja -C skeleton/obj/debug"
-    ret = subprocess.run(command, capture_output=True, shell=True)
-    print(ret.stdout.decode())
+    #if os.path.exists('skeleton') and os.path.isdir('skeleton'):
+    #    shutil.rmtree('skeleton')
+#
+    #Repo.clone_from('https://github.com/hardwario/twr-skeleton.git', 'skeleton', recursive=True)
+#
+    #with open('skeleton/src/application.c', 'w') as f:
+    #    f.write(output)
+#
+    #command = "cmake skeleton -B skeleton/obj/debug -G Ninja -DCMAKE_TOOLCHAIN_FILE=sdk/toolchain/toolchain.cmake -DTYPE=debug && ninja -C skeleton/obj/debug"
+    #ret = subprocess.run(command, capture_output=True, shell=True)
+    #print(ret.stdout.decode())
+    
+    
+if __name__ == "__main__":
+    generate_code()
