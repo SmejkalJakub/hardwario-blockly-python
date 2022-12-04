@@ -12,7 +12,7 @@ var options = {
 	css : true, 
 	media : 'https://blockly-demo.appspot.com/static/media/', 
 	rtl : false, 
-	scrollbars : false, 
+	scrollbars : true, 
 	sounds : true, 
 	oneBasedIndex : true,
 };
@@ -60,7 +60,8 @@ function checkUniqueBlock(block_type, event){
 
 function checkCategories() {
   for (const category of workspace.toolbox_.contents_) {
-    if(category.name_ != 'Initialization' && category.name_ != 'Values' && category.name_ != 'Variables' && category.name_ != 'Controls' && category.name_ != 'Logic' && category.name_ != 'Math') {
+    if(category.name_ != 'Initialization' && category.name_ != 'Values' && category.name_ != 'Variables'
+    && category.name_ != 'Controls' && category.name_ != 'Logic' && category.name_ != 'Math' && category.name_ != 'Loops') {
       document.getElementById(category.id_).style.display = 'none';
     }
   }

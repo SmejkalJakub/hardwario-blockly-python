@@ -830,3 +830,158 @@ Blockly.Blocks['initialize_lcd'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['lcd_draw_string'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw stirng ")
+        .appendField(new Blockly.FieldTextInput("String"), "STRING")
+        .appendField("on LCD");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "LEFT")
+        .appendField("pixels from left");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "TOP")
+        .appendField("pixels from top");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['lcd_draw_circle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw circle on LCD");
+    this.appendDummyInput()
+        .appendField("Center: x:")
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "CENTER_X")
+        .appendField("y:")
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "CENTER_Y")
+        .appendField("and");
+    this.appendDummyInput()
+        .appendField("Radius: ")
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "RADIUS");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['lcd_draw_line'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw line on LCD");
+    this.appendDummyInput()
+        .appendField("Start: x:")
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "START_X")
+        .appendField("y:")
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "START_Y")
+        .appendField("and");
+    this.appendDummyInput()
+        .appendField("End: x")
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "END_X")
+        .appendField("y:")
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "END_Y");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['lcd_draw_rectangle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw rectangle on LCD");
+    this.appendDummyInput()
+        .appendField("Start: x:")
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "START_X")
+        .appendField("y:")
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "START_Y")
+        .appendField("and");
+    this.appendDummyInput()
+        .appendField("End: x")
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "END_X")
+        .appendField("y:")
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "END_Y");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['lcd_draw_pixel'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Draw pixel on LCD");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "LEFT")
+        .appendField("pixels from left");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldNumber(0, 0, 128), "TOP")
+        .appendField("pixels from top");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['lcd_set_font'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Set LCD font size to")
+        .appendField(new Blockly.FieldDropdown([["11","twr_font_ubuntu_11"], ["13","twr_font_ubuntu_13"], ["15","twr_font_ubuntu_15"], ["24","twr_font_ubuntu_24"], ["28","twr_font_ubuntu_28"], ["33","twr_font_ubuntu_33"]]), "FONT");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['lcd_power_state'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Turn LCD ")
+        .appendField(new Blockly.FieldDropdown([["ON","ON"], ["OFF","OFF"]]), "STATE");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['lcd_clear'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Clear LCD");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks['lcd_update'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Update LDC");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};

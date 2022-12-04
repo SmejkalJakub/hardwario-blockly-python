@@ -2,7 +2,7 @@
     "blocks": {
         "blocks": [
             {
-                "id": "I;}3UpRyR,_W8,u/meiy",
+                "id": "`:qjsiJq0}+SBsE{p_{n",
                 "inputs": {
                     "application_init": {
                         "block": {
@@ -11,391 +11,105 @@
                                 "PULL": "TWR_GPIO_PULL_DOWN",
                                 "STATE": "TRUE"
                             },
-                            "id": "?Sb|~It5.lQi|KnvQo6u",
+                            "id": "oIp+_By_PjW?W)A%v7:E",
+                            "next": {
+                                "block": {
+                                    "id": "[Y`E|KI}{X3|:Y9Gd}`1",
+                                    "type": "initialize_lcd"
+                                }
+                            },
                             "type": "initialize_button"
                         }
                     }
                 },
                 "type": "application_init",
-                "x": 61,
-                "y": 50
+                "x": 54,
+                "y": 16
             },
             {
                 "fields": {
-                    "NAME": "PRESS"
+                    "NAME": "CLICK"
                 },
-                "id": "R{b/4{T.Q{LunbG]Mjs]",
+                "id": "Tb)*XvzMHa{-v`id75.5",
                 "inputs": {
                     "button_statements": {
                         "block": {
-                            "extraState": {
-                                "elseIfCount": 1,
-                                "hasElse": true
+                            "fields": {
+                                "FONT": "twr_font_ubuntu_13"
                             },
-                            "id": "Oj-nt~E]fM3OMlIp~`K]",
-                            "inputs": {
-                                "IF0": {
-                                    "block": {
-                                        "fields": {
-                                            "OP": "AND"
-                                        },
-                                        "id": "IN_/r9I5x189^G2xI;7J",
-                                        "inputs": {
-                                            "A": {
+                            "id": "vRh]GuJtO3mmz`v5uXtz",
+                            "next": {
+                                "block": {
+                                    "fields": {
+                                        "STATE": "ON"
+                                    },
+                                    "id": "*CVb=uXLn;qwReV]*Ov`",
+                                    "next": {
+                                        "block": {
+                                            "fields": {
+                                                "LEFT": 15,
+                                                "STRING": "String",
+                                                "TOP": 15
+                                            },
+                                            "id": "8Yi9mIfX+|]xH%i!-Z,G",
+                                            "next": {
                                                 "block": {
                                                     "fields": {
-                                                        "OP": "AND"
+                                                        "CENTER_X": 30,
+                                                        "CENTER_Y": 30,
+                                                        "RADIUS": 10
                                                     },
-                                                    "id": "Y49SOcwqT`D-]%j7P$9z",
-                                                    "inputs": {
-                                                        "A": {
-                                                            "block": {
-                                                                "fields": {
-                                                                    "OP": "EQ"
-                                                                },
-                                                                "id": "z^XT;fVO2ov}T_;6tKZ+",
-                                                                "inputs": {
-                                                                    "A": {
+                                                    "id": "BgYe0R*n)#PJKGA~U[%j",
+                                                    "next": {
+                                                        "block": {
+                                                            "fields": {
+                                                                "END_X": 40,
+                                                                "END_Y": 5,
+                                                                "START_X": 20,
+                                                                "START_Y": 5
+                                                            },
+                                                            "id": "$#TfG,9%4vl%b_1e`C(b",
+                                                            "next": {
+                                                                "block": {
+                                                                    "fields": {
+                                                                        "LEFT": 90,
+                                                                        "TOP": 90
+                                                                    },
+                                                                    "id": "kPE1]y]UR7:P==zv[7^~",
+                                                                    "next": {
                                                                         "block": {
                                                                             "fields": {
-                                                                                "NUM": 0
+                                                                                "END_X": 55,
+                                                                                "END_Y": 55,
+                                                                                "START_X": 50,
+                                                                                "START_Y": 50
                                                                             },
-                                                                            "id": ",*Z.l^XIk:%y116pGcHR",
-                                                                            "type": "math_number"
+                                                                            "id": "|L,,D67;NiD:Jl7B9F/h",
+                                                                            "type": "lcd_draw_rectangle"
                                                                         }
                                                                     },
-                                                                    "B": {
-                                                                        "block": {
-                                                                            "fields": {
-                                                                                "OP": "ADD"
-                                                                            },
-                                                                            "id": "#vOiM,HCS6@zKGEY2$}4",
-                                                                            "inputs": {
-                                                                                "A": {
-                                                                                    "block": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "^LLz:rF_X:ewwl#aCR_C",
-                                                                                        "type": "math_number"
-                                                                                    },
-                                                                                    "shadow": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": ",CgZslK~R{LwwO2yU*.*",
-                                                                                        "type": "math_number"
-                                                                                    }
-                                                                                },
-                                                                                "B": {
-                                                                                    "block": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "FhU32yg(ZPD_-z+J6Vo$",
-                                                                                        "type": "math_number"
-                                                                                    },
-                                                                                    "shadow": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "SeW(keJN?.zCI@iWew.=",
-                                                                                        "type": "math_number"
-                                                                                    }
-                                                                                }
-                                                                            },
-                                                                            "type": "math_arithmetic"
-                                                                        }
-                                                                    }
-                                                                },
-                                                                "type": "logic_compare"
-                                                            }
-                                                        },
-                                                        "B": {
-                                                            "block": {
-                                                                "fields": {
-                                                                    "OP": "EQ"
-                                                                },
-                                                                "id": "pX:eWw%*sB$dwR:l*mLK",
-                                                                "inputs": {
-                                                                    "A": {
-                                                                        "block": {
-                                                                            "fields": {
-                                                                                "OP": "ADD"
-                                                                            },
-                                                                            "id": ",Zp2c#,%TIhj%)@EwCo}",
-                                                                            "inputs": {
-                                                                                "A": {
-                                                                                    "block": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "Tdpc2o$?hR;CB`V(IHMr",
-                                                                                        "type": "math_number"
-                                                                                    },
-                                                                                    "shadow": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "/9+t{RCu0NFwDh2tq;z*",
-                                                                                        "type": "math_number"
-                                                                                    }
-                                                                                },
-                                                                                "B": {
-                                                                                    "block": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "2cJUz4Zj^zDr6@TeaM=1",
-                                                                                        "type": "math_number"
-                                                                                    },
-                                                                                    "shadow": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "3AI$gX/HTQ2kaim(P(iB",
-                                                                                        "type": "math_number"
-                                                                                    }
-                                                                                }
-                                                                            },
-                                                                            "type": "math_arithmetic"
-                                                                        }
-                                                                    },
-                                                                    "B": {
-                                                                        "block": {
-                                                                            "fields": {
-                                                                                "NUM": 0
-                                                                            },
-                                                                            "id": "gf)b#-Ug]pOgC8LevhCR",
-                                                                            "type": "math_number"
-                                                                        }
-                                                                    }
-                                                                },
-                                                                "type": "logic_compare"
-                                                            }
+                                                                    "type": "lcd_draw_pixel"
+                                                                }
+                                                            },
+                                                            "type": "lcd_draw_line"
                                                         }
                                                     },
-                                                    "type": "logic_operation"
+                                                    "type": "lcd_draw_circle"
                                                 }
                                             },
-                                            "B": {
-                                                "block": {
-                                                    "fields": {
-                                                        "OP": "EQ"
-                                                    },
-                                                    "id": "{.M5qp|!Tfnc5[W8GFo[",
-                                                    "inputs": {
-                                                        "A": {
-                                                            "block": {
-                                                                "fields": {
-                                                                    "NUM": 0
-                                                                },
-                                                                "id": "@fwIyZAS$XoJryEX~vA(",
-                                                                "type": "math_number"
-                                                            }
-                                                        },
-                                                        "B": {
-                                                            "block": {
-                                                                "fields": {
-                                                                    "NUM": 0
-                                                                },
-                                                                "id": "aK8tf+t{Y.otW6(mY#kA",
-                                                                "type": "math_number"
-                                                            }
-                                                        }
-                                                    },
-                                                    "type": "logic_compare"
-                                                }
-                                            }
-                                        },
-                                        "type": "logic_operation"
-                                    }
-                                },
-                                "IF1": {
-                                    "block": {
-                                        "fields": {
-                                            "OP": "AND"
-                                        },
-                                        "id": "U!6XtYx%3gyM!9CONfa1",
-                                        "inputs": {
-                                            "A": {
-                                                "block": {
-                                                    "fields": {
-                                                        "OP": "AND"
-                                                    },
-                                                    "id": "o!98MlVV-o!^=XBE#Kpe",
-                                                    "inputs": {
-                                                        "A": {
-                                                            "block": {
-                                                                "fields": {
-                                                                    "OP": "EQ"
-                                                                },
-                                                                "id": "1#`jHxN4*jb;u/pWnO^%",
-                                                                "inputs": {
-                                                                    "A": {
-                                                                        "block": {
-                                                                            "fields": {
-                                                                                "NUM": 0
-                                                                            },
-                                                                            "id": "i:vDT*n8a}Zfs[Csl*%G",
-                                                                            "type": "math_number"
-                                                                        }
-                                                                    },
-                                                                    "B": {
-                                                                        "block": {
-                                                                            "fields": {
-                                                                                "OP": "ADD"
-                                                                            },
-                                                                            "id": "z*SL2D+BJz.TxNVqye]b",
-                                                                            "inputs": {
-                                                                                "A": {
-                                                                                    "block": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "R$WHo2u+G!|?hT]eK?et",
-                                                                                        "type": "math_number"
-                                                                                    },
-                                                                                    "shadow": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "R[2(v%rxPtHH%jlN4Ta+",
-                                                                                        "type": "math_number"
-                                                                                    }
-                                                                                },
-                                                                                "B": {
-                                                                                    "block": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "]Qy:1%A8/RV;nQ^GJI|{",
-                                                                                        "type": "math_number"
-                                                                                    },
-                                                                                    "shadow": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "M?R{)k7K4:];8hO5}uk$",
-                                                                                        "type": "math_number"
-                                                                                    }
-                                                                                }
-                                                                            },
-                                                                            "type": "math_arithmetic"
-                                                                        }
-                                                                    }
-                                                                },
-                                                                "type": "logic_compare"
-                                                            }
-                                                        },
-                                                        "B": {
-                                                            "block": {
-                                                                "fields": {
-                                                                    "OP": "EQ"
-                                                                },
-                                                                "id": "!U6r?H0PSqn_#K-(9N1]",
-                                                                "inputs": {
-                                                                    "A": {
-                                                                        "block": {
-                                                                            "fields": {
-                                                                                "OP": "ADD"
-                                                                            },
-                                                                            "id": "aZ1?vfZMJ8rWJzuXeKck",
-                                                                            "inputs": {
-                                                                                "A": {
-                                                                                    "block": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "*wg,SEt_v7@LbJ(6{P91",
-                                                                                        "type": "math_number"
-                                                                                    },
-                                                                                    "shadow": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "vm`.@jh8Lkb?-.N`Tr5y",
-                                                                                        "type": "math_number"
-                                                                                    }
-                                                                                },
-                                                                                "B": {
-                                                                                    "block": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "{?HA%C|G)mDJ`LgF}0vt",
-                                                                                        "type": "math_number"
-                                                                                    },
-                                                                                    "shadow": {
-                                                                                        "fields": {
-                                                                                            "NUM": 1
-                                                                                        },
-                                                                                        "id": "Ss3gn}6ry;x4zLc}`b@V",
-                                                                                        "type": "math_number"
-                                                                                    }
-                                                                                }
-                                                                            },
-                                                                            "type": "math_arithmetic"
-                                                                        }
-                                                                    },
-                                                                    "B": {
-                                                                        "block": {
-                                                                            "fields": {
-                                                                                "NUM": 0
-                                                                            },
-                                                                            "id": "(,Z0^F.uE?Q!tcNsGZg}",
-                                                                            "type": "math_number"
-                                                                        }
-                                                                    }
-                                                                },
-                                                                "type": "logic_compare"
-                                                            }
-                                                        }
-                                                    },
-                                                    "type": "logic_operation"
-                                                }
-                                            },
-                                            "B": {
-                                                "block": {
-                                                    "fields": {
-                                                        "OP": "EQ"
-                                                    },
-                                                    "id": "-Msrwsj``b1|VedZ6lg|",
-                                                    "inputs": {
-                                                        "A": {
-                                                            "block": {
-                                                                "fields": {
-                                                                    "NUM": 0
-                                                                },
-                                                                "id": "/aiP#b==HyDJ+1mHl_|#",
-                                                                "type": "math_number"
-                                                            }
-                                                        },
-                                                        "B": {
-                                                            "block": {
-                                                                "fields": {
-                                                                    "NUM": 0
-                                                                },
-                                                                "id": ",.?{qkkx7P}Wp$V%[C][",
-                                                                "type": "math_number"
-                                                            }
-                                                        }
-                                                    },
-                                                    "type": "logic_compare"
-                                                }
-                                            }
-                                        },
-                                        "type": "logic_operation"
-                                    }
+                                            "type": "lcd_draw_string"
+                                        }
+                                    },
+                                    "type": "lcd_power_state"
                                 }
                             },
-                            "type": "controls_if"
+                            "type": "lcd_set_font"
                         }
                     }
                 },
                 "type": "on_button",
-                "x": 520,
-                "y": 22
+                "x": 637,
+                "y": 53
             }
         ],
         "languageVersion": 0

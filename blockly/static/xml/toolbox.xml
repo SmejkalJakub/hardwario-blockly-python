@@ -99,7 +99,42 @@
     </block>
     <block type="power_module_relay_state"></block>
   </category>
-  <category name="LCD Module"></category>
+  <category name="LCD Module">
+    <block type="lcd_set_font">
+      <field name="FONT">twr_font_ubuntu_11</field>
+    </block>
+    <block type="lcd_clear"></block>
+    <block type="lcd_update"></block>
+    <block type="lcd_power_state">
+      <field name="STATE">ON</field>
+    </block>
+    <block type="lcd_draw_string">
+      <field name="STRING">String</field>
+      <field name="LEFT">0</field>
+      <field name="TOP">0</field>
+    </block>
+    <block type="lcd_draw_circle">
+      <field name="CENTER_X">0</field>
+      <field name="CENTER_Y">0</field>
+      <field name="RADIUS">0</field>
+    </block>
+    <block type="lcd_draw_line">
+      <field name="START_X">0</field>
+      <field name="START_Y">0</field>
+      <field name="END_X">0</field>
+      <field name="END_Y">0</field>
+    </block>
+    <block type="lcd_draw_rectangle">
+      <field name="START_X">0</field>
+      <field name="START_Y">0</field>
+      <field name="END_X">0</field>
+      <field name="END_Y">0</field>
+    </block>
+    <block type="lcd_draw_pixel">
+      <field name="LEFT">0</field>
+      <field name="TOP">0</field>
+    </block>
+  </category>
   <category name="Values" colour="#E30427">
     <block type="integer_value">
       <field name="VALUE">0</field>
@@ -121,8 +156,6 @@
     <block type="logic_boolean">
       <field name="BOOL">TRUE</field>
     </block>
-    <block type="logic_null"></block>
-    <block type="logic_ternary"></block>
   </category>
   <category name="Math" colour="#5b67a5">
     <block type="math_number">
@@ -141,76 +174,20 @@
         </shadow>
       </value>
     </block>
-    <block type="math_single">
-      <field name="OP">ROOT</field>
-      <value name="NUM">
-        <shadow type="math_number">
-          <field name="NUM">9</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="math_trig">
-      <field name="OP">SIN</field>
-      <value name="NUM">
-        <shadow type="math_number">
-          <field name="NUM">45</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="math_constant">
-      <field name="CONSTANT">PI</field>
-    </block>
-    <block type="math_number_property">
-      <mutation divisor_input="false"></mutation>
-      <field name="PROPERTY">EVEN</field>
-      <value name="NUMBER_TO_CHECK">
-        <shadow type="math_number">
-          <field name="NUM">0</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="math_round">
-      <field name="OP">ROUND</field>
-      <value name="NUM">
-        <shadow type="math_number">
-          <field name="NUM">3.1</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="math_on_list">
-      <mutation op="SUM"></mutation>
-      <field name="OP">SUM</field>
-    </block>
-    <block type="math_modulo">
-      <value name="DIVIDEND">
-        <shadow type="math_number">
-          <field name="NUM">64</field>
-        </shadow>
-      </value>
-      <value name="DIVISOR">
+  </category>
+  <category name="Loops" colour="#5ba55b">
+    <block type="controls_repeat_ext">
+      <value name="TIMES">
         <shadow type="math_number">
           <field name="NUM">10</field>
         </shadow>
       </value>
     </block>
-    <block type="math_constrain">
-      <value name="VALUE">
-        <shadow type="math_number">
-          <field name="NUM">50</field>
-        </shadow>
-      </value>
-      <value name="LOW">
-        <shadow type="math_number">
-          <field name="NUM">1</field>
-        </shadow>
-      </value>
-      <value name="HIGH">
-        <shadow type="math_number">
-          <field name="NUM">100</field>
-        </shadow>
-      </value>
+    <block type="controls_whileUntil">
+      <field name="MODE">WHILE</field>
     </block>
-    <block type="math_random_int">
+    <block type="controls_for">
+      <field name="VAR" id="1h4XEs!uj]o~Q3f#Bh~;">i</field>
       <value name="FROM">
         <shadow type="math_number">
           <field name="NUM">1</field>
@@ -218,10 +195,14 @@
       </value>
       <value name="TO">
         <shadow type="math_number">
-          <field name="NUM">100</field>
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+      <value name="BY">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
         </shadow>
       </value>
     </block>
-    <block type="math_random_float"></block>
   </category>
 </xml>

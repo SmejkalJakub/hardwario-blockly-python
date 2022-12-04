@@ -7,6 +7,8 @@ import subprocess
 import os
 import shutil
 
+variables = {}
+
 random_core_temperature_suffix = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(5)])
 
 def add_initialization_part(block, output):
@@ -128,6 +130,7 @@ static struct
     return output
 
 def add_action(action, json, output):
+    print(json['type'])
     if(json['type'] == 'send_over_radio_string'):
         output = output.replace(action, '\t\ttwr_radio_pub_string("{subtopic}", "{value}");\n{action}'.format(subtopic=json['fields']['SUBTOPIC'], value=json['fields']['STRING_TO_BE_SEND'], action=action))
     elif(json['type'] == 'send_over_radio_int'):
@@ -167,20 +170,214 @@ def add_action(action, json, output):
         else:
             output = output.replace(action, '\t\ttwr_{log_type}("{message}");\n{action}'.format(log_type=json['type'], message=json['fields']['MESSAGE'], action=action))
     elif(json['type'] == 'power_module_relay_set_state'):
-        state = 'false';
+        state = 'false'
         if(json['fields']['STATE'] == 'ON'):
-            state = 'true';
+            state = 'true'
         output = output.replace(action, '\t\ttwr_module_power_relay_set_state({state});\n{action}'.format(state=state, action=action))
 
+    elif(json['type'] == 'controls_if'):
+        output = construct_if_statement(json, action, output)
 
+    elif(json['type'] == 'controls_if'):
+        output = construct_if_statement(json, action, output)
+
+    elif(json['type'] == 'controls_repeat_ext' or json['type'] == 'controls_whileUntil' or json['type'] == 'controls_for'):
+        output = construct_loop(json, action, output)
+
+    elif(json['type'] == 'variables_set'):
+        print(json['inputs']['VALUE']['block']['type'])
+        output = output.replace(action, '\t\t{variable} = {value};\n{action}'.format(variable=variables[json['fields']['VAR']['id']], value=construct_sub_section(json['inputs']['VALUE']['block']), action=action))
+
+    elif(json['type'] == 'math_change'):
+        output = output.replace(action, '\t\t{variable} += {value};\n{action}'.format(variable=variables[json['fields']['VAR']['id']], value=construct_sub_section(json['inputs']['DELTA']['block']), action=action))
+    
+    elif(json['type'] == 'lcd_draw_string'):
+        output = output.replace(action, '\t\ttwr_gfx_draw_string(pgfx, {x}, {y}, "{text}", true);\n{action}'.format(x=json['fields']['LEFT'], y=json['fields']['TOP'], text=json['fields']['STRING'], action=action))
+
+    elif(json['type'] == 'lcd_draw_circle'):
+        output = output.replace(action, '\t\ttwr_gfx_draw_circle(pgfx, {x}, {y}, {radius}, true);\n{action}'.format(x=json['fields']['CENTER_X'], y=json['fields']['CENTER_Y'], radius=json['fields']['RADIUS'], action=action))
+
+    elif(json['type'] == 'lcd_draw_line'):
+        output = output.replace(action, '\t\ttwr_gfx_draw_line(pgfx, {x1}, {y1}, {x2}, {y2}, true);\n{action}'.format(x1=json['fields']['START_X'], y1=json['fields']['START_Y'], x2=json['fields']['END_X'], y2=json['fields']['END_Y'], action=action))
+
+    elif(json['type'] == 'lcd_draw_rectangle'):
+        output = output.replace(action, '\t\ttwr_gfx_draw_rectangle(pgfx, {x1}, {y1}, {x2}, {y2}, true);\n{action}'.format(x1=json['fields']['START_X'], y1=json['fields']['START_Y'], x2=json['fields']['END_X'], y2=json['fields']['END_Y'], action=action))
+
+    elif(json['type'] == 'lcd_draw_pixel'):
+        output = output.replace(action, '\t\ttwr_gfx_draw_pixel(pgfx, {x}, {y}, true);\n{action}'.format(x=json['fields']['LEFT'], y=json['fields']['TOP'], action=action))
+
+    elif(json['type'] == 'lcd_set_font'):
+        output = output.replace(action, '\t\ttwr_gfx_set_font(pgfx, &{font});\n{action}'.format(font=json['fields']['FONT'], action=action))
+
+    elif(json['type'] == 'lcd_power_state'):
+        if(json['fields']['STATE'] == 'ON'):
+            output = output.replace(action, '\t\ttwr_module_lcd_on();\n{action}'.format(action=action))
+        else:
+            output = output.replace(action, '\t\ttwr_module_lcd_off();\n{action}'.format(action=action))
+    
+    elif(json['type'] == 'lcd_clear'):
+        output = output.replace(action, '\t\ttwr_gfx_clear(pgfx);\n{action}'.format(action=action))
+
+    elif(json['type'] == 'lcd_update'):
+        output = output.replace(action, '\t\ttwr_gfx_update(pgfx);\n{action}'.format(action=action))
 
     if 'next' in json.keys():
         output = add_action(action, json['next']['block'], output)
 
     return output
 
+def construct_loop(block, action, output):
+    random_action_name = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
+    if(block['type'] == 'controls_repeat_ext'):
+        random_variable_name = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
+        output = output.replace(action, '\t\tfor(int {random_variable_name} = 0; {random_variable_name} < ({count}); {random_variable_name}++){{\n---{random_action_name} ACTION---\t\t}}\n\t{action}'.format(random_variable_name=random_variable_name, count=construct_sub_section(block['inputs']['TIMES']['block']), random_action_name=random_action_name, action=action))
+    elif(block['type'] == 'controls_whileUntil'):
+        output = output.replace(action, '\t\twhile({condition}){{\n---{random_action_name} ACTION---\t\t}}\n\t{action}'.format(condition=construct_sub_section(block['inputs']['BOOL']['block']), random_action_name=random_action_name, action=action))
+    elif(block['type'] == 'controls_for'):
+        variable = variables[block['fields']['VAR']['id']]
+        output = output.replace(action, '\t\tfor({variable} = ({from_value}); {variable} < ({to}); {variable}+=({by})){{\n---{random_action_name} ACTION---\t\t}}\n\t{action}'.format(variable=variable, from_value=construct_sub_section(block['inputs']['FROM']['block']), to=construct_sub_section(block['inputs']['TO']['block']), random_action_name=random_action_name, action=action, by=construct_sub_section(block['inputs']['BY']['block'])))
+
+    output = add_action('---{random_action_name} ACTION---'.format(random_action_name=random_action_name), block['inputs']['DO']['block'], output)
+
+    return output
+
+def construct_if_statement(block, action, output):    
+    if_index = 0
+    print(action)
+    else_present_random_signature = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
+
+    for if_statement in block['inputs']:
+        if_random_signature = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
+
+        if("DO" in if_statement):
+            continue
+
+        print(if_statement)
+
+        if_json = block['inputs']['IF{index}'.format(index=if_index)]['block']
+
+        if(if_index == 0 and "IF" in if_statement):
+            if(else_present_random_signature in output):
+                output = output.replace('---{else_present_random_signature}---'.format(else_present_random_signature=else_present_random_signature), '\tif(---{if_random_signature} CONDITION---){{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t---{else_present_random_signature}---'.format(if_random_signature=if_random_signature, else_present_random_signature=else_present_random_signature))
+            else:
+                output = output.replace(action, '\tif(---{if_random_signature} CONDITION---){{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t{action}'.format(if_random_signature=if_random_signature, action=action))
+
+            if(if_json['type'] == 'logic_operation'):
+                if(if_json['fields']['OP'] == 'AND'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) && ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'OR'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) || ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+            elif(if_json['type'] == 'logic_compare'):
+                if(if_json['fields']['OP'] == 'EQ'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) == ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'NEQ'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) != ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'LT'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) < ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'LTE'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) <= ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'GT'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) > ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'GTE'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) >= ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+            elif(if_json['type'] == 'logic_boolean'):
+                if(if_json['fields']['BOOL'] == 'TRUE'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), 'true')
+                elif(if_json['fields']['BOOL'] == 'FALSE'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), 'false')
+            elif(if_json['type'] == 'logic_negate'):
+                output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '(!({condition}))'.format(condition=construct_sub_section(if_json['inputs']['BOOL']['block'])))
+                
+            output = add_action('---{if_random_signature} ACTION---'.format(if_random_signature=if_random_signature), block['inputs']['DO{index}'.format(index=if_index)]['block'], output)
+
+        elif(if_index == 0 and if_statement == 'ELSE'):
+            output = output.replace(action, '---{else_present_random_signature}---\n\t\telse{{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t{action}'.format(else_present_random_signature=else_present_random_signature, if_random_signature=if_random_signature, action=action))
+        
+            output = add_action('---{if_random_signature} ACTION---'.format(if_random_signature=if_random_signature), block['inputs']['ELSE']['block'], output)
+        
+        else:
+            if(else_present_random_signature in output):
+                output = output.replace('---{else_present_random_signature}---'.format(else_present_random_signature=else_present_random_signature), '\telse if(---{if_random_signature} CONDITION---){{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t---{else_present_random_signature}---'.format(if_random_signature=if_random_signature, else_present_random_signature=else_present_random_signature))
+            else:
+                output = output.replace(action, '\telse if(---{if_random_signature} CONDITION---){{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t{action}'.format(if_random_signature=if_random_signature, action=action))
+            if(if_json['type'] == 'logic_operation'):
+                if(if_json['fields']['OP'] == 'AND'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) && ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'OR'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) || ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+            elif(if_json['type'] == 'logic_compare'):
+                if(if_json['fields']['OP'] == 'EQ'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) == ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'NEQ'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) != ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'LT'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) < ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'LTE'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) <= ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'GT'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) > ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+                elif(if_json['fields']['OP'] == 'GTE'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) >= ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+            elif(if_json['type'] == 'logic_boolean'):
+                if(if_json['fields']['BOOL'] == 'TRUE'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), 'true')
+                elif(if_json['fields']['BOOL'] == 'FALSE'):
+                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), 'false')
+            elif(if_json['type'] == 'logic_negate'):
+                output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '(!({condition}))'.format(condition=construct_sub_section(if_json['inputs']['BOOL']['block'])))
+
+            output = add_action('---{if_random_signature} ACTION---'.format(if_random_signature=if_random_signature), block['inputs']['DO{index}'.format(index=if_index)]['block'], output)
+
+        if(if_statement != 'ELSE'):
+            if_index += 1
+        print(json.dumps(if_json, indent = 4))
+    return output
+
+def construct_sub_section(block):
+    if(block['type'] == 'logic_compare'):
+        if(block['fields']['OP'] == 'EQ'):
+            return '({left_side}) == ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+        elif(block['fields']['OP'] == 'NEQ'):
+            return '({left_side}) != ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+        elif(block['fields']['OP'] == 'LT'):
+            return '({left_side}) < ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+        elif(block['fields']['OP'] == 'LTE'):
+            return '({left_side}) <= ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+        elif(block['fields']['OP'] == 'GT'):
+            return '({left_side}) > ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+        elif(block['fields']['OP'] == 'GTE'):
+            return '({left_side}) >= ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+    elif(block['type'] == 'math_number'):
+        return block['fields']['NUM']
+    elif(block['type'] == 'logic_operation'):
+        if(block['fields']['OP'] == 'AND'):
+            return '({left_side}) && ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+        elif(block['fields']['OP'] == 'OR'):
+            return '({left_side}) || ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+    elif(block['type'] == 'math_arithmetic'):
+        if(block['fields']['OP'] == 'ADD'):
+            return '({left_side}) + ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+        elif(block['fields']['OP'] == 'MINUS'):
+            return '({left_side}) - ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+        elif(block['fields']['OP'] == 'MULTIPLY'):
+            return '({left_side}) * ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+        elif(block['fields']['OP'] == 'DIVIDE'):
+            return '({left_side}) / ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+        elif(block['fields']['OP'] == 'POWER'):
+            return '({left_side}) ** ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+    elif(block['type'] == 'logic_boolean'):
+        if(block['fields']['BOOL'] == 'TRUE'):
+            return 'true'
+        elif(block['fields']['BOOL'] == 'FALSE'):
+            return 'false'
+    elif(block['type'] == 'logic_negate'):
+        return '(!({condition}))'.format(condition=construct_sub_section(block['inputs']['BOOL']['block']))
+    elif(block['type'] == 'variables_get'):
+        return variables[block['fields']['VAR']['id']]
+
+    print(json.dumps(block, indent = 4))
+    
 def construct_application_task(block, output):
-    print(block)
     interval = block['fields']['task_interval']
     output = output.replace('---APPLICATION TASK SCHEDULE---', '\ttwr_scheduler_plan_from_now(0, {interval});'.format(interval=interval))
 
@@ -212,8 +409,12 @@ def construct_event_handler(event_handler, output):
 
         output = add_action('---PIR ACTION---', event_handler['inputs']['motion_statements']['block'], output)
 
+    return output
 
-    print(json.dumps(event_handler, indent = 4, sort_keys=True))
+def create_variables_list(data, output):
+    for variable in data:
+        variables[variable['id']] = variable['name']
+        output = output.replace("---GLOBAL VARIABLE---", "int {variable_name} = 0;\n---GLOBAL VARIABLE---".format(variable_name=variable['name']))
 
     return output
 
@@ -227,7 +428,6 @@ def construct_initialization(application_init_json, output):
 void application_init(void)
 {\n\t"""
 
-    print(application_init_json)
     output = add_initialization_part(application_init_json['inputs']['application_init']['block'], output)
 
     output = output[:-1]
@@ -238,18 +438,24 @@ void application_init(void)
 
 def generate_code(code):  
     data = json.loads(code)
-
-    print(json.dumps(data, indent = 4, sort_keys=True))
+        
+    #print(json.dumps(data, indent = 4, sort_keys=True))
 
     output = ""
 
+    print(variables)
+    
     for i in data['blocks']['blocks']:
         if(i['type'] == 'application_init'):
             output = construct_initialization(i, output)
 
+    if('variables' in data):
+        output = create_variables_list(data['variables'], output)
+
     for i in data['blocks']['blocks']:
         if(i['type'] == 'on_button'):
             output = construct_event_handler(i, output)
+
         elif(i['type'] == 'on_movement'):
             output = construct_event_handler(i, output)
 
@@ -263,7 +469,7 @@ def generate_code(code):
 
     if os.path.exists('skeleton') and os.path.isdir('skeleton'):
         shutil.rmtree('skeleton')
-
+        
     Repo.clone_from('https://github.com/hardwario/twr-skeleton.git', 'skeleton', recursive=True)
 
     with open('skeleton/src/application.c', 'w') as f:
@@ -272,3 +478,6 @@ def generate_code(code):
     command = "cmake skeleton -B skeleton/obj/debug -G Ninja -DCMAKE_TOOLCHAIN_FILE=sdk/toolchain/toolchain.cmake -DTYPE=debug && ninja -C skeleton/obj/debug"
     ret = subprocess.run(command, capture_output=True, shell=True)
     print(ret.stdout.decode())
+    
+if __name__ == "__main__":
+    generate_code()
