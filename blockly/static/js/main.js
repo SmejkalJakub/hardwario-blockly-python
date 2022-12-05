@@ -66,28 +66,28 @@ function checkCategories() {
     }
   }
   for (const block of workspace.blockDB.values()) {
-    if(block.type == 'initialize_button') {
+    if(block.type == 'hio_button_initialize') {
       document.getElementById('blockly-2').style.display = '';
     }
-    else if(block.type == 'initialize_radio') {
+    else if(block.type == 'hio_radio_initialize') {
       document.getElementById('blockly-3').style.display = '';
     }
-    else if(block.type == 'initialize_led') {
+    else if(block.type == 'hio_led_initialize') {
       document.getElementById('blockly-4').style.display = '';
     }
-    else if(block.type == 'initialize_logging') {
+    else if(block.type == 'hio_logging_initialize') {
       document.getElementById('blockly-5').style.display = '';
     }
-    else if(block.type == 'initialize_core_module_tmp112') {
+    else if(block.type == 'hio_core_tmp112_initialize') {
       document.getElementById('blockly-6').style.display = '';
     }
-    else if(block.type == 'initialize_motion_detector') {
+    else if(block.type == 'hio_pir_initialize') {
       document.getElementById('blockly-7').style.display = '';
     }
-    else if(block.type == 'initialize_power_module') {
+    else if(block.type == 'hio_power_initialize') {
       document.getElementById('blockly-8').style.display = '';
     }
-    else if(block.type == 'initialize_lcd') {
+    else if(block.type == 'hio_lcd_initialize') {
       document.getElementById('blockly-9').style.display = '';
     }
   }
@@ -96,7 +96,7 @@ function checkCategories() {
 function checkBlocks() {
   for (const block of workspace.blockDB.values()) {
     console.log(block);
-    if(block.type == 'initialize_button') {
+    if(block.type == 'hio_button_initialize') {
       document.getElementById('blockly-2').style.display = '';
     }
   }

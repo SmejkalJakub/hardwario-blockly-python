@@ -1,6 +1,6 @@
 <xml xmlns="https://developers.google.com/blockly/xml"><block type="factory_base" id="KQ+v|cN(E-=t.zw~04oo" deletable="false" movable="false" x="10" y="10">
     <mutation connections="NONE"></mutation>
-    <field name="NAME">application_init</field>
+    <field name="NAME">hio_application_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">NONE</field>
     <statement name="INPUTS">
@@ -13,7 +13,7 @@
         </statement>
         <next>
           <block type="input_statement" id="3=93MS.,wb{-|,g,@u7r">
-            <field name="INPUTNAME">application_init</field>
+            <field name="INPUTNAME">hio_application_initialize</field>
             <field name="ALIGN">LEFT</field>
             <value name="TYPE">
               <shadow type="type_null" id="C^eK,rn+-N8A+7H5_w+R"></shadow>
@@ -40,7 +40,7 @@
     </value>
   </block><block type="factory_base" id="JYvc`^n`=Z+g/a09c-f=" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">initialize_button</field>
+    <field name="NAME">hio_button_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -137,7 +137,7 @@
     </value>
   </block><block type="factory_base" id="ffnDob,66n9$;BvC*eSs" deletable="false" movable="false" x="10" y="10">
     <mutation connections="NONE"></mutation>
-    <field name="NAME">on_button</field>
+    <field name="NAME">hio_button_event</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">NONE</field>
     <statement name="INPUTS">
@@ -191,7 +191,7 @@
     </value>
   </block><block type="factory_base" id="sZ3B8Bb}mrAML[%={_8Y" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">initialize_radio</field>
+    <field name="NAME">hio_radio_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -264,7 +264,7 @@
     </value>
   </block><block type="factory_base" id=".3a]XsWJC9T+bL(GiXKl" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">send_over_radio_string</field>
+    <field name="NAME">hio_radio_send_string</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -328,7 +328,7 @@
     </value>
   </block><block type="factory_base" id="2;YG/^OnjP/S7}OSnpd{" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">send_over_radio_int</field>
+    <field name="NAME">hio_radio_send_integer</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -392,7 +392,7 @@
     </value>
   </block><block type="factory_base" id="bw=wLvon5h^y#}}0`b=P" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">send_over_radio_float</field>
+    <field name="NAME">hio_radio_send_float</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -456,7 +456,7 @@
     </value>
   </block><block type="factory_base" id="%R]~Y6fi36M7FbzOae.R" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">send_over_radio_boolean</field>
+    <field name="NAME">hio_radio_send_boolean</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -524,7 +524,7 @@
     </value>
   </block><block type="factory_base" id="a+h+.@,?WmYgPyJY8E=6" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">led_blink</field>
+    <field name="NAME">hio_led_blink</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -572,7 +572,7 @@
     </value>
   </block><block type="factory_base" id="O26Zkr7@zXbQVS+xhd}C" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">led_pulse</field>
+    <field name="NAME">hio_led_pulse</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -620,7 +620,7 @@
     </value>
   </block><block type="factory_base" id="|].U_CUQK`}LYOGBZTx-" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">led_mode</field>
+    <field name="NAME">hio_led_set_mode</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -677,7 +677,7 @@
     </value>
   </block><block type="factory_base" id=":h-}5wZ{LV1J6%!_xYhE" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">publish_button_event_count</field>
+    <field name="NAME">hio_button_publish_event_count</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -714,7 +714,7 @@
     </value>
   </block><block type="factory_base" id="Z=l54I$UY}mj@y8G*7}[" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">initialize_led</field>
+    <field name="NAME">hio_led_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -751,7 +751,7 @@
     </value>
   </block><block type="factory_base" id="yV)2%oYC19vKr+i*aW5C" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">initialize_logging</field>
+    <field name="NAME">hio_logging_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -788,7 +788,7 @@
     </value>
   </block><block type="factory_base" id="+|=pmgsJGY,%~c50V|^c" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">log_info</field>
+    <field name="NAME">hio_logging_info</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -855,7 +855,7 @@
     </value>
   </block><block type="factory_base" id="xXdX|~/XRL+dQQv6P:`}" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">log_warning</field>
+    <field name="NAME">hio_logging_warning</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -922,7 +922,7 @@
     </value>
   </block><block type="factory_base" id=".X@qh2S@EwZ5lr$TxWj@" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">log_debug</field>
+    <field name="NAME">hio_logging_debug</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -989,7 +989,7 @@
     </value>
   </block><block type="factory_base" id="R)e()_e.Z=LA{tbNk*AL" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">log_error</field>
+    <field name="NAME">hio_logging_error</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -1056,7 +1056,7 @@
     </value>
   </block><block type="factory_base" id="`,^KwydKlZ~|w|FLkPND" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">initialize_core_module_tmp112</field>
+    <field name="NAME">hio_core_tmp112_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -1117,7 +1117,7 @@
     </value>
   </block><block type="factory_base" id="An*1]|t{meP?}j7.#8Ln" deletable="false" movable="false" x="10" y="10">
     <mutation connections="LEFT"></mutation>
-    <field name="NAME">core_temperature</field>
+    <field name="NAME">hio_core_tmp112_value</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">LEFT</field>
     <statement name="INPUTS">
@@ -1151,7 +1151,7 @@
     </value>
   </block><block type="factory_base" id="%|0:#t]}x.#%6/Qabdn:" deletable="false" movable="false" x="10" y="10">
     <mutation connections="LEFT"></mutation>
-    <field name="NAME">integer_value</field>
+    <field name="NAME">hio_integer_value</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">LEFT</field>
     <statement name="INPUTS">
@@ -1194,7 +1194,7 @@
     </value>
   </block><block type="factory_base" id="N.g!e5{L?{b+J9/hrJS$" deletable="false" movable="false" x="10" y="10">
     <mutation connections="LEFT"></mutation>
-    <field name="NAME">string_value</field>
+    <field name="NAME">hio_string_value</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">LEFT</field>
     <statement name="INPUTS">
@@ -1234,7 +1234,7 @@
     </value>
   </block><block type="factory_base" id="C/@5%{R#u0IU3$t11%[k" deletable="false" movable="false" x="10" y="10">
     <mutation connections="LEFT"></mutation>
-    <field name="NAME">button_clicks</field>
+    <field name="NAME">hio_button_clicks_value</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">LEFT</field>
     <statement name="INPUTS">
@@ -1268,7 +1268,7 @@
     </value>
   </block><block type="factory_base" id="SFOZYx~[FWms]jRu?;u$" deletable="false" movable="false" x="10" y="10">
     <mutation connections="LEFT"></mutation>
-    <field name="NAME">button_holds</field>
+    <field name="NAME">hio_button_holds_value</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">LEFT</field>
     <statement name="INPUTS">
@@ -1302,7 +1302,7 @@
     </value>
   </block><block type="factory_base" id="2WYdyAFj4$O:!Kq1O`Gt" deletable="false" movable="false" x="10" y="10">
     <mutation connections="NONE"></mutation>
-    <field name="NAME">application_task</field>
+    <field name="NAME">hio_application_task</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">NONE</field>
     <statement name="INPUTS">
@@ -1337,7 +1337,7 @@
             </statement>
             <next>
               <block type="input_statement" id="`nBNkz$,7cRlUmz2^svS">
-                <field name="INPUTNAME">application_task</field>
+                <field name="INPUTNAME">hio_application_task</field>
                 <field name="ALIGN">LEFT</field>
                 <value name="TYPE">
                   <shadow type="type_null" id="U}(AT?(v~,{S4KEb|z7T"></shadow>
@@ -1366,7 +1366,7 @@
     </value>
   </block><block type="factory_base" id="wJ6m{.hKf~:R$aLTx),/" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">initialize_motion_detector</field>
+    <field name="NAME">hio_pir_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -1427,7 +1427,7 @@
     </value>
   </block><block type="factory_base" id="erJ7;lcCQ3icckJ/Xcgb" deletable="false" movable="false" x="10" y="10">
     <mutation connections="NONE"></mutation>
-    <field name="NAME">on_movement</field>
+    <field name="NAME">hio_pir_event</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">NONE</field>
     <statement name="INPUTS">
@@ -1467,7 +1467,7 @@
     </value>
   </block><block type="factory_base" id="U4CW#D1B%hV2/$cn3-R7" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">initialize_power_module</field>
+    <field name="NAME">hio_power_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -1504,7 +1504,7 @@
     </value>
   </block><block type="factory_base" id="J|w-WKC7(0[ADuaUbU]o" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">initialize_led_strip</field>
+    <field name="NAME">hio_led_strip_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -1563,7 +1563,7 @@
     </value>
   </block><block type="factory_base" id="r53;uj!T5N,Vp:L3f$sU" deletable="false" movable="false" x="10" y="10">
     <mutation connections="LEFT"></mutation>
-    <field name="NAME">power_module_relay_state</field>
+    <field name="NAME">hio_power_relay_state_value</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">LEFT</field>
     <statement name="INPUTS">
@@ -1597,7 +1597,7 @@
     </value>
   </block><block type="factory_base" id=")tI@!;E!csNP64d?nRXz" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">power_module_relay_set_state</field>
+    <field name="NAME">hio_power_relay_state_set</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -1654,7 +1654,7 @@
     </value>
   </block><block type="factory_base" id="vNe#EUCdZNAGNLkgit9Y" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">initialize_lcd</field>
+    <field name="NAME">hio_lcd_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -1691,7 +1691,7 @@
     </value>
   </block><block type="factory_base" id="o]FG6/qWNDM^=~E?/CWc" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">lcd_draw_string</field>
+    <field name="NAME">hio_lcd_draw_string</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -1777,7 +1777,7 @@
     </value>
   </block><block type="factory_base" id="^6cOboTqQ]*Fla-BG!L4" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">lcd_draw_circle</field>
+    <field name="NAME">hio_lcd_draw_circle</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -1871,7 +1871,7 @@
     </value>
   </block><block type="factory_base" id="C~aKo{1EmL^d9hT{I3#x" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">lcd_draw_line</field>
+    <field name="NAME">hio_lcd_draw_line</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -1979,7 +1979,7 @@
     </value>
   </block><block type="factory_base" id="jdZjag3EN8M/pkdSD3n%" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">lcd_draw_rectangle</field>
+    <field name="NAME">hio_lcd_draw_rectangle</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -2087,7 +2087,7 @@
     </value>
   </block><block type="factory_base" id="4Ov!k(J=IduNC^P,l]9y" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">lcd_draw_pixel</field>
+    <field name="NAME">hio_lcd_draw_pixel</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -2162,7 +2162,7 @@
     </value>
   </block><block type="factory_base" id="WfxU;i^vX$N;=~8`T!|q" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">lcd_set_font</field>
+    <field name="NAME">hio_lcd_set_font</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -2217,7 +2217,7 @@
     </value>
   </block><block type="factory_base" id="jtQS8$1Fj0,PwsHcgfO{" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">lcd_power_state</field>
+    <field name="NAME">hio_lcd_set_power_state</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -2264,7 +2264,7 @@
     </value>
   </block><block type="factory_base" id="fmV$#/0ORv5Dl4Q|#o`p" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">lcd_clear</field>
+    <field name="NAME">hio_lcd_clear</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -2301,7 +2301,7 @@
     </value>
   </block><block type="factory_base" id=":#qW+G8hY*W|_wonR_g9" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">lcd_update</field>
+    <field name="NAME">hio_lcd_update</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">

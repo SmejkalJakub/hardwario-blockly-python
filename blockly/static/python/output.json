@@ -4,7 +4,7 @@
             {
                 "id": "`:qjsiJq0}+SBsE{p_{n",
                 "inputs": {
-                    "application_init": {
+                    "hio_application_initialize": {
                         "block": {
                             "fields": {
                                 "GPIO": "TWR_GPIO_BUTTON",
@@ -15,14 +15,14 @@
                             "next": {
                                 "block": {
                                     "id": "[Y`E|KI}{X3|:Y9Gd}`1",
-                                    "type": "initialize_lcd"
+                                    "type": "hio_lcd_initialize"
                                 }
                             },
-                            "type": "initialize_button"
+                            "type": "hio_button_initialize"
                         }
                     }
                 },
-                "type": "application_init",
+                "type": "hio_application_initialize",
                 "x": 54,
                 "y": 16
             },
@@ -85,29 +85,29 @@
                                                                                 "START_Y": 50
                                                                             },
                                                                             "id": "|L,,D67;NiD:Jl7B9F/h",
-                                                                            "type": "lcd_draw_rectangle"
+                                                                            "type": "hio_lcd_draw_rectangle"
                                                                         }
                                                                     },
-                                                                    "type": "lcd_draw_pixel"
+                                                                    "type": "hio_lcd_draw_pixel"
                                                                 }
                                                             },
-                                                            "type": "lcd_draw_line"
+                                                            "type": "hio_lcd_draw_line"
                                                         }
                                                     },
-                                                    "type": "lcd_draw_circle"
+                                                    "type": "hio_lcd_draw_circle"
                                                 }
                                             },
-                                            "type": "lcd_draw_string"
+                                            "type": "hio_lcd_draw_string"
                                         }
                                     },
-                                    "type": "lcd_power_state"
+                                    "type": "hio_lcd_set_power_state"
                                 }
                             },
-                            "type": "lcd_set_font"
+                            "type": "hio_lcd_set_font"
                         }
                     }
                 },
-                "type": "on_button",
+                "type": "hio_button_event",
                 "x": 637,
                 "y": 53
             }

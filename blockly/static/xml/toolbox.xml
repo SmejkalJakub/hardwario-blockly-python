@@ -1,31 +1,31 @@
 <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
   <category name="Initialization" colour="#E30427">
-    <block type="application_init"></block>
-    <block type="initialize_button">
+    <block type="hio_application_initialize"></block>
+    <block type="hio_button_initialize">
       <field name="GPIO">TWR_GPIO_BUTTON</field>
       <field name="PULL">TWR_GPIO_PULL_DOWN</field>
       <field name="STATE">TRUE</field>
     </block>
-    <block type="initialize_radio">
+    <block type="hio_radio_initialize">
       <field name="RADIO_MODE">TWR_RADIO_MODE_NODE_SLEEPING</field>
       <field name="FIRMWARE_NAME">twr-blockly-firmware</field>
     </block>
-    <block type="initialize_led"></block>
-    <block type="initialize_logging"></block>
-    <block type="initialize_core_module_tmp112">
+    <block type="hio_led_initialize"></block>
+    <block type="hio_logging_initialize"></block>
+    <block type="hio_core_tmp112_initialize">
       <field name="UPDATE_INTERVAL">5000</field>
     </block>
-    <block type="initialize_motion_detector">
+    <block type="hio_pir_initialize">
       <field name="SENSITIVITY">TWR_MODULE_PIR_SENSITIVITY_LOW</field>
     </block>
-    <block type="initialize_power_module"></block>
-    <block type="initialize_led_strip">
+    <block type="hio_power_initialize"></block>
+    <block type="hio_led_strip_initialize">
       <field name="LEDS">36</field>
     </block>
-    <block type="initialize_lcd"></block>
+    <block type="hio_lcd_initialize"></block>
   </category>
   <category name="Controls" colour="#E30427">
-    <block type="application_task">
+    <block type="hio_application_task">
       <field name="task_interval">1000</field>
     </block>
     <block type="controls_if"></block>
@@ -37,109 +37,109 @@
     </block>
   </category>
   <category name="Button" colour="#009900">
-    <block type="on_button">
+    <block type="hio_button_event">
       <field name="NAME">PRESS</field>
     </block>
-    <block type="publish_button_event_count"></block>
-    <block type="button_clicks"></block>
-    <block type="button_holds"></block>
+    <block type="hio_button_publish_event_count"></block>
+    <block type="hio_button_clicks_value"></block>
+    <block type="hio_button_holds_value"></block>
   </category>
   <category name="Radio" colour="#CC6600">
-    <block type="send_over_radio_string">
+    <block type="hio_radio_send_string">
       <field name="STRING_TO_BE_SEND">STRING</field>
       <field name="SUBTOPIC">string</field>
     </block>
-    <block type="send_over_radio_int">
+    <block type="hio_radio_send_integer">
       <field name="INT_TO_BE_SEND">1</field>
       <field name="SUBTOPIC">int</field>
     </block>
-    <block type="send_over_radio_float">
+    <block type="hio_radio_send_float">
       <field name="FLOAT_TO_BE_SEND">1.0</field>
       <field name="SUBTOPIC">float</field>
     </block>
-    <block type="send_over_radio_boolean">
+    <block type="hio_radio_send_boolean">
       <field name="BOOL_TO_BE_SEND">true</field>
       <field name="SUBTOPIC">bool</field>
     </block>
   </category>
   <category name="LED" colour="#FF3333">
-    <block type="led_blink">
+    <block type="hio_led_blink">
       <field name="COUNT">1</field>
     </block>
-    <block type="led_pulse">
+    <block type="hio_led_pulse">
       <field name="DURATION">1000</field>
     </block>
-    <block type="led_mode">
+    <block type="hio_led_set_mode">
       <field name="MODE">TWR_LED_MODE_BLINK</field>
     </block>
   </category>
   <category name="Logging" colour="#6600CC">
-    <block type="log_info">
+    <block type="hio_logging_info">
       <field name="MESSAGE">Info</field>
     </block>
-    <block type="log_warning">
+    <block type="hio_logging_warning">
       <field name="MESSAGE">Warning</field>
     </block>
-    <block type="log_debug">
+    <block type="hio_logging_debug">
       <field name="MESSAGE">Debug</field>
     </block>
-    <block type="log_error">
+    <block type="hio_logging_error">
       <field name="MESSAGE">Error</field>
     </block>
   </category>
   <category name="Temperature" colour="#0066CC">
-    <block type="core_temperature"></block>
+    <block type="hio_core_tmp112_value"></block>
   </category>
   <category name="Motion Detector">
-    <block type="on_movement"></block>
+    <block type="hio_pir_event"></block>
   </category>
   <category name="Power Module">
-    <block type="power_module_relay_set_state">
+    <block type="hio_power_relay_state_set">
       <field name="STATE">ON</field>
     </block>
-    <block type="power_module_relay_state"></block>
+    <block type="hio_power_relay_state_value"></block>
   </category>
   <category name="LCD Module">
-    <block type="lcd_set_font">
+    <block type="hio_lcd_set_font">
       <field name="FONT">twr_font_ubuntu_11</field>
     </block>
-    <block type="lcd_clear"></block>
-    <block type="lcd_update"></block>
-    <block type="lcd_power_state">
+    <block type="hio_lcd_clear"></block>
+    <block type="hio_lcd_update"></block>
+    <block type="hio_lcd_set_power_state">
       <field name="STATE">ON</field>
     </block>
-    <block type="lcd_draw_string">
+    <block type="hio_lcd_draw_string">
       <field name="STRING">String</field>
       <field name="LEFT">0</field>
       <field name="TOP">0</field>
     </block>
-    <block type="lcd_draw_circle">
+    <block type="hio_lcd_draw_circle">
       <field name="CENTER_X">0</field>
       <field name="CENTER_Y">0</field>
       <field name="RADIUS">0</field>
     </block>
-    <block type="lcd_draw_line">
+    <block type="hio_lcd_draw_line">
       <field name="START_X">0</field>
       <field name="START_Y">0</field>
       <field name="END_X">0</field>
       <field name="END_Y">0</field>
     </block>
-    <block type="lcd_draw_rectangle">
+    <block type="hio_lcd_draw_rectangle">
       <field name="START_X">0</field>
       <field name="START_Y">0</field>
       <field name="END_X">0</field>
       <field name="END_Y">0</field>
     </block>
-    <block type="lcd_draw_pixel">
+    <block type="hio_lcd_draw_pixel">
       <field name="LEFT">0</field>
       <field name="TOP">0</field>
     </block>
   </category>
   <category name="Values" colour="#E30427">
-    <block type="integer_value">
+    <block type="hio_integer_value">
       <field name="VALUE">0</field>
     </block>
-    <block type="string_value">
+    <block type="hio_string_value">
       <field name="VALUE">text</field>
     </block>
   </category>

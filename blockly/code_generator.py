@@ -12,25 +12,25 @@ variables = {}
 random_core_temperature_suffix = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(5)])
 
 def add_initialization_part(block, output):
-    if(block['type'] == 'initialize_button'):
+    if(block['type'] == 'hio_button_initialize'):
         output = output.replace("---GLOBAL VARIABLE---", "twr_button_t button;\n---GLOBAL VARIABLE---")
         output += 'twr_button_init(&button, {gpio}, {pull}, 0);\n\t'.format(gpio=block['fields']['GPIO'], pull=block['fields']['PULL'])
         output += '---BUTTON SET EVENT HANDLER---\n\n\t'
 
-    elif(block['type'] == 'initialize_radio'):
+    elif(block['type'] == 'hio_radio_initialize'):
         output += 'twr_radio_init({mode});\n\t'.format(mode=block['fields']['RADIO_MODE'])
         output += 'twr_radio_pairing_request("{name}", "1.0.0");\n\n\t'.format(name=block['fields']['FIRMWARE_NAME'])
     
-    elif(block['type'] == 'initialize_led'):
+    elif(block['type'] == 'hio_led_initialize'):
         output = output.replace("---GLOBAL VARIABLE---", "twr_led_t led;\n---GLOBAL VARIABLE---")
         output += 'twr_led_init(&led, TWR_GPIO_LED, false, 0);\n\t'
         output += 'twr_led_pulse(&led, 2000);\n\n\t'
     
-    elif(block['type'] == 'initialize_logging'):
+    elif(block['type'] == 'hio_logging_initialize'):
         output += 'twr_log_init(TWR_LOG_LEVEL_DUMP, TWR_LOG_TIMESTAMP_ABS);\n\t'
         output += 'twr_log_info("APPLICATION START");\n\n\t'
 
-    elif(block['type'] == 'initialize_core_module_tmp112'):
+    elif(block['type'] == 'hio_core_tmp112_initialize'):
         output = output.replace("---GLOBAL VARIABLE---", "twr_tmp112_t core_tmp112;\n---GLOBAL VARIABLE---")
         output = output.replace("---GLOBAL VARIABLE---", "float core_module_temperature_{random_suffix} = 9999;\n---GLOBAL VARIABLE---".format(random_suffix=random_core_temperature_suffix))
         output += 'twr_tmp112_init(&core_tmp112, TWR_I2C_I2C0, 0x49);\n\t'
@@ -39,16 +39,16 @@ def add_initialization_part(block, output):
 
         output = output.replace('---EVENT HANDLER---', 'void core_tmp112_event_handler(twr_tmp112_t *self, twr_tmp112_event_t event, void *event_param)\n{{\n\tif (event == TWR_TMP112_EVENT_UPDATE) {{\n\ttwr_tmp112_get_temperature_celsius(self, &core_module_temperature_{random_suffix});\n\t}}\n}}\n\n---EVENT HANDLER---'.format(random_suffix=random_core_temperature_suffix))
 
-    elif(block['type'] == 'initialize_motion_detector'):
+    elif(block['type'] == 'hio_pir_initialize'):
         output = output.replace("---GLOBAL VARIABLE---", "twr_module_pir_t pir;\n---GLOBAL VARIABLE---")
         output += 'twr_module_pir_init(&pir);\n\t'
         output += 'twr_module_pir_set_sensitivity(&pir, {sensitivity});\n\n\t'.format(sensitivity=block['fields']['SENSITIVITY'])
         output += '---PIR SET EVENT HANDLER---\n\n\t'
         
-    elif(block['type'] == 'initialize_power_module'):
+    elif(block['type'] == 'hio_power_initialize'):
         output += 'twr_module_power_init();\n\t'
 
-    elif(block['type'] == 'initialize_led_strip'):
+    elif(block['type'] == 'hio_led_strip_initialize'):
         if(not 'twr_module_power_init();' in output):
             output += 'twr_module_power_init();\n\t'
 
@@ -116,7 +116,7 @@ static struct
 
         output += '''twr_led_strip_init(&led_strip.self, twr_module_power_get_led_strip_driver(), &led_strip_buffer);\n\tled_strip.update_task_id = twr_scheduler_register(led_strip_update_task, NULL, 0);\n'''
         
-    elif(block['type'] == 'initialize_lcd'):
+    elif(block['type'] == 'hio_lcd_initialize'):
         output = output.replace("---GLOBAL VARIABLE---", "twr_gfx_t *pgfx;\n---GLOBAL VARIABLE---")
         output += "twr_module_lcd_init();\n\t"
         output += 'pgfx = twr_module_lcd_get_gfx();\n\t'
@@ -131,24 +131,24 @@ static struct
 
 def add_action(action, json, output):
     print(json['type'])
-    if(json['type'] == 'send_over_radio_string'):
+    if(json['type'] == 'hio_radio_send_string'):
         output = output.replace(action, '\t\ttwr_radio_pub_string("{subtopic}", "{value}");\n{action}'.format(subtopic=json['fields']['SUBTOPIC'], value=json['fields']['STRING_TO_BE_SEND'], action=action))
-    elif(json['type'] == 'send_over_radio_int'):
+    elif(json['type'] == 'hio_radio_send_integer'):
         random_variable_name = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
         output = output.replace(action, '\t\tint {random_name} = {value};\n\t\ttwr_radio_pub_int("{subtopic}", &{random_name});\n{action}'.format(random_name=random_variable_name, subtopic=json['fields']['SUBTOPIC'], value=json['fields']['INT_TO_BE_SEND'], action=action))
-    elif(json['type'] == 'send_over_radio_float'):
+    elif(json['type'] == 'hio_radio_send_float'):
         random_variable_name = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
         output = output.replace(action, '\t\tfloat {random_name} = {value};\n\t\ttwr_radio_pub_float("{subtopic}", &{random_name});\n{action}'.format(random_name=random_variable_name, subtopic=json['fields']['SUBTOPIC'], value=json['fields']['FLOAT_TO_BE_SEND'], action=action))
-    elif(json['type'] == 'send_over_radio_boolean'):
+    elif(json['type'] == 'hio_radio_send_boolean'):
         random_variable_name = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
         output = output.replace(action, '\t\tbool {random_name} = {value};\n\t\ttwr_radio_pub_bool("{subtopic}", &{random_name});\n{action}'.format(random_name=random_variable_name, subtopic=json['fields']['SUBTOPIC'], value=json['fields']['BOOL_TO_BE_SEND'], action=action))
-    elif(json['type'] == 'led_blink'):
+    elif(json['type'] == 'hio_led_blink'):
         output = output.replace(action, '\t\ttwr_led_blink(&led, {count});\n{action}'.format(count=json['fields']['COUNT'], action=action))
-    elif(json['type'] == 'led_pulse'):
+    elif(json['type'] == 'hio_led_pulse'):
         output = output.replace(action, '\t\ttwr_led_pulse(&led, {duration});\n{action}'.format(duration=json['fields']['DURATION'], action=action))
-    elif(json['type'] == 'led_mode'):
+    elif(json['type'] == 'hio_led_set_mode'):
         output = output.replace(action, '\t\ttwr_led_set_mode(&led, {mode});\n{action}'.format(mode=json['fields']['MODE'], action=action))
-    elif(json['type'] == 'publish_button_event_count'):
+    elif(json['type'] == 'hio_button_publish_event_count'):
         action_lower = ((action.lower()).split('---')[1]).split(' ')[0]
         if(action_lower == 'click' or action_lower == 'hold'):
             action_event_variable = action_lower + '_button_event_count'
@@ -165,11 +165,11 @@ def add_action(action, json, output):
 
     elif('log_' in json['type']):
         if 'inputs' in json.keys():
-            if(json['inputs']['VARIABLE']['block']['type'] == 'core_temperature'):
+            if(json['inputs']['VARIABLE']['block']['type'] == 'hio_core_tmp112_value'):
                 output = output.replace(action, '\t\ttwr_{log_type}("{message} %.2f", core_module_temperature_{random_suffix});\n{action}'.format(log_type=json['type'], message=json['fields']['MESSAGE'], action=action, random_suffix=random_core_temperature_suffix))
         else:
             output = output.replace(action, '\t\ttwr_{log_type}("{message}");\n{action}'.format(log_type=json['type'], message=json['fields']['MESSAGE'], action=action))
-    elif(json['type'] == 'power_module_relay_set_state'):
+    elif(json['type'] == 'hio_power_relay_state_set'):
         state = 'false'
         if(json['fields']['STATE'] == 'ON'):
             state = 'true'
@@ -191,34 +191,34 @@ def add_action(action, json, output):
     elif(json['type'] == 'math_change'):
         output = output.replace(action, '\t\t{variable} += {value};\n{action}'.format(variable=variables[json['fields']['VAR']['id']], value=construct_sub_section(json['inputs']['DELTA']['block']), action=action))
     
-    elif(json['type'] == 'lcd_draw_string'):
+    elif(json['type'] == 'hio_lcd_draw_string'):
         output = output.replace(action, '\t\ttwr_gfx_draw_string(pgfx, {x}, {y}, "{text}", true);\n{action}'.format(x=json['fields']['LEFT'], y=json['fields']['TOP'], text=json['fields']['STRING'], action=action))
 
-    elif(json['type'] == 'lcd_draw_circle'):
+    elif(json['type'] == 'hio_lcd_draw_circle'):
         output = output.replace(action, '\t\ttwr_gfx_draw_circle(pgfx, {x}, {y}, {radius}, true);\n{action}'.format(x=json['fields']['CENTER_X'], y=json['fields']['CENTER_Y'], radius=json['fields']['RADIUS'], action=action))
 
-    elif(json['type'] == 'lcd_draw_line'):
+    elif(json['type'] == 'hio_lcd_draw_line'):
         output = output.replace(action, '\t\ttwr_gfx_draw_line(pgfx, {x1}, {y1}, {x2}, {y2}, true);\n{action}'.format(x1=json['fields']['START_X'], y1=json['fields']['START_Y'], x2=json['fields']['END_X'], y2=json['fields']['END_Y'], action=action))
 
-    elif(json['type'] == 'lcd_draw_rectangle'):
+    elif(json['type'] == 'hio_lcd_draw_rectangle'):
         output = output.replace(action, '\t\ttwr_gfx_draw_rectangle(pgfx, {x1}, {y1}, {x2}, {y2}, true);\n{action}'.format(x1=json['fields']['START_X'], y1=json['fields']['START_Y'], x2=json['fields']['END_X'], y2=json['fields']['END_Y'], action=action))
 
-    elif(json['type'] == 'lcd_draw_pixel'):
+    elif(json['type'] == 'hio_lcd_draw_pixel'):
         output = output.replace(action, '\t\ttwr_gfx_draw_pixel(pgfx, {x}, {y}, true);\n{action}'.format(x=json['fields']['LEFT'], y=json['fields']['TOP'], action=action))
 
-    elif(json['type'] == 'lcd_set_font'):
+    elif(json['type'] == 'hio_lcd_set_font'):
         output = output.replace(action, '\t\ttwr_gfx_set_font(pgfx, &{font});\n{action}'.format(font=json['fields']['FONT'], action=action))
 
-    elif(json['type'] == 'lcd_power_state'):
+    elif(json['type'] == 'hio_lcd_set_power_state'):
         if(json['fields']['STATE'] == 'ON'):
             output = output.replace(action, '\t\ttwr_module_lcd_on();\n{action}'.format(action=action))
         else:
             output = output.replace(action, '\t\ttwr_module_lcd_off();\n{action}'.format(action=action))
     
-    elif(json['type'] == 'lcd_clear'):
+    elif(json['type'] == 'hio_lcd_clear'):
         output = output.replace(action, '\t\ttwr_gfx_clear(pgfx);\n{action}'.format(action=action))
 
-    elif(json['type'] == 'lcd_update'):
+    elif(json['type'] == 'hio_lcd_update'):
         output = output.replace(action, '\t\ttwr_gfx_update(pgfx);\n{action}'.format(action=action))
 
     if 'next' in json.keys():
@@ -383,14 +383,14 @@ def construct_application_task(block, output):
 
     output = output.replace('---APPLICATION TASK---', 'void application_task()\r\n{\r\n---APPLICATION TASK ACTION---\r\n}')
 
-    output = add_action('---APPLICATION TASK ACTION---', block['inputs']['application_task']['block'], output)
+    output = add_action('---APPLICATION TASK ACTION---', block['inputs']['hio_application_task']['block'], output)
 
     output = output.replace('---APPLICATION TASK ACTION---', '\ttwr_scheduler_plan_current_relative({interval});'.format(interval=interval))
 
     return output
 
 def construct_event_handler(event_handler, output):
-    if(event_handler['type'] == 'on_button'):
+    if(event_handler['type'] == 'hio_button_event'):
         if '---BUTTON SET EVENT HANDLER---' in output:
             output = output.replace('---BUTTON SET EVENT HANDLER---', 'twr_button_set_event_handler(&button, button_event_handler, NULL);')
             output = output.replace('---EVENT HANDLER---', 'void button_event_handler(twr_button_t *self, twr_button_event_t event, void *event_param)\n{\n\t---BUTTON EVENT---\n}\n---EVENT HANDLER---')
@@ -400,7 +400,7 @@ def construct_event_handler(event_handler, output):
         else:
             output = output.replace('---BUTTON EVENT---', '''if (event == TWR_BUTTON_EVENT_{event})\n\t{{\n\t---{event} ACTION---\n\t}}\n\t\t---ELSE BUTTON EVENT---'''.format(event=event_handler['fields']['NAME']))
         output = add_action('---{event} ACTION---'.format(event=event_handler['fields']['NAME']), event_handler['inputs']['button_statements']['block'], output)
-    if(event_handler['type'] == 'on_movement'):
+    if(event_handler['type'] == 'hio_pir_event'):
         if '---PIR SET EVENT HANDLER---' in output:
             output = output.replace('---PIR SET EVENT HANDLER---', 'twr_module_pir_set_event_handler(&pir, pir_event_handler, NULL);')
             output = output.replace('---EVENT HANDLER---', 'void pir_event_handler(twr_module_pir_t *self, twr_module_pir_event_t event, void *event_param)\n{\n\t---PIR EVENT---\n}\n---EVENT HANDLER---')
@@ -428,7 +428,7 @@ def construct_initialization(application_init_json, output):
 void application_init(void)
 {\n\t"""
 
-    output = add_initialization_part(application_init_json['inputs']['application_init']['block'], output)
+    output = add_initialization_part(application_init_json['inputs']['hio_application_initialize']['block'], output)
 
     output = output[:-1]
 
@@ -446,21 +446,21 @@ def generate_code(code):
     print(variables)
     
     for i in data['blocks']['blocks']:
-        if(i['type'] == 'application_init'):
+        if(i['type'] == 'hio_application_initialize'):
             output = construct_initialization(i, output)
 
     if('variables' in data):
         output = create_variables_list(data['variables'], output)
 
     for i in data['blocks']['blocks']:
-        if(i['type'] == 'on_button'):
+        if(i['type'] == 'hio_button_event'):
             output = construct_event_handler(i, output)
 
-        elif(i['type'] == 'on_movement'):
+        elif(i['type'] == 'hio_pir_event'):
             output = construct_event_handler(i, output)
 
     for i in data['blocks']['blocks']:
-        if(i['type'] == 'application_task'):
+        if(i['type'] == 'hio_application_task'):
             output = construct_application_task(i, output)
 
     output = re.sub('---.*---', '', output)

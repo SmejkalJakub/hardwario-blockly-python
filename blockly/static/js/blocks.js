@@ -1,8 +1,8 @@
-/*Blockly.Blocks['application_init'] = {
+/*Blockly.Blocks['hio_application_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Application Initialization");
-    this.appendStatementInput("application_init")
+    this.appendStatementInput("hio_application_initialize")
         .setCheck(null);
     this.setColour("#E30427");
  this.setTooltip("");
@@ -10,7 +10,7 @@
   }
 };
 
-Blockly.Blocks['initialize_button'] = {
+Blockly.Blocks['hio_button_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize Button");
@@ -31,7 +31,7 @@ Blockly.Blocks['initialize_button'] = {
   }
 };
 
-Blockly.Blocks['on_button'] = {
+Blockly.Blocks['hio_button_event'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("On Button")
@@ -44,7 +44,7 @@ Blockly.Blocks['on_button'] = {
   }
 };
 
-Blockly.Blocks['initialize_radio'] = {
+Blockly.Blocks['hio_radio_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize Radio");
@@ -62,7 +62,7 @@ Blockly.Blocks['initialize_radio'] = {
   }
 };
 
-Blockly.Blocks['send_over_radio_string'] = {
+Blockly.Blocks['hio_radio_send_string'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Send")
@@ -79,7 +79,7 @@ Blockly.Blocks['send_over_radio_string'] = {
   }
 };
 
-Blockly.Blocks['send_over_radio_int'] = {
+Blockly.Blocks['hio_radio_send_integer'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Send")
@@ -96,7 +96,7 @@ Blockly.Blocks['send_over_radio_int'] = {
   }
 };
 
-Blockly.Blocks['send_over_radio_float'] = {
+Blockly.Blocks['hio_radio_send_float'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Send")
@@ -113,7 +113,7 @@ Blockly.Blocks['send_over_radio_float'] = {
   }
 };
 
-Blockly.Blocks['send_over_radio_boolean'] = {
+Blockly.Blocks['hio_radio_send_boolean'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Send")
@@ -130,7 +130,7 @@ Blockly.Blocks['send_over_radio_boolean'] = {
   }
 };
 
-Blockly.Blocks['led_blink'] = {
+Blockly.Blocks['hio_led_blink'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("LED Blink")
@@ -144,7 +144,7 @@ Blockly.Blocks['led_blink'] = {
   }
 };
 
-Blockly.Blocks['led_pulse'] = {
+Blockly.Blocks['hio_led_pulse'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("LED Pulse for")
@@ -158,7 +158,7 @@ Blockly.Blocks['led_pulse'] = {
   }
 };
 
-Blockly.Blocks['led_mode'] = {
+Blockly.Blocks['hio_led_set_mode'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Set LED mode to")
@@ -171,7 +171,7 @@ Blockly.Blocks['led_mode'] = {
   }
 };
 
-Blockly.Blocks['publish_button_event_count'] = {
+Blockly.Blocks['hio_button_publish_event_count'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Publish button event over the radio");
@@ -183,7 +183,7 @@ Blockly.Blocks['publish_button_event_count'] = {
   }
 };
 
-Blockly.Blocks['initialize_led'] = {
+Blockly.Blocks['hio_led_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize LED");
@@ -195,7 +195,7 @@ Blockly.Blocks['initialize_led'] = {
   }
 };
 
-Blockly.Blocks['initialize_logging'] = {
+Blockly.Blocks['hio_logging_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize Logging");
@@ -207,7 +207,7 @@ Blockly.Blocks['initialize_logging'] = {
   }
 };
 
-Blockly.Blocks['log_info'] = {
+Blockly.Blocks['hio_logging_info'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Log Info");
@@ -225,7 +225,7 @@ Blockly.Blocks['log_info'] = {
   }
 };
 
-Blockly.Blocks['log_warning'] = {
+Blockly.Blocks['hio_logging_warning'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Log Warning");
@@ -243,7 +243,7 @@ Blockly.Blocks['log_warning'] = {
   }
 };
 
-Blockly.Blocks['log_debug'] = {
+Blockly.Blocks['hio_logging_debug'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Log Debug");
@@ -261,7 +261,7 @@ Blockly.Blocks['log_debug'] = {
   }
 };
 
-Blockly.Blocks['log_error'] = {
+Blockly.Blocks['hio_logging_error'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Log Error");
@@ -279,7 +279,7 @@ Blockly.Blocks['log_error'] = {
   }
 };
 
-Blockly.Blocks['initialize_core_module_tmp112'] = {
+Blockly.Blocks['hio_core_tmp112_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize Core Module Temperature Sensor");
@@ -295,7 +295,7 @@ Blockly.Blocks['initialize_core_module_tmp112'] = {
   }
 };
 
-Blockly.Blocks['core_temperature'] = {
+Blockly.Blocks['hio_core_tmp112_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Core Temperature");
@@ -306,7 +306,7 @@ Blockly.Blocks['core_temperature'] = {
   }
 };
 
-Blockly.Blocks['integer_value'] = {
+Blockly.Blocks['hio_integer_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Integer")
@@ -318,7 +318,7 @@ Blockly.Blocks['integer_value'] = {
   }
 };
 
-Blockly.Blocks['string_value'] = {
+Blockly.Blocks['hio_string_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("String")
@@ -330,7 +330,7 @@ Blockly.Blocks['string_value'] = {
   }
 };
 
-Blockly.Blocks['button_clicks'] = {
+Blockly.Blocks['hio_button_clicks_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Button Clicks");
@@ -341,7 +341,7 @@ Blockly.Blocks['button_clicks'] = {
   }
 };
 
-Blockly.Blocks['button_holds'] = {
+Blockly.Blocks['hio_button_holds_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Button Holds");
@@ -352,7 +352,7 @@ Blockly.Blocks['button_holds'] = {
   }
 };
 
-Blockly.Blocks['application_task'] = {
+Blockly.Blocks['hio_application_task'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Application Task");
@@ -360,7 +360,7 @@ Blockly.Blocks['application_task'] = {
         .appendField("Repeat every")
         .appendField(new Blockly.FieldNumber(1000, 100), "task_interval")
         .appendField("ms");
-    this.appendStatementInput("application_task")
+    this.appendStatementInput("hio_application_task")
         .setCheck(null);
     this.setColour("#E30427");
  this.setTooltip("");
@@ -369,11 +369,11 @@ Blockly.Blocks['application_task'] = {
 };
 */
 
-Blockly.Blocks['application_init'] = {
+Blockly.Blocks['hio_application_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Application Initialization");
-    this.appendStatementInput("application_init")
+    this.appendStatementInput("hio_application_initialize")
         .setCheck(null);
     this.setColour(230);
  this.setTooltip("");
@@ -381,7 +381,7 @@ Blockly.Blocks['application_init'] = {
   }
 };
 
-Blockly.Blocks['initialize_button'] = {
+Blockly.Blocks['hio_button_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize Button");
@@ -402,7 +402,7 @@ Blockly.Blocks['initialize_button'] = {
   }
 };
 
-Blockly.Blocks['on_button'] = {
+Blockly.Blocks['hio_button_event'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("On Button")
@@ -415,7 +415,7 @@ Blockly.Blocks['on_button'] = {
   }
 };
 
-Blockly.Blocks['initialize_radio'] = {
+Blockly.Blocks['hio_radio_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize Radio");
@@ -433,7 +433,7 @@ Blockly.Blocks['initialize_radio'] = {
   }
 };
 
-Blockly.Blocks['send_over_radio_string'] = {
+Blockly.Blocks['hio_radio_send_string'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Send")
@@ -450,7 +450,7 @@ Blockly.Blocks['send_over_radio_string'] = {
   }
 };
 
-Blockly.Blocks['send_over_radio_int'] = {
+Blockly.Blocks['hio_radio_send_integer'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Send")
@@ -467,7 +467,7 @@ Blockly.Blocks['send_over_radio_int'] = {
   }
 };
 
-Blockly.Blocks['send_over_radio_float'] = {
+Blockly.Blocks['hio_radio_send_float'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Send")
@@ -484,7 +484,7 @@ Blockly.Blocks['send_over_radio_float'] = {
   }
 };
 
-Blockly.Blocks['send_over_radio_boolean'] = {
+Blockly.Blocks['hio_radio_send_boolean'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Send")
@@ -501,7 +501,7 @@ Blockly.Blocks['send_over_radio_boolean'] = {
   }
 };
 
-Blockly.Blocks['led_blink'] = {
+Blockly.Blocks['hio_led_blink'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("LED Blink")
@@ -515,7 +515,7 @@ Blockly.Blocks['led_blink'] = {
   }
 };
 
-Blockly.Blocks['led_pulse'] = {
+Blockly.Blocks['hio_led_pulse'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("LED Pulse for")
@@ -529,7 +529,7 @@ Blockly.Blocks['led_pulse'] = {
   }
 };
 
-Blockly.Blocks['led_mode'] = {
+Blockly.Blocks['hio_led_set_mode'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Set LED mode to")
@@ -542,7 +542,7 @@ Blockly.Blocks['led_mode'] = {
   }
 };
 
-Blockly.Blocks['publish_button_event_count'] = {
+Blockly.Blocks['hio_button_publish_event_count'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Publish button event over the radio");
@@ -554,7 +554,7 @@ Blockly.Blocks['publish_button_event_count'] = {
   }
 };
 
-Blockly.Blocks['initialize_led'] = {
+Blockly.Blocks['hio_led_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize LED");
@@ -566,7 +566,7 @@ Blockly.Blocks['initialize_led'] = {
   }
 };
 
-Blockly.Blocks['initialize_logging'] = {
+Blockly.Blocks['hio_logging_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize Logging");
@@ -578,7 +578,7 @@ Blockly.Blocks['initialize_logging'] = {
   }
 };
 
-Blockly.Blocks['log_info'] = {
+Blockly.Blocks['hio_logging_info'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Log Info");
@@ -596,7 +596,7 @@ Blockly.Blocks['log_info'] = {
   }
 };
 
-Blockly.Blocks['log_warning'] = {
+Blockly.Blocks['hio_logging_warning'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Log Warning");
@@ -614,7 +614,7 @@ Blockly.Blocks['log_warning'] = {
   }
 };
 
-Blockly.Blocks['log_debug'] = {
+Blockly.Blocks['hio_logging_debug'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Log Debug");
@@ -632,7 +632,7 @@ Blockly.Blocks['log_debug'] = {
   }
 };
 
-Blockly.Blocks['log_error'] = {
+Blockly.Blocks['hio_logging_error'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Log Error");
@@ -650,7 +650,7 @@ Blockly.Blocks['log_error'] = {
   }
 };
 
-Blockly.Blocks['initialize_core_module_tmp112'] = {
+Blockly.Blocks['hio_core_tmp112_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize Core Module Temperature Sensor");
@@ -666,7 +666,7 @@ Blockly.Blocks['initialize_core_module_tmp112'] = {
   }
 };
 
-Blockly.Blocks['core_temperature'] = {
+Blockly.Blocks['hio_core_tmp112_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Core Temperature");
@@ -677,7 +677,7 @@ Blockly.Blocks['core_temperature'] = {
   }
 };
 
-Blockly.Blocks['integer_value'] = {
+Blockly.Blocks['hio_integer_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Integer")
@@ -689,7 +689,7 @@ Blockly.Blocks['integer_value'] = {
   }
 };
 
-Blockly.Blocks['string_value'] = {
+Blockly.Blocks['hio_string_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("String")
@@ -701,7 +701,7 @@ Blockly.Blocks['string_value'] = {
   }
 };
 
-Blockly.Blocks['button_clicks'] = {
+Blockly.Blocks['hio_button_clicks_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Button Clicks");
@@ -712,7 +712,7 @@ Blockly.Blocks['button_clicks'] = {
   }
 };
 
-Blockly.Blocks['button_holds'] = {
+Blockly.Blocks['hio_button_holds_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Button Holds");
@@ -723,7 +723,7 @@ Blockly.Blocks['button_holds'] = {
   }
 };
 
-Blockly.Blocks['application_task'] = {
+Blockly.Blocks['hio_application_task'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Application Task");
@@ -731,7 +731,7 @@ Blockly.Blocks['application_task'] = {
         .appendField("Repeat every")
         .appendField(new Blockly.FieldNumber(1000, 100), "task_interval")
         .appendField("ms");
-    this.appendStatementInput("application_task")
+    this.appendStatementInput("hio_application_task")
         .setCheck(null);
     this.setColour(230);
  this.setTooltip("");
@@ -739,7 +739,7 @@ Blockly.Blocks['application_task'] = {
   }
 };
 
-Blockly.Blocks['initialize_motion_detector'] = {
+Blockly.Blocks['hio_pir_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize Motion Detector");
@@ -754,7 +754,7 @@ Blockly.Blocks['initialize_motion_detector'] = {
   }
 };
 
-Blockly.Blocks['on_movement'] = {
+Blockly.Blocks['hio_pir_event'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("On Movement Detected");
@@ -766,7 +766,7 @@ Blockly.Blocks['on_movement'] = {
   }
 };
 
-Blockly.Blocks['initialize_power_module'] = {
+Blockly.Blocks['hio_power_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize Power Module");
@@ -778,7 +778,7 @@ Blockly.Blocks['initialize_power_module'] = {
   }
 };
 
-Blockly.Blocks['initialize_led_strip'] = {
+Blockly.Blocks['hio_led_strip_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize LED Strip");
@@ -793,7 +793,7 @@ Blockly.Blocks['initialize_led_strip'] = {
   }
 };
 
-Blockly.Blocks['power_module_relay_state'] = {
+Blockly.Blocks['hio_power_relay_state_value'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Power Module Relay State");
@@ -804,7 +804,7 @@ Blockly.Blocks['power_module_relay_state'] = {
   }
 };
 
-Blockly.Blocks['power_module_relay_set_state'] = {
+Blockly.Blocks['hio_power_relay_state_set'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Power Module Relay Set State");
@@ -819,7 +819,7 @@ Blockly.Blocks['power_module_relay_set_state'] = {
   }
 };
 
-Blockly.Blocks['initialize_lcd'] = {
+Blockly.Blocks['hio_lcd_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize LCD Module");
@@ -831,7 +831,7 @@ Blockly.Blocks['initialize_lcd'] = {
   }
 };
 
-Blockly.Blocks['lcd_draw_string'] = {
+Blockly.Blocks['hio_lcd_draw_string'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Draw stirng ")
@@ -851,7 +851,7 @@ Blockly.Blocks['lcd_draw_string'] = {
   }
 };
 
-Blockly.Blocks['lcd_draw_circle'] = {
+Blockly.Blocks['hio_lcd_draw_circle'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Draw circle on LCD");
@@ -872,7 +872,7 @@ Blockly.Blocks['lcd_draw_circle'] = {
   }
 };
 
-Blockly.Blocks['lcd_draw_line'] = {
+Blockly.Blocks['hio_lcd_draw_line'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Draw line on LCD");
@@ -895,7 +895,7 @@ Blockly.Blocks['lcd_draw_line'] = {
   }
 };
 
-Blockly.Blocks['lcd_draw_rectangle'] = {
+Blockly.Blocks['hio_lcd_draw_rectangle'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Draw rectangle on LCD");
@@ -918,7 +918,7 @@ Blockly.Blocks['lcd_draw_rectangle'] = {
   }
 };
 
-Blockly.Blocks['lcd_draw_pixel'] = {
+Blockly.Blocks['hio_lcd_draw_pixel'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Draw pixel on LCD");
@@ -936,7 +936,7 @@ Blockly.Blocks['lcd_draw_pixel'] = {
   }
 };
 
-Blockly.Blocks['lcd_set_font'] = {
+Blockly.Blocks['hio_lcd_set_font'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Set LCD font size to")
@@ -949,7 +949,7 @@ Blockly.Blocks['lcd_set_font'] = {
   }
 };
 
-Blockly.Blocks['lcd_power_state'] = {
+Blockly.Blocks['hio_lcd_set_power_state'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Turn LCD ")
@@ -962,7 +962,7 @@ Blockly.Blocks['lcd_power_state'] = {
   }
 };
 
-Blockly.Blocks['lcd_clear'] = {
+Blockly.Blocks['hio_lcd_clear'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Clear LCD");
@@ -974,7 +974,7 @@ Blockly.Blocks['lcd_clear'] = {
   }
 };
 
-Blockly.Blocks['lcd_update'] = {
+Blockly.Blocks['hio_lcd_update'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Update LDC");
