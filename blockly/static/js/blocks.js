@@ -358,7 +358,7 @@ Blockly.Blocks['hio_application_task'] = {
         .appendField("Application Task");
     this.appendDummyInput()
         .appendField("Repeat every")
-        .appendField(new Blockly.FieldNumber(1000, 100), "task_interval")
+        .appendField(new Blockly.FieldNumber(1000, 100), "TASK_INTERVAL")
         .appendField("ms");
     this.appendStatementInput("hio_application_task")
         .setCheck(null);
@@ -373,7 +373,7 @@ Blockly.Blocks['hio_application_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Application Initialization");
-    this.appendStatementInput("hio_application_initialize")
+    this.appendStatementInput("BLOCKS")
         .setCheck(null);
     this.setColour(230);
  this.setTooltip("");
@@ -407,7 +407,7 @@ Blockly.Blocks['hio_button_event'] = {
     this.appendDummyInput()
         .appendField("On Button")
         .appendField(new Blockly.FieldDropdown([["PRESS","PRESS"], ["RELEASE","RELEASE"], ["CLICK","CLICK"], ["HOLD","HOLD"]]), "NAME");
-    this.appendStatementInput("button_statements")
+    this.appendStatementInput("BLOCKS")
         .setCheck(null);
     this.setColour(230);
  this.setTooltip("");
@@ -729,9 +729,9 @@ Blockly.Blocks['hio_application_task'] = {
         .appendField("Application Task");
     this.appendDummyInput()
         .appendField("Repeat every")
-        .appendField(new Blockly.FieldNumber(1000, 100), "task_interval")
+        .appendField(new Blockly.FieldNumber(1000, 100), "TASK_INTERVAL")
         .appendField("ms");
-    this.appendStatementInput("hio_application_task")
+    this.appendStatementInput("blocks")
         .setCheck(null);
     this.setColour(230);
  this.setTooltip("");
@@ -758,7 +758,7 @@ Blockly.Blocks['hio_pir_event'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("On Movement Detected");
-    this.appendStatementInput("motion_statements")
+    this.appendStatementInput("BLOCKS")
         .setCheck(null);
     this.setColour(230);
  this.setTooltip("");

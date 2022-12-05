@@ -378,7 +378,7 @@ def construct_sub_section(block):
     print(json.dumps(block, indent = 4))
     
 def construct_application_task(block, output):
-    interval = block['fields']['task_interval']
+    interval = block['fields']['TASK_INTERVAL']
     output = output.replace('---APPLICATION TASK SCHEDULE---', '\ttwr_scheduler_plan_from_now(0, {interval});'.format(interval=interval))
 
     output = output.replace('---APPLICATION TASK---', 'void application_task()\r\n{\r\n---APPLICATION TASK ACTION---\r\n}')

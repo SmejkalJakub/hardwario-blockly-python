@@ -13,7 +13,7 @@
         </statement>
         <next>
           <block type="input_statement" id="3=93MS.,wb{-|,g,@u7r">
-            <field name="INPUTNAME">hio_application_initialize</field>
+            <field name="INPUTNAME">BLOCKS</field>
             <field name="ALIGN">LEFT</field>
             <value name="TYPE">
               <shadow type="type_null" id="C^eK,rn+-N8A+7H5_w+R"></shadow>
@@ -164,7 +164,7 @@
         </statement>
         <next>
           <block type="input_statement" id="N|v~Qe*@?4:RsU)4z=R]">
-            <field name="INPUTNAME">button_statements</field>
+            <field name="INPUTNAME">BLOCKS</field>
             <field name="ALIGN">LEFT</field>
             <value name="TYPE">
               <shadow type="type_null" id="mvKctSS,r0hNQnMaR09!"></shadow>
@@ -1322,7 +1322,7 @@
                 <next>
                   <block type="field_number" id="ZxutDsjz{S{D`bX0u`3|">
                     <field name="VALUE">1000</field>
-                    <field name="FIELDNAME">task_interval</field>
+                    <field name="FIELDNAME">TASK_INTERVAL</field>
                     <field name="MIN">100</field>
                     <field name="MAX">Infinity</field>
                     <field name="PRECISION">0</field>
@@ -1337,7 +1337,7 @@
             </statement>
             <next>
               <block type="input_statement" id="`nBNkz$,7cRlUmz2^svS">
-                <field name="INPUTNAME">hio_application_task</field>
+                <field name="INPUTNAME">blocks</field>
                 <field name="ALIGN">LEFT</field>
                 <value name="TYPE">
                   <shadow type="type_null" id="U}(AT?(v~,{S4KEb|z7T"></shadow>
@@ -1440,7 +1440,7 @@
         </statement>
         <next>
           <block type="input_statement" id="wswe:b+hSC3f6#W#i7=k">
-            <field name="INPUTNAME">motion_statements</field>
+            <field name="INPUTNAME">BLOCKS</field>
             <field name="ALIGN">LEFT</field>
             <value name="TYPE">
               <shadow type="type_null" id="k!CTHEp%?NY=+#;zve{y"></shadow>
