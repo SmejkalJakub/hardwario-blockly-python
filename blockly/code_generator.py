@@ -130,7 +130,6 @@ static struct
     return output
 
 def add_action(action, json, output):
-    print(json['type'])
     if(json['type'] == 'hio_radio_send_string'):
         output = output.replace(action, '\t\ttwr_radio_pub_string("{subtopic}", "{value}");\n{action}'.format(subtopic=json['fields']['SUBTOPIC'], value=json['fields']['STRING_TO_BE_SEND'], action=action))
     elif(json['type'] == 'hio_radio_send_integer'):
@@ -163,12 +162,14 @@ def add_action(action, json, output):
                 output = output.replace(action, '\t\t{global_variable}++;\n{action}'.format(global_variable=action_event_variable,  action=action))
                 output = output.replace(action, '\t\ttwr_radio_pub_event_count(TWR_RADIO_PUB_EVENT_{event_name}_BUTTON, &{global_variable});\n{action}'.format(event_name=event_name, global_variable=action_event_variable, action=action))
 
-    elif('log_' in json['type']):
+    elif('_logging_' in json['type']):
+        
+        log_type = json['type'].split('_')[-1]
         if 'inputs' in json.keys():
             if(json['inputs']['VARIABLE']['block']['type'] == 'hio_core_tmp112_value'):
-                output = output.replace(action, '\t\ttwr_{log_type}("{message} %.2f", core_module_temperature_{random_suffix});\n{action}'.format(log_type=json['type'], message=json['fields']['MESSAGE'], action=action, random_suffix=random_core_temperature_suffix))
+                output = output.replace(action, '\t\ttwr_log_{log_type}("{message} %.2f", core_module_temperature_{random_suffix});\n{action}'.format(log_type=log_type, message=json['fields']['MESSAGE'], action=action, random_suffix=random_core_temperature_suffix))
         else:
-            output = output.replace(action, '\t\ttwr_{log_type}("{message}");\n{action}'.format(log_type=json['type'], message=json['fields']['MESSAGE'], action=action))
+            output = output.replace(action, '\t\ttwr_log_{log_type}("{message}");\n{action}'.format(log_type=log_type, message=json['fields']['MESSAGE'], action=action))
     elif(json['type'] == 'hio_power_relay_state_set'):
         state = 'false'
         if(json['fields']['STATE'] == 'ON'):
@@ -178,14 +179,10 @@ def add_action(action, json, output):
     elif(json['type'] == 'controls_if'):
         output = construct_if_statement(json, action, output)
 
-    elif(json['type'] == 'controls_if'):
-        output = construct_if_statement(json, action, output)
-
     elif(json['type'] == 'controls_repeat_ext' or json['type'] == 'controls_whileUntil' or json['type'] == 'controls_for'):
         output = construct_loop(json, action, output)
 
     elif(json['type'] == 'variables_set'):
-        print(json['inputs']['VALUE']['block']['type'])
         output = output.replace(action, '\t\t{variable} = {value};\n{action}'.format(variable=variables[json['fields']['VAR']['id']], value=construct_sub_section(json['inputs']['VALUE']['block']), action=action))
 
     elif(json['type'] == 'math_change'):
@@ -243,7 +240,6 @@ def construct_loop(block, action, output):
 
 def construct_if_statement(block, action, output):    
     if_index = 0
-    print(action)
     else_present_random_signature = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
 
     for if_statement in block['inputs']:
@@ -252,11 +248,8 @@ def construct_if_statement(block, action, output):
         if("DO" in if_statement):
             continue
 
-        print(if_statement)
-
-        if_json = block['inputs']['IF{index}'.format(index=if_index)]['block']
-
         if(if_index == 0 and "IF" in if_statement):
+            if_json = block['inputs']['IF{index}'.format(index=if_index)]['block']
             if(else_present_random_signature in output):
                 output = output.replace('---{else_present_random_signature}---'.format(else_present_random_signature=else_present_random_signature), '\tif(---{if_random_signature} CONDITION---){{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t---{else_present_random_signature}---'.format(if_random_signature=if_random_signature, else_present_random_signature=else_present_random_signature))
             else:
@@ -290,12 +283,16 @@ def construct_if_statement(block, action, output):
                 
             output = add_action('---{if_random_signature} ACTION---'.format(if_random_signature=if_random_signature), block['inputs']['DO{index}'.format(index=if_index)]['block'], output)
 
-        elif(if_index == 0 and if_statement == 'ELSE'):
+        elif(if_statement == 'ELSE'):
+            if_json = block['inputs']['ELSE']['block']
+
             output = output.replace(action, '---{else_present_random_signature}---\n\t\telse{{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t{action}'.format(else_present_random_signature=else_present_random_signature, if_random_signature=if_random_signature, action=action))
         
             output = add_action('---{if_random_signature} ACTION---'.format(if_random_signature=if_random_signature), block['inputs']['ELSE']['block'], output)
         
         else:
+            if_json = block['inputs']['IF{index}'.format(index=if_index)]['block']
+
             if(else_present_random_signature in output):
                 output = output.replace('---{else_present_random_signature}---'.format(else_present_random_signature=else_present_random_signature), '\telse if(---{if_random_signature} CONDITION---){{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t---{else_present_random_signature}---'.format(if_random_signature=if_random_signature, else_present_random_signature=else_present_random_signature))
             else:
@@ -330,7 +327,6 @@ def construct_if_statement(block, action, output):
 
         if(if_statement != 'ELSE'):
             if_index += 1
-        print(json.dumps(if_json, indent = 4))
     return output
 
 def construct_sub_section(block):
@@ -364,7 +360,7 @@ def construct_sub_section(block):
         elif(block['fields']['OP'] == 'DIVIDE'):
             return '({left_side}) / ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
         elif(block['fields']['OP'] == 'POWER'):
-            return '({left_side}) ** ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+            return 'pow(({left_side}), ({right_side}))'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
     elif(block['type'] == 'logic_boolean'):
         if(block['fields']['BOOL'] == 'TRUE'):
             return 'true'
@@ -374,8 +370,6 @@ def construct_sub_section(block):
         return '(!({condition}))'.format(condition=construct_sub_section(block['inputs']['BOOL']['block']))
     elif(block['type'] == 'variables_get'):
         return variables[block['fields']['VAR']['id']]
-
-    print(json.dumps(block, indent = 4))
     
 def construct_application_task(block, output):
     interval = block['fields']['TASK_INTERVAL']
@@ -399,7 +393,7 @@ def construct_event_handler(event_handler, output):
             output = output.replace('---ELSE BUTTON EVENT---', '''\telse if (event == TWR_BUTTON_EVENT_{event})\n\t{{\n\t---{event} ACTION---\n\t}}\n\t\t---ELSE BUTTON EVENT---'''.format(event=event_handler['fields']['NAME']))
         else:
             output = output.replace('---BUTTON EVENT---', '''if (event == TWR_BUTTON_EVENT_{event})\n\t{{\n\t---{event} ACTION---\n\t}}\n\t\t---ELSE BUTTON EVENT---'''.format(event=event_handler['fields']['NAME']))
-        output = add_action('---{event} ACTION---'.format(event=event_handler['fields']['NAME']), event_handler['inputs']['button_statements']['block'], output)
+        output = add_action('---{event} ACTION---'.format(event=event_handler['fields']['NAME']), event_handler['inputs']['BLOCKS']['block'], output)
     if(event_handler['type'] == 'hio_pir_event'):
         if '---PIR SET EVENT HANDLER---' in output:
             output = output.replace('---PIR SET EVENT HANDLER---', 'twr_module_pir_set_event_handler(&pir, pir_event_handler, NULL);')
@@ -407,7 +401,7 @@ def construct_event_handler(event_handler, output):
         
         output = output.replace('---PIR EVENT---', '''if (event == TWR_MODULE_PIR_EVENT_MOTION)\n\t{\n\t---PIR ACTION---\n\t}\n\t\t''')
 
-        output = add_action('---PIR ACTION---', event_handler['inputs']['motion_statements']['block'], output)
+        output = add_action('---PIR ACTION---', event_handler['inputs']['BLOCKS']['block'], output)
 
     return output
 
@@ -428,7 +422,7 @@ def construct_initialization(application_init_json, output):
 void application_init(void)
 {\n\t"""
 
-    output = add_initialization_part(application_init_json['inputs']['hio_application_initialize']['block'], output)
+    output = add_initialization_part(application_init_json['inputs']['BLOCKS']['block'], output)
 
     output = output[:-1]
 
@@ -439,11 +433,10 @@ void application_init(void)
 def generate_code(code):  
     data = json.loads(code)
         
-    #print(json.dumps(data, indent = 4, sort_keys=True))
+    print(json.dumps(data, indent = 4, sort_keys=True))
+    print(json.dumps(data))
 
     output = ""
-
-    print(variables)
     
     for i in data['blocks']['blocks']:
         if(i['type'] == 'hio_application_initialize'):
