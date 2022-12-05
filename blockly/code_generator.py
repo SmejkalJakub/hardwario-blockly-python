@@ -479,5 +479,3 @@ def generate_code(code):
     ret = subprocess.run(command, capture_output=True, shell=True)
     print(ret.stdout.decode())
     
-if __name__ == "__main__":
-    generate_code()
