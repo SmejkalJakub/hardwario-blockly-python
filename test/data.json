@@ -1,0 +1,47 @@
+{
+    "blocks": {
+        "blocks": [
+            {
+                "id": "B.58-x~L_*ec`3J,g56@",
+                "inputs": {
+                    "BLOCKS": {
+                        "block": {
+                            "id": "Eg#8]xnQT#M?%/eNgvD4",
+                            "next": {
+                                "block": {
+                                    "id": "Z}hFy9q@tx2CF7rlU6!5",
+                                    "next": {
+                                        "block": {
+                                            "fields": {
+                                                "GPIO": "TWR_GPIO_BUTTON",
+                                                "PULL": "TWR_GPIO_PULL_DOWN",
+                                                "STATE": "TRUE"
+                                            },
+                                            "id": "IVGX|D94w6J8xez8[V=r",
+                                            "next": {
+                                                "block": {
+                                                    "fields": {
+                                                        "SENSITIVITY": "TWR_MODULE_PIR_SENSITIVITY_LOW"
+                                                    },
+                                                    "id": "kbY;?I/#=edUezNSV]-%",
+                                                    "type": "hio_pir_initialize"
+                                                }
+                                            },
+                                            "type": "hio_button_initialize"
+                                        }
+                                    },
+                                    "type": "hio_logging_initialize"
+                                }
+                            },
+                            "type": "hio_led_initialize"
+                        }
+                    }
+                },
+                "type": "hio_application_initialize",
+                "x": 122,
+                "y": 59
+            }
+        ],
+        "languageVersion": 0
+    }
+}

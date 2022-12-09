@@ -9,6 +9,12 @@ import shutil
 
 variables = {}
 
+operators = {
+    'logic_operation' : {'AND': '&&', 'OR': '||'}, 
+    'logic_compare' : {'EQ': '==', 'NEQ': '!=', 'LT': '<', 'LTE': '<=', 'GT': '>', 'GTE': '>='}, 
+    'math_arithmetic' : {'ADD': '+', 'MINUS': '-', 'MULTIPLY': '*', 'DIVIDE': '/'}
+    }
+
 random_core_temperature_suffix = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(5)])
 
 def add_initialization_part(block, output):
@@ -32,12 +38,12 @@ def add_initialization_part(block, output):
 
     elif(block['type'] == 'hio_core_tmp112_initialize'):
         output = output.replace("---GLOBAL VARIABLE---", "twr_tmp112_t core_tmp112;\n---GLOBAL VARIABLE---")
-        output = output.replace("---GLOBAL VARIABLE---", "float core_module_temperature_{random_suffix} = 9999;\n---GLOBAL VARIABLE---".format(random_suffix=random_core_temperature_suffix))
+        output = output.replace("---GLOBAL VARIABLE---", "float core_tmp112_value = 9999;\n---GLOBAL VARIABLE---")
         output += 'twr_tmp112_init(&core_tmp112, TWR_I2C_I2C0, 0x49);\n\t'
         output += 'twr_tmp112_set_event_handler(&core_tmp112, core_tmp112_event_handler, NULL);\n\t'
         output += 'twr_tmp112_set_update_interval(&core_tmp112, {update_interval});\n\n\t'.format(update_interval=block['fields']['UPDATE_INTERVAL'])
 
-        output = output.replace('---EVENT HANDLER---', 'void core_tmp112_event_handler(twr_tmp112_t *self, twr_tmp112_event_t event, void *event_param)\n{{\n\tif (event == TWR_TMP112_EVENT_UPDATE) {{\n\ttwr_tmp112_get_temperature_celsius(self, &core_module_temperature_{random_suffix});\n\t}}\n}}\n\n---EVENT HANDLER---'.format(random_suffix=random_core_temperature_suffix))
+        output = output.replace('---EVENT HANDLER---', 'void core_tmp112_event_handler(twr_tmp112_t *self, twr_tmp112_event_t event, void *event_param)\n{{\n\tif (event == TWR_TMP112_EVENT_UPDATE) {{\n\ttwr_tmp112_get_temperature_celsius(self, &core_tmp112_value);\n\t}}\n}}\n\n---EVENT HANDLER---')
 
     elif(block['type'] == 'hio_pir_initialize'):
         output = output.replace("---GLOBAL VARIABLE---", "twr_module_pir_t pir;\n---GLOBAL VARIABLE---")
@@ -124,6 +130,66 @@ static struct
         output += 'twr_gfx_draw_string(pgfx, 50, 50, "LCD WORKING", true);\n\t'    
         output += 'twr_gfx_update(pgfx);\n'
     
+    elif(block['type'] == 'hio_climate_initialize'):
+        output = output.replace("---GLOBAL VARIABLE---", "float climate_temperature_value = 9999;\n---GLOBAL VARIABLE---")
+        output = output.replace("---GLOBAL VARIABLE---", "float climate_humidity_value = 9999;\n---GLOBAL VARIABLE---")
+        output = output.replace("---GLOBAL VARIABLE---", "float climate_illuminance_value = 9999;\n---GLOBAL VARIABLE---")
+        output = output.replace("---GLOBAL VARIABLE---", "float climate_pressure_value = 9999;\n---GLOBAL VARIABLE---")
+
+        output += 'twr_module_climate_init();\n\t'
+        output += 'twr_module_climate_set_event_handler(climate_module_event_handler, NULL);\n\t'
+        output += 'twr_module_climate_set_update_interval_thermometer({update_interval});\n\t'.format(update_interval=block['fields']['UPDATE_INTERVAL'])
+        output += 'twr_module_climate_set_update_interval_hygrometer({update_interval});\n\t'.format(update_interval=block['fields']['UPDATE_INTERVAL'])
+        output += 'twr_module_climate_set_update_interval_lux_meter({update_interval});\n\t'.format(update_interval=block['fields']['UPDATE_INTERVAL'])
+        output += 'twr_module_climate_set_update_interval_barometer({update_interval});\n\t'.format(update_interval=block['fields']['UPDATE_INTERVAL'])
+        output += 'twr_module_climate_measure_all_sensors();\n\t'
+
+        output = output.replace('---EVENT HANDLER---', '''void climate_module_event_handler(twr_module_climate_event_t event, void *event_param)
+{
+    float value;
+
+    if (event == TWR_MODULE_CLIMATE_EVENT_UPDATE_THERMOMETER)
+    {
+        if (twr_module_climate_get_temperature_celsius(&value))
+        {  
+            climate_temperature_value = value;
+        }
+    }
+    else if (event == TWR_MODULE_CLIMATE_EVENT_UPDATE_HYGROMETER)
+    {
+        if (twr_module_climate_get_humidity_percentage(&value))
+        {
+            climate_humidity_value = value;
+        }
+    }
+    else if (event == TWR_MODULE_CLIMATE_EVENT_UPDATE_LUX_METER)
+    {
+        if (twr_module_climate_get_illuminance_lux(&value))
+        {
+            if (value < 1)
+            {
+                value = 0;
+            }
+            
+            climate_illuminance_value = value;
+        }
+    }
+    else if (event == TWR_MODULE_CLIMATE_EVENT_UPDATE_BAROMETER)
+    {
+        if (twr_module_climate_get_pressure_pascal(&value))
+        {
+            float meter;
+
+            if (!twr_module_climate_get_altitude_meter(&meter))
+            {
+                return;
+            }
+            climate_pressure_value = value;
+        }
+    }
+}\n\n---EVENT HANDLER---''')
+
+
     if 'next' in block.keys():
         output = add_initialization_part(block['next']['block'], output)
 
@@ -167,7 +233,7 @@ def add_action(action, json, output):
         log_type = json['type'].split('_')[-1]
         if 'inputs' in json.keys():
             if(json['inputs']['VARIABLE']['block']['type'] == 'hio_core_tmp112_value'):
-                output = output.replace(action, '\t\ttwr_log_{log_type}("{message} %.2f", core_module_temperature_{random_suffix});\n{action}'.format(log_type=log_type, message=json['fields']['MESSAGE'], action=action, random_suffix=random_core_temperature_suffix))
+                output = output.replace(action, '\t\ttwr_log_{log_type}("{message} %.2f", core_tmp112_value);\n{action}'.format(log_type=log_type, message=json['fields']['MESSAGE'], action=action))
         else:
             output = output.replace(action, '\t\ttwr_log_{log_type}("{message}");\n{action}'.format(log_type=log_type, message=json['fields']['MESSAGE'], action=action))
     elif(json['type'] == 'hio_power_relay_state_set'):
@@ -255,24 +321,9 @@ def construct_if_statement(block, action, output):
             else:
                 output = output.replace(action, '\tif(---{if_random_signature} CONDITION---){{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t{action}'.format(if_random_signature=if_random_signature, action=action))
 
-            if(if_json['type'] == 'logic_operation'):
-                if(if_json['fields']['OP'] == 'AND'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) && ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'OR'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) || ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-            elif(if_json['type'] == 'logic_compare'):
-                if(if_json['fields']['OP'] == 'EQ'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) == ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'NEQ'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) != ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'LT'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) < ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'LTE'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) <= ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'GT'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) > ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'GTE'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) >= ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+            if(if_json['type'] == 'logic_operation' or if_json['type'] == 'logic_compare'):
+                output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) {operator} ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), operator=operators[if_json['type']][if_json['fields']['OP']], right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+
             elif(if_json['type'] == 'logic_boolean'):
                 if(if_json['fields']['BOOL'] == 'TRUE'):
                     output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), 'true')
@@ -280,7 +331,10 @@ def construct_if_statement(block, action, output):
                     output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), 'false')
             elif(if_json['type'] == 'logic_negate'):
                 output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '(!({condition}))'.format(condition=construct_sub_section(if_json['inputs']['BOOL']['block'])))
-                
+
+            elif(if_json['type'].startswith('hio_') and if_json['type'].endswith('_value')):
+                output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({condition})'.format(condition=if_json['type'][4:]))
+
             output = add_action('---{if_random_signature} ACTION---'.format(if_random_signature=if_random_signature), block['inputs']['DO{index}'.format(index=if_index)]['block'], output)
 
         elif(if_statement == 'ELSE'):
@@ -297,24 +351,10 @@ def construct_if_statement(block, action, output):
                 output = output.replace('---{else_present_random_signature}---'.format(else_present_random_signature=else_present_random_signature), '\telse if(---{if_random_signature} CONDITION---){{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t---{else_present_random_signature}---'.format(if_random_signature=if_random_signature, else_present_random_signature=else_present_random_signature))
             else:
                 output = output.replace(action, '\telse if(---{if_random_signature} CONDITION---){{\n\t\t---{if_random_signature} ACTION---\n\t\t}}\n\t\t{action}'.format(if_random_signature=if_random_signature, action=action))
-            if(if_json['type'] == 'logic_operation'):
-                if(if_json['fields']['OP'] == 'AND'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) && ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'OR'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) || ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-            elif(if_json['type'] == 'logic_compare'):
-                if(if_json['fields']['OP'] == 'EQ'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) == ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'NEQ'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) != ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'LT'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) < ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'LTE'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) <= ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'GT'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) > ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
-                elif(if_json['fields']['OP'] == 'GTE'):
-                    output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) >= ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+            
+            if(if_json['type'] == 'logic_operation' or if_json['type'] == 'logic_compare'):
+                output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({left_side}) {operator} ({right_side})'.format(left_side=construct_sub_section(if_json['inputs']['A']['block']), operator=operators[if_json['type']][if_json['fields']['OP']], right_side=construct_sub_section(if_json['inputs']['B']['block'])))
+
             elif(if_json['type'] == 'logic_boolean'):
                 if(if_json['fields']['BOOL'] == 'TRUE'):
                     output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), 'true')
@@ -323,6 +363,9 @@ def construct_if_statement(block, action, output):
             elif(if_json['type'] == 'logic_negate'):
                 output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '(!({condition}))'.format(condition=construct_sub_section(if_json['inputs']['BOOL']['block'])))
 
+            elif(if_json['type'].startswith('hio_') and if_json['type'].endswith('_value')):
+                output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({condition})'.format(condition=if_json['type'][4:]))
+           
             output = add_action('---{if_random_signature} ACTION---'.format(if_random_signature=if_random_signature), block['inputs']['DO{index}'.format(index=if_index)]['block'], output)
 
         if(if_statement != 'ELSE'):
@@ -330,37 +373,15 @@ def construct_if_statement(block, action, output):
     return output
 
 def construct_sub_section(block):
-    if(block['type'] == 'logic_compare'):
-        if(block['fields']['OP'] == 'EQ'):
-            return '({left_side}) == ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
-        elif(block['fields']['OP'] == 'NEQ'):
-            return '({left_side}) != ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
-        elif(block['fields']['OP'] == 'LT'):
-            return '({left_side}) < ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
-        elif(block['fields']['OP'] == 'LTE'):
-            return '({left_side}) <= ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
-        elif(block['fields']['OP'] == 'GT'):
-            return '({left_side}) > ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
-        elif(block['fields']['OP'] == 'GTE'):
-            return '({left_side}) >= ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+    if(block['type'] == 'logic_compare' or block['type'] == 'logic_operation' or block['type'] == 'math_arithmetic'):
+        
+        if(block['fields']['OP'] == 'POWER'):
+            return 'pow(({left_side}), ({right_side}))'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
+        else:
+            return '({left_side}) {operator} ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), operator=operators[block['type']][block['fields']['OP']], right_side=construct_sub_section(block['inputs']['B']['block']))
+    
     elif(block['type'] == 'math_number'):
         return block['fields']['NUM']
-    elif(block['type'] == 'logic_operation'):
-        if(block['fields']['OP'] == 'AND'):
-            return '({left_side}) && ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
-        elif(block['fields']['OP'] == 'OR'):
-            return '({left_side}) || ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
-    elif(block['type'] == 'math_arithmetic'):
-        if(block['fields']['OP'] == 'ADD'):
-            return '({left_side}) + ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
-        elif(block['fields']['OP'] == 'MINUS'):
-            return '({left_side}) - ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
-        elif(block['fields']['OP'] == 'MULTIPLY'):
-            return '({left_side}) * ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
-        elif(block['fields']['OP'] == 'DIVIDE'):
-            return '({left_side}) / ({right_side})'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
-        elif(block['fields']['OP'] == 'POWER'):
-            return 'pow(({left_side}), ({right_side}))'.format(left_side=construct_sub_section(block['inputs']['A']['block']), right_side=construct_sub_section(block['inputs']['B']['block']))
     elif(block['type'] == 'logic_boolean'):
         if(block['fields']['BOOL'] == 'TRUE'):
             return 'true'
@@ -370,7 +391,9 @@ def construct_sub_section(block):
         return '(!({condition}))'.format(condition=construct_sub_section(block['inputs']['BOOL']['block']))
     elif(block['type'] == 'variables_get'):
         return variables[block['fields']['VAR']['id']]
-    
+    elif(block['type'].startswith('hio_') and block['type'].endswith('_value')):
+        return block['type'][4:]
+           
 def construct_application_task(block, output):
     interval = block['fields']['TASK_INTERVAL']
     output = output.replace('---APPLICATION TASK SCHEDULE---', '\ttwr_scheduler_plan_from_now(0, {interval});'.format(interval=interval))

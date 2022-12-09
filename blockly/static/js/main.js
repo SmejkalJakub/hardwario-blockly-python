@@ -90,6 +90,9 @@ function checkCategories() {
     else if(block.type == 'hio_lcd_initialize') {
       document.getElementById('blockly-9').style.display = '';
     }
+    else if(block.type == 'hio_climate_initialize') {
+      document.getElementById('blockly-a').style.display = '';
+    }
   }
 }
 

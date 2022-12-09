@@ -1,0 +1,10 @@
+---
+core_tmp112:
+  global_variable:
+    - twr_tmp112_t core_tmp112;
+    - float core_module_temperature = 9999;
+  application_init:
+    - twr_tmp112_init(&core_tmp112, TWR_I2C_I2C0, 0x49);
+    - twr_tmp112_set_event_handler(&core_tmp112, core_tmp112_event_handler, NULL);
+    - twr_tmp112_set_update_interval(&core_tmp112, {UPDATE_INTERVAL});
+   

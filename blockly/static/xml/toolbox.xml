@@ -18,6 +18,9 @@
     <block type="hio_pir_initialize">
       <field name="SENSITIVITY">TWR_MODULE_PIR_SENSITIVITY_LOW</field>
     </block>
+    <block type="hio_climate_initialize">
+      <field name="UPDATE_INTERVAL">5000</field>
+    </block>
     <block type="hio_power_initialize"></block>
     <block type="hio_led_strip_initialize">
       <field name="LEDS">36</field>
@@ -134,6 +137,12 @@
       <field name="LEFT">0</field>
       <field name="TOP">0</field>
     </block>
+  </category>
+  <category name="Climate Module">
+    <block type="hio_climate_temperature_value"></block>
+    <block type="hio_climate_humidity_value"></block>
+    <block type="hio_climate_illuminance_value"></block>
+    <block type="hio_climate_pressure_value"></block>
   </category>
   <category name="Values" colour="#E30427">
     <block type="hio_integer_value">

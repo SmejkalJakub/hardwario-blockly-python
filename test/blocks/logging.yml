@@ -1,0 +1,8 @@
+---
+logging:
+  application_init:
+    - twr_log_init(TWR_LOG_LEVEL_DUMP, TWR_LOG_TIMESTAMP_ABS);
+    - twr_log_info("APPLICATION START");
+  action:
+    info:
+      - twr_log_info("{MESSAGE}");

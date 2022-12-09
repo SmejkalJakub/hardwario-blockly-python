@@ -1,0 +1,11 @@
+---
+lcd:
+  global_variable:
+    - twr_gfx_t *pgfx;
+  application_init:
+    - twr_module_lcd_init();
+    - pgfx = twr_module_lcd_get_gfx();
+    - twr_gfx_set_font(pgfx, &twr_font_ubuntu_15);
+    - twr_gfx_draw_string(pgfx, 20, 50, "LCD WORKING", true);
+    - twr_gfx_update(pgfx);
+   

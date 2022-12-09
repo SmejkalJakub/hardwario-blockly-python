@@ -1,0 +1,5 @@
+---
+power:
+  application_init:
+    - twr_module_power_init();
+   

@@ -1,0 +1,6 @@
+---
+radio:
+  application_init:
+    - 'twr_radio_init({RADIO_MODE});'
+    - 'twr_radio_pairing_request("{FIRMWARE_NAME}", "1.0.0");'
+   
