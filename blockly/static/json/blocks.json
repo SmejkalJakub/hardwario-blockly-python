@@ -556,7 +556,7 @@
     },
     {
       "type": "input_statement",
-      "name": "blocks"
+      "name": "BLOCKS"
     }
   ],
   "colour": 230,

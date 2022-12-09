@@ -556,7 +556,7 @@ Blockly.defineBlocksWithJsonArray([{
      },
      {
        "type": "input_statement",
-       "name": "blocks"
+       "name": "BLOCKS"
      }
    ],
    "colour": 230,
@@ -1032,4 +1032,111 @@ Blockly.defineBlocksWithJsonArray([{
    "colour": 230,
    "tooltip": "",
    "helpUrl": ""
- }]);
+ },
+ {
+  "type": "variables_get_integer",
+  "message0": "%1",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+      "variableTypes": ["Integer"],   
+      "defaultType": "Integer"
+    }
+  ],
+  "output": "Number",    
+},
+{
+  "type": "variables_set_integer",
+  "message0": "%{BKY_VARIABLES_SET}",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+      "variableTypes": ["Integer"],
+      "defaultType": "Integer"
+    },
+    {
+      "type": "input_value",
+      "name": "VALUE",
+      "check": "Integer" 
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+},
+{
+  "type": "variables_get_float",
+  "message0": "%1",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+      "variableTypes": ["Float"],   
+      "defaultType": "Float"
+    }
+  ],
+  "output": "Number",    
+},
+{
+  "type": "variables_set_float",
+  "message0": "%{BKY_VARIABLES_SET}",
+  "args0": [
+    {
+      "type": "field_variable",
+      "name": "VAR",
+      "variable": "%{BKY_VARIABLES_DEFAULT_NAME}",
+      "variableTypes": ["Float"],
+      "defaultType": "Float"
+    },
+    {
+      "type": "input_value",
+      "name": "VALUE",
+      "check": "Float"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+},
+{
+  "type": "hio_lcd_printf",
+  "message0": "Print text on LCD %1 %2 pixels from left %3 %4 pixels from top %5 With variable: %6",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "field_number",
+      "name": "LEFT",
+      "value": 0,
+      "min": 0,
+      "max": 128
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "field_number",
+      "name": "TOP",
+      "value": 0,
+      "min": 0,
+      "max": 128
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_value",
+      "name": "VALUE",
+      "align": "RIGHT"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+}]);

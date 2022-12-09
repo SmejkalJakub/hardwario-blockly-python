@@ -360,7 +360,7 @@ Blockly.Blocks['hio_application_task'] = {
         .appendField("Repeat every")
         .appendField(new Blockly.FieldNumber(1000, 100), "TASK_INTERVAL")
         .appendField("ms");
-    this.appendStatementInput("blocks")
+    this.appendStatementInput("BLOCKS")
         .setCheck(null);
     this.setColour(230);
  this.setTooltip("");

@@ -137,6 +137,10 @@
       <field name="LEFT">0</field>
       <field name="TOP">0</field>
     </block>
+    <block type="hio_lcd_printf">
+      <field name="LEFT">0</field>
+      <field name="TOP">0</field>
+    </block>
   </category>
   <category name="Climate Module">
     <block type="hio_climate_temperature_value"></block>

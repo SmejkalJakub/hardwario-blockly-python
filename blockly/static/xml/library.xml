@@ -1337,7 +1337,7 @@
             </statement>
             <next>
               <block type="input_statement" id="`nBNkz$,7cRlUmz2^svS">
-                <field name="INPUTNAME">blocks</field>
+                <field name="INPUTNAME">BLOCKS</field>
                 <field name="ALIGN">LEFT</field>
                 <value name="TYPE">
                   <shadow type="type_null" id="U}(AT?(v~,{S4KEb|z7T"></shadow>
