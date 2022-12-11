@@ -1504,7 +1504,7 @@
     </value>
   </block><block type="factory_base" id="J|w-WKC7(0[ADuaUbU]o" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">hio_led_strip_initialize</field>
+    <field name="NAME">hio_ledStrip_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">

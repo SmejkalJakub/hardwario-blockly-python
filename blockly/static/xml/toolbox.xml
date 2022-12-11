@@ -22,7 +22,7 @@
       <field name="UPDATE_INTERVAL">5000</field>
     </block>
     <block type="hio_power_initialize"></block>
-    <block type="hio_led_strip_initialize">
+    <block type="hio_ledStrip_initialize">
       <field name="LEDS">36</field>
     </block>
     <block type="hio_lcd_initialize"></block>

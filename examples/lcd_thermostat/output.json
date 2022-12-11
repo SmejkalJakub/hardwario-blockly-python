@@ -98,52 +98,35 @@
                                                                     "next": {
                                                                         "block": {
                                                                             "fields": {
-                                                                                "LEFT": 10,
-                                                                                "STRING": "Set temperature",
-                                                                                "TOP": 80
+                                                                                "LEFT": 40,
+                                                                                "TOP": 100
                                                                             },
-                                                                            "id": "9qGxxpvYi,q|Y;PyvVqm",
+                                                                            "id": "3}.Lf#Lq~=u.H.u0PFh`",
+                                                                            "inputs": {
+                                                                                "VALUE": {
+                                                                                    "block": {
+                                                                                        "fields": {
+                                                                                            "VAR": {
+                                                                                                "id": "QPUnawy_aWi60jfihA|I"
+                                                                                            }
+                                                                                        },
+                                                                                        "id": "c-YdLZo47aVn8llr@})X",
+                                                                                        "type": "variables_get_float"
+                                                                                    }
+                                                                                }
+                                                                            },
                                                                             "next": {
                                                                                 "block": {
                                                                                     "fields": {
-                                                                                        "LEFT": 40,
+                                                                                        "LEFT": 50,
+                                                                                        "STRING": "\\xb0 C",
                                                                                         "TOP": 100
                                                                                     },
-                                                                                    "id": "3}.Lf#Lq~=u.H.u0PFh`",
-                                                                                    "inputs": {
-                                                                                        "VALUE": {
-                                                                                            "block": {
-                                                                                                "fields": {
-                                                                                                    "VAR": {
-                                                                                                        "id": "OLF]Gf#r[CP1pgzmX.^s"
-                                                                                                    }
-                                                                                                },
-                                                                                                "id": "rvE~bCBiIQ6.the^njY#",
-                                                                                                "type": "variables_get_float"
-                                                                                            }
-                                                                                        }
-                                                                                    },
-                                                                                    "next": {
-                                                                                        "block": {
-                                                                                            "fields": {
-                                                                                                "LEFT": 65,
-                                                                                                "STRING": "\\xb0 C",
-                                                                                                "TOP": 100
-                                                                                            },
-                                                                                            "id": "nhPm7)*T!{Y,|m88(;J*",
-                                                                                            "next": {
-                                                                                                "block": {
-                                                                                                    "id": "4ZSo~wcrNUUooVvqPd[s",
-                                                                                                    "type": "hio_lcd_update"
-                                                                                                }
-                                                                                            },
-                                                                                            "type": "hio_lcd_draw_string"
-                                                                                        }
-                                                                                    },
-                                                                                    "type": "hio_lcd_printf"
+                                                                                    "id": "nhPm7)*T!{Y,|m88(;J*",
+                                                                                    "type": "hio_lcd_draw_string"
                                                                                 }
                                                                             },
-                                                                            "type": "hio_lcd_draw_string"
+                                                                            "type": "hio_lcd_printf"
                                                                         }
                                                                     },
                                                                     "type": "hio_lcd_set_font"
@@ -176,11 +159,6 @@
         {
             "id": "QPUnawy_aWi60jfihA|I",
             "name": "core_tmp112_value",
-            "type": "Float"
-        },
-        {
-            "id": "OLF]Gf#r[CP1pgzmX.^s",
-            "name": "threshold_temperature",
             "type": "Float"
         }
     ]

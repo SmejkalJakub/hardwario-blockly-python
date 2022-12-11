@@ -407,7 +407,7 @@ Blockly.Blocks['hio_power_initialize'] = {
   }
 };
 
-Blockly.Blocks['hio_led_strip_initialize'] = {
+Blockly.Blocks['hio_ledStrip_initialize'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Initialize LED Strip");

@@ -1,0 +1,78 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="hio_button_event" id="Sag5m!P@RR6Z*|]TIWD]" x="479" y="-196">
+    <field name="NAME">PRESS</field>
+    <statement name="BLOCKS">
+      <block type="hio_led_blink" id="O*3D4HgtbAK[QgWYcm4@">
+        <field name="COUNT">1</field>
+        <next>
+          <block type="hio_led_blink" id="?G{#+UnyRzI4Qj4Yt`Gs">
+            <field name="COUNT">1</field>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="hio_button_event" id="$NSm(Oh0h$O$pqNu^Gbb" x="700" y="-189">
+    <field name="NAME">HOLD</field>
+    <statement name="BLOCKS">
+      <block type="hio_led_blink" id="tJT^|l##nf4WOYgsNBpV">
+        <field name="COUNT">1</field>
+        <next>
+          <block type="hio_led_blink" id="bX9$yBezb(^vNJuxmY)]">
+            <field name="COUNT">1</field>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="hio_application_initialize" id="ruVCwmu!s]c;I@Oyj%%n" x="72" y="-106">
+    <statement name="BLOCKS">
+      <block type="hio_led_initialize" id="51mf_J;Dx))4`]:Prqtw">
+        <next>
+          <block type="hio_radio_initialize" id="tQW3p[t33t-DEu@6H~Yw">
+            <field name="RADIO_MODE">TWR_RADIO_MODE_NODE_SLEEPING</field>
+            <field name="FIRMWARE_NAME">twr-blockly-firmware</field>
+            <next>
+              <block type="hio_core_tmp112_initialize" id="Fa,Oyyxxqq@?G;:3mq58">
+                <field name="UPDATE_INTERVAL">5000</field>
+                <next>
+                  <block type="hio_button_initialize" id="xTm_~T!Q,QoeO={tn*do">
+                    <field name="GPIO">TWR_GPIO_BUTTON</field>
+                    <field name="PULL">TWR_GPIO_PULL_DOWN</field>
+                    <field name="STATE">TRUE</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="hio_application_task" id="UbNU]$Axrtdh*=@h}Huq" x="551" y="-61">
+    <field name="TASK_INTERVAL">5000</field>
+    <statement name="BLOCKS">
+      <block type="hio_led_blink" id="qBObTcg.c$*kv-5j/Awn">
+        <field name="COUNT">1</field>
+        <next>
+          <block type="hio_led_set_mode" id="PXI$q`8^_n7E?78M^xpx">
+            <field name="MODE">TWR_LED_MODE_BLINK</field>
+            <next>
+              <block type="hio_led_pulse" id="Q;g}bAW}[y,acS2Dk-/6">
+                <field name="DURATION">1000</field>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="hio_core_tmp112_event" id="nOZ9jnt):1H]:g.]+GmK" x="352" y="276">
+    <field name="NAME">UPDATE</field>
+    <statement name="BLOCKS">
+      <block type="hio_led_blink" id="%30ipu?:+WD_t;Q;NK`G">
+        <field name="COUNT">1</field>
+      </block>
+    </statement>
+  </block>
+</xml>

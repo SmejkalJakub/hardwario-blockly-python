@@ -616,6 +616,32 @@ Blockly.defineBlocksWithJsonArray([{
    "helpUrl": ""
  },
  {
+   "type": "hio_core_tmp112_event",
+   "message0": "On Core Temperature %1 %2 %3",
+   "args0": [
+     {
+       "type": "field_dropdown",
+       "name": "NAME",
+       "options": [
+         [
+           "UPDATE",
+           "UPDATE"
+         ],
+       ]
+     },
+     {
+       "type": "input_dummy"
+     },
+     {
+       "type": "input_statement",
+       "name": "BLOCKS"
+     }
+   ],
+   "colour": 230,
+   "tooltip": "",
+   "helpUrl": ""
+ }, 
+ {
    "type": "hio_power_initialize",
    "message0": "Initialize Power Module",
    "previousStatement": null,
@@ -625,7 +651,7 @@ Blockly.defineBlocksWithJsonArray([{
    "helpUrl": ""
  },
  {
-   "type": "hio_led_strip_initialize",
+   "type": "hio_ledStrip_initialize",
    "message0": "Initialize LED Strip %1 Number of LEDs:  %2",
    "args0": [
      {
@@ -677,11 +703,11 @@ Blockly.defineBlocksWithJsonArray([{
        "options": [
          [
            "ON",
-           "ON"
+           "true"
          ],
          [
            "OFF",
-           "OFF"
+           "false"
          ]
        ]
      }
@@ -947,11 +973,11 @@ Blockly.defineBlocksWithJsonArray([{
        "options": [
          [
            "ON",
-           "ON"
+           "on"
          ],
          [
            "OFF",
-           "OFF"
+           "off"
          ]
        ]
      }
@@ -1103,7 +1129,7 @@ Blockly.defineBlocksWithJsonArray([{
 },
 {
   "type": "hio_lcd_printf",
-  "message0": "Print text on LCD %1 %2 pixels from left %3 %4 pixels from top %5 With variable: %6",
+  "message0": "Print variable on LCD %1 %2 pixels from left %3 %4 pixels from top %5 Variable: %6",
   "args0": [
     {
       "type": "input_dummy"

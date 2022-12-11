@@ -625,7 +625,7 @@
   "helpUrl": ""
 },
 {
-  "type": "hio_led_strip_initialize",
+  "type": "hio_ledStrip_initialize",
   "message0": "Initialize LED Strip %1 Number of LEDs:  %2",
   "args0": [
     {
