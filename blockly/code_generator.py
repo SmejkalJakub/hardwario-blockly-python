@@ -21,23 +21,35 @@ class Genarator:
 
         self.load_blocks()
 
+    def generate_loop(self, block, event_handler):
+        if(block['type'] == 'controls_repeat_ext'):
+            random_variable_name = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
+            event_handler.append('for(int {random_variable_name} = 0; {random_variable_name} < ({count}); {random_variable_name}++) {{'.format(random_variable_name=random_variable_name, count=self.generate_sub_section(block['inputs']['TIMES']['block'])))
+        elif(block['type'] == 'controls_whileUntil'):
+            event_handler.append('while({condition}) {{'.format(condition=self.generate_sub_section(block['inputs']['BOOL']['block'])))
+        elif(block['type'] == 'controls_for'):
+            variable = self.variables[block['fields']['VAR']['id']]['name']
+            event_handler.append('for({variable} = ({from_value}); {variable} < ({to}); {variable}+=({by})) {{'.format(variable=variable, from_value=self.generate_sub_section(block['inputs']['FROM']['block']), to=self.generate_sub_section(block['inputs']['TO']['block']), by=self.generate_sub_section(block['inputs']['BY']['block'])))
+
+        self.next(block['inputs']['DO'], event_handler)
+
+        event_handler.append('}')
+
     def generate_if_statement(self, block, event_handler):    
         if_index = 0
-        else_present_random_signature = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
 
         for if_statement in block['inputs']:
-            if_random_signature = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
-#
+
             if("DO" in if_statement):
                 continue
-#
+
             if(if_index == 0 and "IF" in if_statement):
                 if_json = block['inputs']['IF{index}'.format(index=if_index)]['block']
                 condition_start = 'if('
-#
+
                 if(if_json['type'] == 'logic_operation' or if_json['type'] == 'logic_compare'):
                     condition = '({left_side}) {operator} ({right_side})'.format(left_side=self.generate_sub_section(if_json['inputs']['A']['block']), operator=self.operators[if_json['type']][if_json['fields']['OP']], right_side=self.generate_sub_section(if_json['inputs']['B']['block']))
-#
+
                 elif(if_json['type'] == 'logic_boolean'):
                     if(if_json['fields']['BOOL'] == 'TRUE'):
                         condition = 'true'
@@ -45,34 +57,34 @@ class Genarator:
                         condition = 'false'
                 elif(if_json['type'] == 'logic_negate'):
                     condition = '(!({condition}))'.format(condition=self.generate_sub_section(if_json['inputs']['BOOL']['block']))
-#
+
                 elif(if_json['type'].startswith('hio_') and if_json['type'].endswith('_value')):
                     condition = '({condition})'.format(condition=if_json['type'][4:])
                 
                 condition_end = ') {'
 
                 event_handler.append(condition_start + condition + condition_end)
-#               
+               
                 if('DO{index}'.format(index=if_index) in block['inputs']):
                     self.next(block['inputs']['DO{index}'.format(index=if_index)], event_handler)
                 event_handler.append('}')
-#
+
             elif(if_statement == 'ELSE'):
                 if_json = block['inputs']['ELSE']['block']
 
                 event_handler.append('else {')
-#            
+            
                 self.next(block['inputs']['ELSE'], event_handler)
                 event_handler.append('}')
 
             else:
                 if_json = block['inputs']['IF{index}'.format(index=if_index)]['block']
-#
+
                 condition_start = 'else if('
-#
+
                 if(if_json['type'] == 'logic_operation' or if_json['type'] == 'logic_compare'):
                     condition = '({left_side}) {operator} ({right_side})'.format(left_side=self.generate_sub_section(if_json['inputs']['A']['block']), operator=self.operators[if_json['type']][if_json['fields']['OP']], right_side=self.generate_sub_section(if_json['inputs']['B']['block']))
-#
+
                 elif(if_json['type'] == 'logic_boolean'):
                     if(if_json['fields']['BOOL'] == 'TRUE'):
                         condition = 'true'
@@ -80,22 +92,22 @@ class Genarator:
                         condition = 'false'
                 elif(if_json['type'] == 'logic_negate'):
                     condition = '(!({condition}))'.format(condition=self.generate_sub_section(if_json['inputs']['BOOL']['block']))
-#
+
                 elif(if_json['type'].startswith('hio_') and if_json['type'].endswith('_value')):
                     condition = '({condition})'.format(condition=if_json['type'][4:])
                 
                 condition_end = ') {'
 
                 event_handler.append(condition_start + condition + condition_end)
-#               
+               
                 if('DO{index}'.format(index=if_index) in block['inputs']):
                     self.next(block['inputs']['DO{index}'.format(index=if_index)], event_handler)
                 event_handler.append('}')
-#
+
             if(if_statement != 'ELSE'):
                 if_index += 1
     
-    def construct_sub_section(self, block):
+    def generate_sub_section(self, block):
         if(block['type'] == 'logic_compare' or block['type'] == 'logic_operation' or block['type'] == 'math_arithmetic'):
             
             if(block['fields']['OP'] == 'POWER'):
@@ -278,6 +290,8 @@ class Genarator:
                         event_handler.append('')
                 elif(block['type'] == 'controls_if'):
                     self.generate_if_statement(block, event_handler)
+                elif(block['type'] == 'controls_repeat_ext' or block['type'] == 'controls_whileUntil' or block['type'] == 'controls_for'):
+                    self.generate_loop(block, event_handler)
 
             if 'next' in block:
                 self.next(block['next'], event_handler)
