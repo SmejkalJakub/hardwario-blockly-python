@@ -12,6 +12,8 @@ class Genarator:
         self.blocks = {}
 
         self.variable_types = {'Integer' : 'int', 'Float' : 'float'}
+
+        self.indent = 0
         
         self.operators = {
             'logic_operation' : {'AND': '&&', 'OR': '||'}, 
@@ -23,21 +25,25 @@ class Genarator:
 
     def generate_loop(self, block, event_handler):
         if(block['type'] == 'controls_repeat_ext'):
-            random_variable_name = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(12)])
-            event_handler.append('for(int {random_variable_name} = 0; {random_variable_name} < ({count}); {random_variable_name}++) {{'.format(random_variable_name=random_variable_name, count=self.generate_sub_section(block['inputs']['TIMES']['block'])))
+            random_variable_name = ''.join([random.choice(string.ascii_letters) for n in range(12)])
+            event_handler.append(('\t' * self.indent) + 'for(int {random_variable_name} = 0; {random_variable_name} < ({count}); {random_variable_name}++) {{'.format(random_variable_name=random_variable_name, count=self.generate_sub_section(block['inputs']['TIMES']['block'])))
         elif(block['type'] == 'controls_whileUntil'):
-            event_handler.append('while({condition}) {{'.format(condition=self.generate_sub_section(block['inputs']['BOOL']['block'])))
+            event_handler.append(('\t' * self.indent) + 'while({condition}) {{'.format(condition=self.generate_sub_section(block['inputs']['BOOL']['block'])))
         elif(block['type'] == 'controls_for'):
             variable = self.variables[block['fields']['VAR']['id']]['name']
-            event_handler.append('for({variable} = ({from_value}); {variable} < ({to}); {variable}+=({by})) {{'.format(variable=variable, from_value=self.generate_sub_section(block['inputs']['FROM']['block']), to=self.generate_sub_section(block['inputs']['TO']['block']), by=self.generate_sub_section(block['inputs']['BY']['block'])))
+            event_handler.append(('\t' * self.indent) + 'for({variable} = ({from_value}); {variable} < ({to}); {variable}+=({by})) {{'.format(variable=variable, from_value=self.generate_sub_section(block['inputs']['FROM']['block']), to=self.generate_sub_section(block['inputs']['TO']['block']), by=self.generate_sub_section(block['inputs']['BY']['block'])))
 
+        self.indent += 1
         self.next(block['inputs']['DO'], event_handler)
+        self.indent -= 1
 
-        event_handler.append('}')
+        event_handler.append(('\t' * self.indent) + '}')
 
     def generate_if_statement(self, block, event_handler):    
         if_index = 0
 
+        if('inputs' not in block):
+            return
         for if_statement in block['inputs']:
 
             if("DO" in if_statement):
@@ -45,7 +51,7 @@ class Genarator:
 
             if(if_index == 0 and "IF" in if_statement):
                 if_json = block['inputs']['IF{index}'.format(index=if_index)]['block']
-                condition_start = 'if('
+                condition_start = ('\t' * self.indent) + 'if('
 
                 if(if_json['type'] == 'logic_operation' or if_json['type'] == 'logic_compare'):
                     condition = '({left_side}) {operator} ({right_side})'.format(left_side=self.generate_sub_section(if_json['inputs']['A']['block']), operator=self.operators[if_json['type']][if_json['fields']['OP']], right_side=self.generate_sub_section(if_json['inputs']['B']['block']))
@@ -66,21 +72,26 @@ class Genarator:
                 event_handler.append(condition_start + condition + condition_end)
                
                 if('DO{index}'.format(index=if_index) in block['inputs']):
+                    self.indent += 1
                     self.next(block['inputs']['DO{index}'.format(index=if_index)], event_handler)
-                event_handler.append('}')
+                    self.indent -= 1
+                event_handler.append(('\t' * self.indent) + '}')
 
             elif(if_statement == 'ELSE'):
                 if_json = block['inputs']['ELSE']['block']
 
-                event_handler.append('else {')
-            
+                event_handler.append(('\t' * self.indent) + 'else {')
+
+                self.indent += 1
                 self.next(block['inputs']['ELSE'], event_handler)
-                event_handler.append('}')
+                self.indent -= 1
+
+                event_handler.append(('\t' * self.indent) + '}')
 
             else:
                 if_json = block['inputs']['IF{index}'.format(index=if_index)]['block']
 
-                condition_start = 'else if('
+                condition_start = ('\t' * self.indent) + 'else if('
 
                 if(if_json['type'] == 'logic_operation' or if_json['type'] == 'logic_compare'):
                     condition = '({left_side}) {operator} ({right_side})'.format(left_side=self.generate_sub_section(if_json['inputs']['A']['block']), operator=self.operators[if_json['type']][if_json['fields']['OP']], right_side=self.generate_sub_section(if_json['inputs']['B']['block']))
@@ -101,8 +112,10 @@ class Genarator:
                 event_handler.append(condition_start + condition + condition_end)
                
                 if('DO{index}'.format(index=if_index) in block['inputs']):
+                    self.indent += 1
                     self.next(block['inputs']['DO{index}'.format(index=if_index)], event_handler)
-                event_handler.append('}')
+                    self.indent -= 1
+                event_handler.append(('\t' * self.indent) + '}')
 
             if(if_statement != 'ELSE'):
                 if_index += 1
@@ -170,21 +183,27 @@ class Genarator:
         for block in data['blocks']['blocks']:
             if block['type'] == 'hio_application_initialize':
                 if('inputs' in block):
-                    self.next(block['inputs']['BLOCKS'])
+                    self.indent += 1
+                    self.next(block['inputs']['BLOCKS'], self.application_init)
+            self.indent = 0
 
         for block in data['blocks']['blocks']:
             print(block['type'])
             if block['type'] == 'hio_application_task':
                 if('inputs' in block):
+                    self.indent += 1
                     self.application_init.append('\ttwr_scheduler_plan_from_now(0, {TASK_INTERVAL});'.format(**block['fields']))
-                    self.next(block['inputs']['BLOCKS'], 'application_task')
-                    self.application_task.append('twr_scheduler_plan_current_relative({TASK_INTERVAL});'.format(**block['fields']))
+                    self.next(block['inputs']['BLOCKS'], self.application_task)
+                    self.application_task.append('\ttwr_scheduler_plan_current_relative({TASK_INTERVAL});'.format(**block['fields']))
+                self.indent = 0
             if 'event' in block['type']:
                 print(self.event_handlers)
                 name = block['type'][len('hio_'):(len(block['type']) - len('_event'))]
                 full_event_name = self.blocks[name]['handler']['events']['prefix'] + block['fields']['NAME']
                 if('inputs' in block):
+                    self.indent += 2
                     self.next(block['inputs']['BLOCKS'], self.event_handlers[name + '_handler'][full_event_name])
+                self.indent = 0
             print('#')
 
         print('global_variable', self.global_variable)
@@ -226,7 +245,7 @@ class Genarator:
                         else:
                             output += '\telse if (event == {event}) {{\n'.format(event=event)
                         for code in self.event_handlers[event_handler][event]:
-                            output += '\t\t{code}\n'.format(code=code)
+                            output += '{code}\n'.format(code=code)
                         output += '\t}\n'
                         index += 1
                     output += '}\n'
@@ -242,12 +261,12 @@ class Genarator:
         if(self.application_task != []):
             output += 'void application_task(void) {\n'
             for code in self.application_task:
-                output += '\t{code}\n'.format(code=code)
+                output += '{code}\n'.format(code=code)
             output += '}\n'
 
         return output
 
-    def next(self, next, event_handler=None):
+    def next(self, next, event_handler):
         print('next', next)
         if 'block' in next:
             block = next['block']
@@ -267,7 +286,7 @@ class Genarator:
                         if('fields' in block):
                             block['fields']['RANDOM_VARIABLE'] = random_variable_name
                             code = code.format(**block['fields'])
-                        self.application_init.append('\t' + code)
+                        self.application_init.append(('\t' * self.indent) + code)
                     self.application_init.append('')
 
             else:
@@ -280,34 +299,31 @@ class Genarator:
                     block_definition = None
 
                 if block_definition:
-                    if event_handler == 'application_task':
-                        random_variable_name = ''.join([random.choice(string.ascii_letters) for n in range(12)])
-                        for code in block_definition['action'][action]:
-                            if('fields' in block):
-                                if('inputs' in block):
-                                    variable=self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['name']
-                                    if(self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['type'] == 'Integer'):
-                                        format_string = '%d'
-                                    elif(self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['type'] == 'Float'):
-                                        format_string = '%.1f'
-                                    block['fields']['VARIABLE'] = variable
-                                    block['fields']['FORMAT_STRING'] = format_string          
-                                block['fields']['RANDOM_VARIABLE'] = random_variable_name
-                                code = code.format(**block['fields'])
-                            self.application_task.append(code)
-                        self.application_task.append('')
-                    elif(event_handler != None and event_handler != 'application_task'):
-                        random_variable_name = ''.join([random.choice(string.ascii_letters) for n in range(12)])
-                        for code in block_definition['action'][action]:
-                            if('fields' in block):
-                                block['fields']['RANDOM_VARIABLE'] = random_variable_name
-                                code = code.format(**block['fields'])
-                            event_handler.append(code)
-                        event_handler.append('')
+                    random_variable_name = ''.join([random.choice(string.ascii_letters) for n in range(12)])
+                    for code in block_definition['action'][action]:
+                        if('fields' in block):
+                            if('inputs' in block):
+                                variable=self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['name']
+                                if(self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['type'] == 'Integer'):
+                                    format_string = '%d'
+                                elif(self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['type'] == 'Float'):
+                                    format_string = '%.1f'
+                                block['fields']['VARIABLE'] = variable
+                                block['fields']['FORMAT_STRING'] = format_string          
+                            block['fields']['RANDOM_VARIABLE'] = random_variable_name
+                            code = code.format(**block['fields'])
+                        event_handler.append('\t' * self.indent + code)
+                    event_handler.append('')
                 elif(block['type'] == 'controls_if'):
                     self.generate_if_statement(block, event_handler)
                 elif(block['type'] == 'controls_repeat_ext' or block['type'] == 'controls_whileUntil' or block['type'] == 'controls_for'):
                     self.generate_loop(block, event_handler)
+                elif(block['type'] == 'variables_set_integer'):
+                    code = '{variable} = (int)({value});'.format(variable=self.variables[block['fields']['VAR']['id']]['name'], value=self.generate_sub_section(block['inputs']['VALUE']['block']))
+                    event_handler.append(('\t' * self.indent) + code)
+                elif(block['type'] == 'variables_set_float'):
+                    code = '{variable} = (float)({value});'.format(variable=self.variables[block['fields']['VAR']['id']]['name'], value=self.generate_sub_section(block['inputs']['VALUE']['block']))
+                    event_handler.append(('\t' * self.indent) + code)
 
             if 'next' in block:
                 self.next(block['next'], event_handler)

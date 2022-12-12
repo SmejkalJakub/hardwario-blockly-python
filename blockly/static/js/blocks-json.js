@@ -1065,6 +1065,137 @@ Blockly.defineBlocksWithJsonArray([{
    "helpUrl": ""
  },
  {
+   "type": "hio_lcd_led_blink",
+   "message0": "LCD %1 LED Blink %2 times",
+   "args0": [
+      {
+       "type": "field_dropdown",
+       "name": "LED",
+       "options": [
+         [
+           "RED",
+           "lcdLedRed"
+         ],
+         [
+           "GREEN",
+           "lcdLedGreen",
+         ],
+         [
+           "BLUE",
+           "lcdLedBlue"
+         ],
+       ]
+     },
+     {
+       "type": "field_input",
+       "name": "COUNT",
+       "text": "1"
+     }
+   ],
+   "previousStatement": null,
+   "nextStatement": null,
+   "colour": 345,
+   "tooltip": "",
+   "helpUrl": ""
+ },
+ {
+   "type": "hio_lcd_led_pulse",
+   "message0": "LCD %1 LED Pulse for %2 milliseconds",
+   "args0": [
+      {
+       "type": "field_dropdown",
+       "name": "LED",
+       "options": [
+         [
+           "RED",
+           "lcdLedRed"
+         ],
+         [
+           "GREEN",
+           "lcdLedGreen",
+         ],
+         [
+           "BLUE",
+           "lcdLedBlue"
+         ],
+       ]
+     },
+     {
+       "type": "field_input",
+       "name": "DURATION",
+       "text": "1000"
+     }
+   ],
+   "previousStatement": null,
+   "nextStatement": null,
+   "colour": 345,
+   "tooltip": "",
+   "helpUrl": ""
+ },
+ {
+   "type": "hio_lcd_led_set_mode",
+   "message0": "Set LCD %1 LED mode to %2",
+   "args0": [
+     {
+       "type": "field_dropdown",
+       "name": "LED",
+       "options": [
+         [
+           "RED",
+           "lcdLedRed"
+         ],
+         [
+           "GREEN",
+           "lcdLedGreen",
+         ],
+         [
+           "BLUE",
+           "lcdLedBlue"
+         ],
+       ]
+     },
+     {
+       "type": "field_dropdown",
+       "name": "MODE",
+       "options": [
+         [
+           "TWR_LED_MODE_BLINK",
+           "TWR_LED_MODE_BLINK"
+         ],
+         [
+           "TWR_LED_MODE_BLINK_FAST",
+           "TWR_LED_MODE_BLINK_FAST"
+         ],
+         [
+           "TWR_LED_MODE_BLINK_SLOW",
+           "TWR_LED_MODE_BLINK_SLOW"
+         ],
+         [
+           "TWR_LED_MODE_FLASH",
+           "TWR_LED_MODE_FLASH"
+         ],
+         [
+           "TWR_LED_MODE_OFF",
+           "TWR_LED_MODE_OFF"
+         ],
+         [
+           "TWR_LED_MODE_ON",
+           "TWR_LED_MODE_ON"
+         ],
+         [
+           "TWR_LED_MODE_TOGGLE",
+           "TWR_LED_MODE_TOGGLE"
+         ]
+       ]
+     }
+   ],
+   "previousStatement": null,
+   "nextStatement": null,
+   "colour": 345,
+   "tooltip": "",
+   "helpUrl": ""
+ },
+ {
    "type": "hio_climate_initialize",
    "message0": "Initialize Climate Module %1 With Update interval %2 ms",
    "args0": [
@@ -1145,7 +1276,6 @@ Blockly.defineBlocksWithJsonArray([{
     {
       "type": "input_value",
       "name": "VALUE",
-      "check": "Integer" 
     }
   ],
   "previousStatement": null,
@@ -1179,7 +1309,6 @@ Blockly.defineBlocksWithJsonArray([{
     {
       "type": "input_value",
       "name": "VALUE",
-      "check": "Float"
     }
   ],
   "previousStatement": null,

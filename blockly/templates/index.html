@@ -124,7 +124,6 @@
           </category>
           <category name="Power Module">
             <block type="hio_power_relay_state_set">
-              <field name="STATE">ON</field>
             </block>
             <block type="hio_power_relay_state_value"></block>
           </category>
@@ -169,6 +168,15 @@
             <block type="hio_lcd_printf">
               <field name="LEFT">0</field>
               <field name="TOP">0</field>
+            </block>
+            <block type="hio_lcd_led_blink">
+              <field name="COUNT">1</field>
+            </block>
+            <block type="hio_lcd_led_pulse">
+              <field name="DURATION">1000</field>
+            </block>
+            <block type="hio_lcd_led_set_mode">
+              <field name="MODE">TWR_LED_MODE_BLINK</field>
             </block>
           </category>
           <category name="Climate Module">
