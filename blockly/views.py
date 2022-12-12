@@ -23,6 +23,12 @@ def parse_code(request):
     #response = HttpResponse(path, content_type=mime_type)
     #response['Content-Disposition'] = "attachment; filename=%s" % filename
     return response
+
+def update_code(request):
+    code = request.GET.get('Code')    
+    print(code)
+    code = code_generator.generate_code(code)
+    return HttpResponse(code, content_type="text/plain") 
     
 def download_code(request):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

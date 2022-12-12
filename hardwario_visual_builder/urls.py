@@ -4,5 +4,6 @@ from blockly import views as blockly_views
 urlpatterns = [
     path('', blockly_views.index, name="blockly"),
     path('parse_code', blockly_views.parse_code, name="parse_code"),
-    path('download_code', blockly_views.download_code, name="download_code")
+    path('download_code', blockly_views.download_code, name="download_code"),
+    path('update_code', blockly_views.update_code, name="update_code")
 ]

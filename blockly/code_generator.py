@@ -181,7 +181,8 @@ class Genarator:
                 print(self.event_handlers)
                 name = block['type'][len('hio_'):(len(block['type']) - len('_event'))]
                 full_event_name = self.blocks[name]['handler']['events']['prefix'] + block['fields']['NAME']
-                self.next(block['inputs']['BLOCKS'], self.event_handlers[name + '_handler'][full_event_name])
+                if('inputs' in block):
+                    self.next(block['inputs']['BLOCKS'], self.event_handlers[name + '_handler'][full_event_name])
             print('#')
 
         print('global_variable', self.global_variable)
@@ -189,47 +190,51 @@ class Genarator:
         print('application_task', self.application_task)
         print('event_handlers', self.event_handlers)
 
-        self.print_code()
+        return self.print_code()
     
     def print_code(self):
-        print('#include <application.h>')
-        print('')
+        output = ''
+
+        output += '#include <application.h>\n'
+        output += '\n'
         for code in self.global_variable:
-            print(code)
+            output += code + '\n'
         
-        print('')
+        output += '\n'
 
         for event_handler in self.event_handlers:
             name = event_handler[:-(len('_handler'))]
             block_definition = self.blocks[name]
             if block_definition:
-                print(block_definition['handler']['declaration'] + ' {')
+                output += block_definition['handler']['declaration'] + ' {\n'
                 index = 0
                 for event in self.event_handlers[event_handler]:
                     if(self.event_handlers[event_handler][event] == []):
                         continue
                     if(index == 0):
-                        print('\tif (event == {event}) {{'.format(event=event))
+                        output += '\tif (event == {event}) {{\n'.format(event=event)
                     else:
-                        print('\telse if (event == {event}) {{'.format(event=event))
+                        output += '\telse if (event == {event}) {{\n'.format(event=event)
                     for code in self.event_handlers[event_handler][event]:
-                        print('\t\t{code}'.format(code=code))
-                    print('\t}')
+                        output += '\t\t{code}\n'.format(code=code)
+                    output += '\t}\n'
                     index += 1
-                print('}')
-                print('')
+                output += '}\n'
+                output += '\n'
 
-        print('void application_init(void) {')
+        output += 'void application_init(void) {\n'
         for code in self.application_init:
-            print('\t{code}'.format(code=code))
-        print('}')
+            output += '\t{code}\n'.format(code=code)
+        output += '}\n'
 
-        print('')
+        output += '\n'
 
-        print('void application_task(void) {')
+        output += 'void application_task(void) {\n'
         for code in self.application_task:
-            print('\t{code}'.format(code=code))
-        print('}')
+            output += '\t{code}\n'.format(code=code)
+        output += '}\n'
+
+        return output
 
     def next(self, next, event_handler=None):
         print('next', next)
@@ -303,7 +308,11 @@ def generate_code(code):
 
     gen = Genarator()
 
-    gen.generate_code(data)
+    output = gen.generate_code(data)
+
+    print(output)
+
+    return output
 
     #output = ""
     #

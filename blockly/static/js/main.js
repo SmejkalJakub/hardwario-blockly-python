@@ -17,6 +17,9 @@ var options = {
   oneBasedIndex: true,
 };
 
+// On page load function
+window.addEventListener('load', switch_code);
+
 var blocklyArea = document.getElementById('blocklyArea');
 var blocklyDiv = document.getElementById('blocklyDiv');
 var workspace = Blockly.inject('blocklyDiv', options);
@@ -219,7 +222,40 @@ function onBlockEvent(event) {
   }
   if (event.type == Blockly.Events.BLOCK_MOVE) {
     console.log("block moved");
+    update_code();
   }
+}
+
+function switch_code() {
+  var switch_button = document.getElementById("switch_code_button");
+  var code_div = document.getElementById("code-div");
+  if (code_div.style.display === "none") {
+    switch_button.innerText = "Hide Code";
+    code_div.style.display = "block";
+    $(".grid-container").css("display","grid").css("grid-template-columns","1fr 1fr");
+  } else {
+    switch_button.innerText = "Show Code";
+    code_div.style.display = "none";
+    $(".grid-container").css("display","grid").css("grid-template-columns","1fr");
+  }
+  onresize();
+}
+
+function update_code() {
+  $.ajax({
+    url: "/update_code",
+    type: "GET",
+        data: {
+        Code: exportJSON(),
+    },
+
+  }).done(function(data) {
+    data = data.replace(/</g, '&lt;');
+    data = data.replace(/>/g, '&gt;');
+    data = data.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    data = data.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+    document.getElementById("code").innerHTML = data;
+  });
 }
 
 function exportWorkspace() {
