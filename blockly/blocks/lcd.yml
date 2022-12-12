@@ -8,6 +8,20 @@ lcd:
     - twr_gfx_set_font(pgfx, &twr_font_ubuntu_15);
     - twr_gfx_draw_string(pgfx, 20, 50, "LCD WORKING", true);
     - twr_gfx_update(pgfx);
+  handler:
+    declaration: void lcd_event_handler(twr_module_lcd_event_t event, void *param)
+    events:
+      prefix: TWR_MODULE_LCD_EVENT_
+      enum: 
+        LEFT_PRESS:
+        LEFT_RELEASE:
+        LEFT_CLICK:
+        LEFT_HOLD:
+        RIGHT_PRESS:
+        RIGHT_RELEASE:
+        RIGHT_CLICK:
+        RIGHT_HOLD:
+        BOTH_HOLD:
   action:
     draw_string:
       - twr_gfx_draw_string(pgfx, {LEFT}, {TOP}, "{STRING}", true);

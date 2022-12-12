@@ -1007,6 +1007,64 @@ Blockly.defineBlocksWithJsonArray([{
    "helpUrl": ""
  },
  {
+   "type": "hio_lcd_event",
+   "message0": "On LCD Button %1 %2 %3",
+   "args0": [
+     {
+       "type": "field_dropdown",
+       "name": "NAME",
+       "options": [
+         [
+           "LEFT PRESS",
+           "LEFT_PRESS"
+         ],
+         [
+           "LEFT RELEASE",
+           "LEFT_RELEASE"
+         ],
+         [
+           "LEFT CLICK",
+           "LEFT_CLICK"
+         ],
+         [
+           "LEFT HOLD",
+           "LEFT_HOLD"
+         ],
+         [
+           "RIGHT PRESS",
+           "RIGHT_PRESS"
+         ],
+         [
+           "RIGHT RELEASE",
+           "RIGHT_RELEASE"
+         ],
+         [
+           "RIGHT CLICK",
+           "RIGHT_CLICK"
+         ],
+         [
+           "RIGHT HOLD",
+           "RIGHT_HOLD"
+         ],
+         [
+           "BOTH HOLD",
+           "BOTH_HOLD"
+         ]
+       ]
+     },
+     {
+       "type": "input_dummy"
+     },
+     {
+       "type": "input_statement",
+       "name": "BLOCKS"
+     }
+   ],
+   "colour": 230,
+   "tooltip": "",
+   "helpUrl": ""
+ },
+ {
    "type": "hio_climate_initialize",
    "message0": "Initialize Climate Module %1 With Update interval %2 ms",
    "args0": [

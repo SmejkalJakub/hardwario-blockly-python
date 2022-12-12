@@ -176,7 +176,7 @@ class Genarator:
             print(block['type'])
             if block['type'] == 'hio_application_task':
                 if('inputs' in block):
-                    self.application_init.append('twr_scheduler_plan_from_now(0, {TASK_INTERVAL});'.format(**block['fields']))
+                    self.application_init.append('\ttwr_scheduler_plan_from_now(0, {TASK_INTERVAL});'.format(**block['fields']))
                     self.next(block['inputs']['BLOCKS'], 'application_task')
                     self.application_task.append('twr_scheduler_plan_current_relative({TASK_INTERVAL});'.format(**block['fields']))
             if 'event' in block['type']:
@@ -234,7 +234,7 @@ class Genarator:
 
         output += 'void application_init(void) {\n'
         for code in self.application_init:
-            output += '\t{code}\n'.format(code=code)
+            output += '{code}\n'.format(code=code)
         output += '}\n'
 
         output += '\n'
@@ -267,7 +267,7 @@ class Genarator:
                         if('fields' in block):
                             block['fields']['RANDOM_VARIABLE'] = random_variable_name
                             code = code.format(**block['fields'])
-                        self.application_init.append(code)
+                        self.application_init.append('\t' + code)
                     self.application_init.append('')
 
             else:
