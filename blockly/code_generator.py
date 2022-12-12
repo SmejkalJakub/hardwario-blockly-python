@@ -169,14 +169,16 @@ class Genarator:
 
         for block in data['blocks']['blocks']:
             if block['type'] == 'hio_application_initialize':
-                self.next(block['inputs']['BLOCKS'])
+                if('inputs' in block):
+                    self.next(block['inputs']['BLOCKS'])
 
         for block in data['blocks']['blocks']:
             print(block['type'])
             if block['type'] == 'hio_application_task':
-                self.application_init.append('twr_scheduler_plan_from_now(0, {TASK_INTERVAL});'.format(**block['fields']))
-                self.next(block['inputs']['BLOCKS'], 'application_task')
-                self.application_task.append('twr_scheduler_plan_current_relative({TASK_INTERVAL});'.format(**block['fields']))
+                if('inputs' in block):
+                    self.application_init.append('twr_scheduler_plan_from_now(0, {TASK_INTERVAL});'.format(**block['fields']))
+                    self.next(block['inputs']['BLOCKS'], 'application_task')
+                    self.application_task.append('twr_scheduler_plan_current_relative({TASK_INTERVAL});'.format(**block['fields']))
             if 'event' in block['type']:
                 print(self.event_handlers)
                 name = block['type'][len('hio_'):(len(block['type']) - len('_event'))]
@@ -206,21 +208,29 @@ class Genarator:
             name = event_handler[:-(len('_handler'))]
             block_definition = self.blocks[name]
             if block_definition:
-                output += block_definition['handler']['declaration'] + ' {\n'
-                index = 0
+                something_in_event = False
                 for event in self.event_handlers[event_handler]:
                     if(self.event_handlers[event_handler][event] == []):
                         continue
-                    if(index == 0):
-                        output += '\tif (event == {event}) {{\n'.format(event=event)
                     else:
-                        output += '\telse if (event == {event}) {{\n'.format(event=event)
-                    for code in self.event_handlers[event_handler][event]:
-                        output += '\t\t{code}\n'.format(code=code)
-                    output += '\t}\n'
-                    index += 1
-                output += '}\n'
-                output += '\n'
+                        something_in_event = True
+                        break
+                if(something_in_event):
+                    output += block_definition['handler']['declaration'] + ' {\n'
+                    index = 0
+                    for event in self.event_handlers[event_handler]:
+                        if(self.event_handlers[event_handler][event] == []):
+                            continue
+                        if(index == 0):
+                            output += '\tif (event == {event}) {{\n'.format(event=event)
+                        else:
+                            output += '\telse if (event == {event}) {{\n'.format(event=event)
+                        for code in self.event_handlers[event_handler][event]:
+                            output += '\t\t{code}\n'.format(code=code)
+                        output += '\t}\n'
+                        index += 1
+                    output += '}\n'
+                    output += '\n'
 
         output += 'void application_init(void) {\n'
         for code in self.application_init:
@@ -229,10 +239,11 @@ class Genarator:
 
         output += '\n'
 
-        output += 'void application_task(void) {\n'
-        for code in self.application_task:
-            output += '\t{code}\n'.format(code=code)
-        output += '}\n'
+        if(self.application_task != []):
+            output += 'void application_task(void) {\n'
+            for code in self.application_task:
+                output += '\t{code}\n'.format(code=code)
+            output += '}\n'
 
         return output
 

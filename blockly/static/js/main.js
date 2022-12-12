@@ -222,8 +222,8 @@ function onBlockEvent(event) {
   }
   if (event.type == Blockly.Events.BLOCK_MOVE) {
     console.log("block moved");
-    update_code();
   }
+  update_code();
 }
 
 function switch_code() {
