@@ -27,7 +27,7 @@ def parse_code(request):
 def update_code(request):
     code = request.GET.get('Code')    
     print(code)
-    code = code_generator.generate_code(code)
+    code = code_generator.generate_code(code, True)
     return HttpResponse(code, content_type="text/plain") 
     
 def download_code(request):

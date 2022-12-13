@@ -39,5 +39,14 @@ climate:
           - return;
           - '}'
           - climate_pressure_value = value;
+          - climate_altitude_value = meter;
           - '}'
-        
+  action:
+    publish_temperature:
+      - twr_radio_pub_temperature(TWR_RADIO_PUB_CHANNEL_R1_I2C0_ADDRESS_DEFAULT, &climate_temperature_value);
+    publish_humidity:
+      - twr_radio_pub_humidity(TWR_RADIO_PUB_CHANNEL_R3_I2C0_ADDRESS_DEFAULT, &climate_humidity_value);
+    publish_luminosity:
+      - twr_radio_pub_luminosity(TWR_RADIO_PUB_CHANNEL_R1_I2C0_ADDRESS_DEFAULT, &climate_illuminance_value);
+    publish_barometer:
+      - twr_radio_pub_barometer(TWR_RADIO_PUB_CHANNEL_R1_I2C0_ADDRESS_DEFAULT, &climate_pressure_value, &climate_altitude_value);

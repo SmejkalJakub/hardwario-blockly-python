@@ -162,6 +162,8 @@ function checkCategories() {
   for (const block of workspace.blockDB.values()) {
     if (block.type == 'hio_button_initialize') {
       document.getElementById('blockly-2').style.display = '';
+      //workspace.createVariable('button_click_count', 'Integer');
+      //workspace.createVariable('button_hold_count', 'Integer');
     }
     else if (block.type == 'hio_radio_initialize') {
       document.getElementById('blockly-3').style.display = '';
@@ -172,7 +174,7 @@ function checkCategories() {
     else if (block.type == 'hio_logging_initialize') {
       document.getElementById('blockly-5').style.display = '';
     }
-    else if (block.type == 'hio_core_tmp112_initialize') {
+    else if (block.type == 'hio_coreTmp112_initialize') {
       workspace.createVariable('core_tmp112_value', 'Float');
       document.getElementById('blockly-6').style.display = '';
     }
@@ -187,10 +189,15 @@ function checkCategories() {
     }
     else if (block.type == 'hio_climate_initialize') {
       workspace.createVariable('climate_temperature_value', 'Float');
-      workspace.createVariable('climate_humidity_value', 'Integer');
-      workspace.createVariable('climate_illuminance_value', 'Integer');
+      workspace.createVariable('climate_humidity_value', 'Float');
+      workspace.createVariable('climate_illuminance_value', 'Float');
       workspace.createVariable('climate_pressure_value', 'Float');
+      workspace.createVariable('climate_altitude_value', 'Float');
       document.getElementById('blockly-a').style.display = '';
+    }
+    else if(block.type == 'hio_battery_initialize'){
+      document.getElementById('blockly-b').style.display = '';
+      workspace.createVariable('battery_voltage_value', 'Float');
     }
   }
 }
@@ -223,7 +230,12 @@ function onBlockEvent(event) {
   if (event.type == Blockly.Events.BLOCK_MOVE) {
     console.log("block moved");
   }
-  update_code();
+  if(event.type == Blockly.Events.BLOCK_CREATE || event.type == Blockly.Events.BLOCK_DELETE ||
+    event.type == Blockly.Events.BLOCK_CHANGE || event.type == Blockly.Events.BLOCK_MOVE ||
+    event.type == Blockly.Events.VAR_CREATE || event.type == Blockly.Events.VAR_DELETE ||
+    event.type == Blockly.Events.VAR_RENAME) {
+    update_code();
+  }
 }
 
 function switch_code() {

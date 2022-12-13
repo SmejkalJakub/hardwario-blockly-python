@@ -2,6 +2,8 @@
 button:
   global_variable: 
     - twr_button_t button;
+    - uint16_t button_click_count = 0;
+    - uint16_t button_hold_count = 0;
   application_init:
     - twr_button_init(&button, {GPIO}, {PULL}, 0);
     - twr_button_set_event_handler(&button, button_event_handler, NULL);
@@ -13,4 +15,11 @@ button:
         PRESS:
         RELEASE:
         CLICK:
+          - button_click_count++;
         HOLD:
+          - button_hold_count++;
+  action:
+    publish_click_count:
+      - twr_radio_pub_push_button(&button_click_count);
+    publish_hold_count:
+      - twr_radio_pub_event_count(TWR_RADIO_PUB_EVENT_HOLD_BUTTON, &button_hold_count);

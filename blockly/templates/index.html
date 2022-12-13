@@ -36,7 +36,7 @@
             </block>
             <block type="hio_led_initialize"></block>
             <block type="hio_logging_initialize"></block>
-            <block type="hio_core_tmp112_initialize">
+            <block type="hio_coreTmp112_initialize">
               <field name="UPDATE_INTERVAL">5000</field>
             </block>
             <block type="hio_pir_initialize">
@@ -50,6 +50,9 @@
               <field name="LEDS">36</field>
             </block>
             <block type="hio_lcd_initialize"></block>
+            <block type="hio_battery_initialize">
+              <field name="UPDATE_INTERVAL">5000</field>
+            </block>
           </category>
           <category name="Controls" colour="#E30427">
             <block type="hio_application_task">
@@ -67,9 +70,8 @@
             <block type="hio_button_event">
               <field name="NAME">PRESS</field>
             </block>
-            <block type="hio_button_publish_event_count"></block>
-            <block type="hio_button_clicks_value"></block>
-            <block type="hio_button_holds_value"></block>
+            <block type="hio_button_publish_click_count"></block>
+            <block type="hio_button_publish_hold_count"></block>
           </category>
           <category name="Radio" colour="#CC6600">
             <block type="hio_radio_send_string">
@@ -115,12 +117,14 @@
             </block>
           </category>
           <category name="Core Temperature" colour="#0066CC">
-            <block type="hio_core_tmp112_event">
+            <block type="hio_coreTmp112_event">
               <field name="NAME">UPDATE</field>
             </block>
+            <block type="hio_coreTmp112_publish_temperature_value">
           </category>
           <category name="Motion Detector">
             <block type="hio_pir_event"></block>
+            <block type="hio_pir_publish_motion_count"></block>
           </category>
           <category name="Power Module">
             <block type="hio_power_relay_state_set">
@@ -180,10 +184,15 @@
             </block>
           </category>
           <category name="Climate Module">
-            <block type="hio_climate_temperature_value"></block>
-            <block type="hio_climate_humidity_value"></block>
-            <block type="hio_climate_illuminance_value"></block>
-            <block type="hio_climate_pressure_value"></block>
+            <block type="hio_climate_event"></block>
+            <block type="hio_climate_publish_temperature"></block>
+            <block type="hio_climate_publish_humidity"></block>
+            <block type="hio_climate_publish_luminosity"></block>
+            <block type="hio_climate_publish_barometer"></block>
+          </category>
+          <category name="Battery Module">
+            <block type="hio_battery_publish_voltage"></block>
+            <block type="hio_battery_event"></block>
           </category>
           <category name="Values" colour="#E30427">
             <block type="hio_integer_value">

@@ -1,5 +1,5 @@
 ---
-core_tmp112:
+coreTmp112:
   global_variable:
     - twr_tmp112_t core_tmp112;
   application_init:
@@ -16,3 +16,6 @@ core_tmp112:
           - if (twr_tmp112_get_temperature_celsius(self, &value)) {
           - core_tmp112_value = value;
           - '}'
+  action:
+    publish_temperature_value:
+      - twr_radio_pub_temperature(TWR_RADIO_PUB_CHANNEL_R1_I2C0_ADDRESS_ALTERNATE, &core_tmp112_value);

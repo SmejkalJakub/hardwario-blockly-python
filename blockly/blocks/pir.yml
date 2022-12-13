@@ -2,6 +2,7 @@
 pir:
   global_variable: 
     - twr_module_pir_t pir;
+    - uint16_t pir_event_count = 0;
   application_init:
     - twr_module_pir_init(&pir);
     - twr_module_pir_set_sensitivity(&pir, {SENSITIVITY});
@@ -12,4 +13,11 @@ pir:
       prefix: TWR_MODULE_PIR_EVENT_
       enum: 
         MOTION:
+          - pir_event_count++;
+  action:
+    publish_motion_count:
+      - twr_radio_pub_event_count(TWR_RADIO_PUB_EVENT_PIR_MOTION, &pir_event_count);
+        
+
+
       

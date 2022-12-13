@@ -12,7 +12,7 @@
     </block>
     <block type="hio_led_initialize"></block>
     <block type="hio_logging_initialize"></block>
-    <block type="hio_core_tmp112_initialize">
+    <block type="hio_coreTmp112_initialize">
       <field name="UPDATE_INTERVAL">5000</field>
     </block>
     <block type="hio_pir_initialize">
@@ -43,9 +43,8 @@
     <block type="hio_button_event">
       <field name="NAME">PRESS</field>
     </block>
-    <block type="hio_button_publish_event_count"></block>
-    <block type="hio_button_clicks_value"></block>
-    <block type="hio_button_holds_value"></block>
+    <block type="hio_button_publish_click_count"></block>
+    <block type="hio_button_publish_hold_count"></block>
   </category>
   <category name="Radio" colour="#CC6600">
     <block type="hio_radio_send_string">
@@ -91,7 +90,7 @@
     </block>
   </category>
   <category name="Temperature" colour="#0066CC">
-    <block type="hio_core_tmp112_value"></block>
+    <block type="hio_coreTmp112_value"></block>
   </category>
   <category name="Motion Detector">
     <block type="hio_pir_event"></block>

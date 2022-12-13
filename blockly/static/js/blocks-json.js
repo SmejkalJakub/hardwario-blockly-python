@@ -333,8 +333,17 @@ Blockly.defineBlocksWithJsonArray([{
    "helpUrl": ""
  },
  {
-   "type": "hio_button_publish_event_count",
-   "message0": "Publish button event over the radio",
+   "type": "hio_button_publish_click_count",
+   "message0": "Publish button click event over the radio",
+   "previousStatement": null,
+   "nextStatement": null,
+   "colour": 345,
+   "tooltip": "",
+   "helpUrl": ""
+ },
+ {
+   "type": "hio_button_publish_hold_count",
+   "message0": "Publish button hold event over the radio",
    "previousStatement": null,
    "nextStatement": null,
    "colour": 345,
@@ -464,7 +473,7 @@ Blockly.defineBlocksWithJsonArray([{
    "helpUrl": ""
  },
  {
-   "type": "hio_core_tmp112_initialize",
+   "type": "hio_coreTmp112_initialize",
    "message0": "Initialize Core Module Temperature Sensor %1 With Update interval %2 ms",
    "args0": [
      {
@@ -485,10 +494,11 @@ Blockly.defineBlocksWithJsonArray([{
    "helpUrl": ""
  },
  {
-   "type": "hio_core_tmp112_value",
-   "message0": "Core Temperature",
-   "output": null,
-   "colour": 230,
+   "type": "hio_coreTmp112_publish_temperature_value",
+   "message0": "Publish Core Temperature over the radio",
+   "previousStatement": null,
+   "nextStatement": null,
+   "colour": 345,
    "tooltip": "",
    "helpUrl": ""
  },
@@ -517,22 +527,6 @@ Blockly.defineBlocksWithJsonArray([{
        "text": "text"
      }
    ],
-   "output": null,
-   "colour": 230,
-   "tooltip": "",
-   "helpUrl": ""
- },
- {
-   "type": "hio_button_clicks_value",
-   "message0": "Button Clicks",
-   "output": null,
-   "colour": 230,
-   "tooltip": "",
-   "helpUrl": ""
- },
- {
-   "type": "hio_button_holds_value",
-   "message0": "Button Holds",
    "output": null,
    "colour": 230,
    "tooltip": "",
@@ -601,8 +595,18 @@ Blockly.defineBlocksWithJsonArray([{
  },
  {
    "type": "hio_pir_event",
-   "message0": "On Movement Detected %1 %2",
+   "message0": "On %1 Detected %2 %3",
    "args0": [
+     {
+       "type": "field_dropdown",
+       "name": "NAME",
+       "options": [
+         [
+           "MOTION",
+           "MOTION"
+         ],
+       ]
+     },
      {
        "type": "input_dummy"
      },
@@ -616,7 +620,16 @@ Blockly.defineBlocksWithJsonArray([{
    "helpUrl": ""
  },
  {
-   "type": "hio_core_tmp112_event",
+   "type": "hio_pir_publish_motion_count",
+   "message0": "Publish Motion Event Count over the radio",
+   "previousStatement": null,
+   "nextStatement": null,
+   "colour": 345,
+   "tooltip": "",
+   "helpUrl": ""
+ },
+ {
+   "type": "hio_coreTmp112_event",
    "message0": "On Core Temperature %1 %2 %3",
    "args0": [
      {
@@ -1217,6 +1230,44 @@ Blockly.defineBlocksWithJsonArray([{
    "helpUrl": ""
  },
  {
+   "type": "hio_climate_event",
+   "message0": "On Climate Module %1 Update %2 %3",
+   "args0": [
+     {
+       "type": "field_dropdown",
+       "name": "NAME",
+       "options": [
+         [
+           "TEMPERATURE",
+           "THERMOMETER"
+         ],
+         [
+           "HUMIDITY",
+           "HYGROMETER"
+         ],
+         [
+           "LUX METER",
+           "LUX_METER"
+         ],
+         [
+           "BAROMETER",
+           "BAROMETER"
+         ],
+       ]
+     },
+     {
+       "type": "input_dummy"
+     },
+     {
+       "type": "input_statement",
+       "name": "BLOCKS"
+     }
+   ],
+   "colour": 230,
+   "tooltip": "",
+   "helpUrl": ""
+ },
+ {
    "type": "hio_climate_temperature_value",
    "message0": "Climate Temperature",
    "output": null,
@@ -1245,6 +1296,42 @@ Blockly.defineBlocksWithJsonArray([{
    "message0": "Climate Atmospheric Pressure",
    "output": null,
    "colour": 230,
+   "tooltip": "",
+   "helpUrl": ""
+ },
+ {
+   "type": "hio_climate_publish_temperature",
+   "message0": "Publish Climate Temperature over the radio",
+   "previousStatement": null,
+   "nextStatement": null,
+   "colour": 345,
+   "tooltip": "",
+   "helpUrl": ""
+ },
+ {
+   "type": "hio_climate_publish_humidity",
+   "message0": "Publish Climate Humidity over the radio",
+   "previousStatement": null,
+   "nextStatement": null,
+   "colour": 345,
+   "tooltip": "",
+   "helpUrl": ""
+ },
+ {
+   "type": "hio_climate_publish_luminosity",
+   "message0": "Publish Climate Luminosity over the radio",
+   "previousStatement": null,
+   "nextStatement": null,
+   "colour": 345,
+   "tooltip": "",
+   "helpUrl": ""
+ },
+ {
+   "type": "hio_climate_publish_barometer",
+   "message0": "Publish Climate Pressure and Altitude over the radio",
+   "previousStatement": null,
+   "nextStatement": null,
+   "colour": 345,
    "tooltip": "",
    "helpUrl": ""
  },
@@ -1352,4 +1439,61 @@ Blockly.defineBlocksWithJsonArray([{
   "colour": 230,
   "tooltip": "",
   "helpUrl": ""
-}]);
+},
+{
+  "type": "hio_battery_initialize",
+  "message0": "Initialize Battery Module %1 With Update interval %2 ms",
+  "args0": [
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "field_number",
+      "name": "UPDATE_INTERVAL",
+      "value": 5000,
+      "min": 100,
+      "max": 40000
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 345,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "hio_battery_publish_voltage",
+  "message0": "Publish battery voltage over the radio",
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 345,
+  "tooltip": "",
+  "helpUrl": ""
+},
+{
+  "type": "hio_battery_event",
+  "message0": "On Battery Module %1 %2 %3",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "NAME",
+      "options": [
+        [
+          "UPDATE",
+          "UPDATE"
+        ],
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "BLOCKS"
+    }
+  ],
+  "colour": 230,
+  "tooltip": "",
+  "helpUrl": ""
+},
+]);
