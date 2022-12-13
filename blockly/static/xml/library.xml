@@ -1337,7 +1337,7 @@
             </statement>
             <next>
               <block type="input_statement" id="`nBNkz$,7cRlUmz2^svS">
-                <field name="INPUTNAME">blocks</field>
+                <field name="INPUTNAME">BLOCKS</field>
                 <field name="ALIGN">LEFT</field>
                 <value name="TYPE">
                   <shadow type="type_null" id="U}(AT?(v~,{S4KEb|z7T"></shadow>
@@ -1504,7 +1504,7 @@
     </value>
   </block><block type="factory_base" id="J|w-WKC7(0[ADuaUbU]o" deletable="false" movable="false" x="10" y="10">
     <mutation connections="BOTH"></mutation>
-    <field name="NAME">hio_led_strip_initialize</field>
+    <field name="NAME">hio_ledStrip_initialize</field>
     <field name="INLINE">AUTO</field>
     <field name="CONNECTIONS">BOTH</field>
     <statement name="INPUTS">
@@ -2332,6 +2332,203 @@
     </value>
     <value name="COLOUR">
       <block type="colour_hue" id="Mk2c(0tFl:kA]--vaG0O">
+        <mutation colour="#5b67a5"></mutation>
+        <field name="HUE">230</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="=sqN75@Mx=;,/S$F;6|I" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">hio_climate_initialize</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="_Mj]gOM2_s3m=lC2o0NA">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="!nGuuyWWrSi%6miW/~`~">
+            <field name="TEXT">Initialize Climate Module</field>
+          </block>
+        </statement>
+        <next>
+          <block type="input_dummy" id="!rwtK=es(X(noi0a{ij,">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="tF+T8rfuKoqhw;68{qA]">
+                <field name="TEXT">With Update interval</field>
+                <next>
+                  <block type="field_number" id="~Xz0i*+%7gn)U7ARK-g]">
+                    <field name="VALUE">5000</field>
+                    <field name="FIELDNAME">UPDATE_INTERVAL</field>
+                    <field name="MIN">100</field>
+                    <field name="MAX">40000</field>
+                    <field name="PRECISION">0</field>
+                    <next>
+                      <block type="field_static" id="Pg*7;m$WMZE.=$aAt.IU">
+                        <field name="TEXT">ms</field>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="+/~0?$ISWy6m@4j{^?Io" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id=")3I{:@U#OT9NuJsinhs0" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="]IdHF-H0NvuaButgHrvf"></shadow>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="1vuSwShg=t31W_F1=Gnv"></shadow>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="2:G1z=^:3PqbENs~%*%P">
+        <mutation colour="#5b67a5"></mutation>
+        <field name="HUE">230</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="jkWzlBgh-^=hN`yCN9Bq" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">hio_climate_temperature_value</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="BT(!b,#mB{xHk2kTa05F">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="?|iJf8~3qX0AsICPxo6j">
+            <field name="TEXT">Climate Temperature</field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="rvagMz9=]lj%haY;01.*" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="aH_P_Ohf_D/}mY_;F0Y6" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="vtq]fb1oJo@;bW57sM|%"></shadow>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="/_Dy6bm{@:t8,juV{dd,">
+        <mutation colour="#5b67a5"></mutation>
+        <field name="HUE">230</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="z(K(hT4NwXnsKtXd:7.S" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">hio_climate_humidity_value</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="%kwOv]y@n?kPbTg0`Dn%">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="s8jREy,CVfCU|j-{{*9[">
+            <field name="TEXT">Climate Humidity</field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="p@-;HDj*NC1kxbM%L}_i" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id=".9lR_*-k[[DE#m]u9~nl" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="MN-pWW~izuYeBkGZinqF"></shadow>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="4Y^yFPH)ZMb]x/!XzRT9">
+        <mutation colour="#5b67a5"></mutation>
+        <field name="HUE">230</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="OPr(0T28nt/GOx*)#:d@" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">hio_climate_illuminance_value</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="L*f(4rmx;.Lwo|Gyjy|I">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="Xm(JEvx4p29O1$^-`y=,">
+            <field name="TEXT">Climate Illuminance </field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="p9An{KP=gkog._(_bSI)" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="OA6j`gWLaeQ0%F,`$2hI" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="L(%nbO?}4K1-m0$Qb)}e"></shadow>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="$5*Gw]UUq3L**khQs/$U">
+        <mutation colour="#5b67a5"></mutation>
+        <field name="HUE">230</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="}Ts$v_6F_p{O2=40tY+f" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">hio_climate_pressure_value</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="m0=G=1eY[v9b*UHqs6?i">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="MgO8!2QWfyQT)b7Y7|jc">
+            <field name="TEXT">Climate Atmospheric Pressure</field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id=",BmTgJ%[F1uUpmdvwj=!" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="`Wca6s87MxuH~:Bh#DI4" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="J!}#FM?lkr8MX*U^Bf]3"></shadow>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="Q-P}DXYz07Cj_eN80KCh">
         <mutation colour="#5b67a5"></mutation>
         <field name="HUE">230</field>
       </block>

@@ -1,0 +1,60 @@
+---
+lcd:
+  global_variable:
+    - twr_gfx_t *pgfx;
+    - twr_led_t lcdLedRed;
+    - twr_led_t lcdLedGreen;
+    - twr_led_t lcdLedBlue;
+  application_init:
+    - twr_module_lcd_init();
+    - pgfx = twr_module_lcd_get_gfx();
+    - twr_gfx_set_font(pgfx, &twr_font_ubuntu_15);
+    - twr_gfx_draw_string(pgfx, 20, 50, "LCD WORKING", true);
+    - twr_gfx_update(pgfx);
+    - const twr_led_driver_t* driver = twr_module_lcd_get_led_driver();
+    - twr_led_init_virtual(&lcdLedRed, TWR_MODULE_LCD_LED_RED, driver, 1);
+    - twr_led_init_virtual(&lcdLedGreen, TWR_MODULE_LCD_LED_GREEN, driver, 1);
+    - twr_led_init_virtual(&lcdLedBlue, TWR_MODULE_LCD_LED_BLUE, driver, 1);
+    - twr_module_lcd_set_event_handler(lcd_event_handler, NULL);
+  handler:
+    declaration: void lcd_event_handler(twr_module_lcd_event_t event, void *param)
+    events:
+      prefix: TWR_MODULE_LCD_EVENT_
+      enum: 
+        LEFT_PRESS:
+        LEFT_RELEASE:
+        LEFT_CLICK:
+        LEFT_HOLD:
+        RIGHT_PRESS:
+        RIGHT_RELEASE:
+        RIGHT_CLICK:
+        RIGHT_HOLD:
+        BOTH_HOLD:
+  action:
+    draw_string:
+      - twr_gfx_draw_string(pgfx, {LEFT}, {TOP}, "{STRING}", true);
+    draw_circle:
+      - twr_gfx_draw_circle(pgfx, {CENTER_X}, {CENTER_Y}, {RADIUS}, true);
+    draw_line:
+      - twr_gfx_draw_line(pgfx, {START_X}, {START_Y}, {END_X}, {END_Y}, true);
+    draw_rectangle:
+      - twr_gfx_draw_rectangle(pgfx, {START_X}, {START_Y}, {END_X}, {END_Y}, true);
+    draw_pixel:
+      - twr_gfx_draw_pixel(pgfx, {LEFT}, {TOP}, true);
+    set_power_state:
+      - twr_module_lcd_{STATE}();
+    clear:
+      - twr_gfx_clear(pgfx);
+    update:
+      - twr_gfx_update(pgfx);
+    set_font:
+      - twr_gfx_set_font(pgfx, &{FONT});
+    printf:
+      - twr_gfx_printf(pgfx, {LEFT}, {TOP}, true, "{FORMAT_STRING}", {VARIABLE});
+    led_blink:
+      - twr_led_blink(&{LED}, {COUNT});
+    led_pulse:
+      - twr_led_pulse(&{LED}, {DURATION});
+    led_set_mode:
+      - twr_led_set_mode(&{LED}, {MODE});
+    

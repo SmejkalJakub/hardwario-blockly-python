@@ -8,7 +8,7 @@
         <next>
           <block type="hio_logging_initialize" id="~?Cr%cEw1bsr%6@s@6,U">
             <next>
-              <block type="hio_core_tmp112_initialize" id="|p4|yJt6cA50!D:zg]T:">
+              <block type="hio_coreTmp112_initialize" id="|p4|yJt6cA50!D:zg]T:">
                 <field name="UPDATE_INTERVAL">5000</field>
               </block>
             </next>
@@ -35,7 +35,7 @@
                       <block type="hio_logging_debug" id="sUR20_~780v(Pu`8ofG!">
                         <field name="MESSAGE">Debug</field>
                         <value name="VARIABLE">
-                          <block type="hio_core_tmp112_value" id="Fw79/]_+|RX6xbRSzgmr"></block>
+                          <block type="hio_coreTmp112_value" id="Fw79/]_+|RX6xbRSzgmr"></block>
                         </value>
                       </block>
                     </next>

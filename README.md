@@ -32,11 +32,11 @@ If you want to create some new blocks, you can use [**Blockly Developer Tools**]
 
 While creating new blocks, you should be mindful of our naming conventions.
 
-The block should be named in this format: `hio_MODULE_ACTION`.For example, `hio_button_initialize` MODULE is **Button Module** and action is **Initialization**
+The block should be named in this format: `hio_MODULE_ACTION`. For example, `hio_button_initialize` MODULE is **Button Module** and action is **Initialization**
 
 If there are any sensors on the module you can use format: `hio_MODULE_SENSOR_ACTION`. For example, `hio_core_tmp112_initialize` is for the initialization of tmp112 sensor on the **Core Module**.
 
-In case of creating a value block (with the left connection) it should follow the same conventions as above but add the string `_value` at the end. For example `hio_core_tmp112_value` for the measured value on the sensor tmp112 present on the **Core Module**. 
+In the case of creating a value block (with the left connection) it should follow the same conventions as above but add the string `_value` at the end. For example `hio_core_tmp112_value` for the measured value on the sensor tmp112 present on the **Core Module**. 
 
 Value Block Example
 

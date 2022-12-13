@@ -37,8 +37,8 @@
                     }
                 },
                 "type": "hio_application_initialize",
-                "x": 30,
-                "y": -88
+                "x": 72,
+                "y": -106
             },
             {
                 "fields": {
@@ -149,8 +149,8 @@
                     }
                 },
                 "type": "hio_application_task",
-                "x": 514,
-                "y": -97
+                "x": 525,
+                "y": -103
             }
         ],
         "languageVersion": 0

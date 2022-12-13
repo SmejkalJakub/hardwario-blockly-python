@@ -1,0 +1,21 @@
+---
+coreTmp112:
+  global_variable:
+    - twr_tmp112_t core_tmp112;
+  application_init:
+    - twr_tmp112_init(&core_tmp112, TWR_I2C_I2C0, 0x49);
+    - twr_tmp112_set_event_handler(&core_tmp112, core_tmp112_event_handler, NULL);
+    - twr_tmp112_set_update_interval(&core_tmp112, {UPDATE_INTERVAL});
+  handler:
+    declaration: void core_tmp112_event_handler(twr_tmp112_t *self, twr_tmp112_event_t event, void *event_param)
+    events:
+      prefix: TWR_TMP112_EVENT_
+      enum: 
+        UPDATE:
+          - float value;
+          - if (twr_tmp112_get_temperature_celsius(self, &value)) {
+          - core_tmp112_value = value;
+          - '}'
+  action:
+    publish_temperature_value:
+      - twr_radio_pub_temperature(TWR_RADIO_PUB_CHANNEL_R1_I2C0_ADDRESS_ALTERNATE, &core_tmp112_value);

@@ -9,9 +9,13 @@ import shutil
 
 variables = {}
 
-operators = {'logic_operation' : {'AND': '&&', 'OR': '||'}, 'logic_compare' : {'EQ': '==', 'NEQ': '!=', 'LT': '<', 'LTE': '<=', 'GT': '>', 'GTE': '>='}, 'math_arithmetic' : {'ADD': '+', 'MINUS': '-', 'MULTIPLY': '*', 'DIVIDE': '/'}}
+variable_types = {'Integer' : 'int', 'Float' : 'float'}
 
-random_core_temperature_suffix = ''.join([random.choice(string.ascii_letters + string.digits  ) for n in range(5)])
+operators = {
+    'logic_operation' : {'AND': '&&', 'OR': '||'}, 
+    'logic_compare' : {'EQ': '==', 'NEQ': '!=', 'LT': '<', 'LTE': '<=', 'GT': '>', 'GTE': '>='}, 
+    'math_arithmetic' : {'ADD': '+', 'MINUS': '-', 'MULTIPLY': '*', 'DIVIDE': '/'}
+    }
 
 def add_initialization_part(block, output):
     if(block['type'] == 'hio_button_initialize'):
@@ -34,12 +38,12 @@ def add_initialization_part(block, output):
 
     elif(block['type'] == 'hio_core_tmp112_initialize'):
         output = output.replace("---GLOBAL VARIABLE---", "twr_tmp112_t core_tmp112;\n---GLOBAL VARIABLE---")
-        output = output.replace("---GLOBAL VARIABLE---", "float core_module_temperature_{random_suffix} = 9999;\n---GLOBAL VARIABLE---".format(random_suffix=random_core_temperature_suffix))
+        #output = output.replace("---GLOBAL VARIABLE---", "float core_tmp112_value = 9999;\n---GLOBAL VARIABLE---")
         output += 'twr_tmp112_init(&core_tmp112, TWR_I2C_I2C0, 0x49);\n\t'
         output += 'twr_tmp112_set_event_handler(&core_tmp112, core_tmp112_event_handler, NULL);\n\t'
         output += 'twr_tmp112_set_update_interval(&core_tmp112, {update_interval});\n\n\t'.format(update_interval=block['fields']['UPDATE_INTERVAL'])
 
-        output = output.replace('---EVENT HANDLER---', 'void core_tmp112_event_handler(twr_tmp112_t *self, twr_tmp112_event_t event, void *event_param)\n{{\n\tif (event == TWR_TMP112_EVENT_UPDATE) {{\n\ttwr_tmp112_get_temperature_celsius(self, &core_module_temperature_{random_suffix});\n\t}}\n}}\n\n---EVENT HANDLER---'.format(random_suffix=random_core_temperature_suffix))
+        output = output.replace('---EVENT HANDLER---', 'void core_tmp112_event_handler(twr_tmp112_t *self, twr_tmp112_event_t event, void *event_param)\n{{\n\tif (event == TWR_TMP112_EVENT_UPDATE) {{\n\ttwr_tmp112_get_temperature_celsius(self, &core_tmp112_value);\n\t}}\n}}\n\n---EVENT HANDLER---')
 
     elif(block['type'] == 'hio_pir_initialize'):
         output = output.replace("---GLOBAL VARIABLE---", "twr_module_pir_t pir;\n---GLOBAL VARIABLE---")
@@ -126,6 +130,66 @@ static struct
         output += 'twr_gfx_draw_string(pgfx, 50, 50, "LCD WORKING", true);\n\t'    
         output += 'twr_gfx_update(pgfx);\n'
     
+    elif(block['type'] == 'hio_climate_initialize'):
+        #output = output.replace("---GLOBAL VARIABLE---", "float climate_temperature_value = 9999;\n---GLOBAL VARIABLE---")
+        #output = output.replace("---GLOBAL VARIABLE---", "float climate_humidity_value = 9999;\n---GLOBAL VARIABLE---")
+        #output = output.replace("---GLOBAL VARIABLE---", "float climate_illuminance_value = 9999;\n---GLOBAL VARIABLE---")
+        #output = output.replace("---GLOBAL VARIABLE---", "float climate_pressure_value = 9999;\n---GLOBAL VARIABLE---")
+
+        output += 'twr_module_climate_init();\n\t'
+        output += 'twr_module_climate_set_event_handler(climate_module_event_handler, NULL);\n\t'
+        output += 'twr_module_climate_set_update_interval_thermometer({update_interval});\n\t'.format(update_interval=block['fields']['UPDATE_INTERVAL'])
+        output += 'twr_module_climate_set_update_interval_hygrometer({update_interval});\n\t'.format(update_interval=block['fields']['UPDATE_INTERVAL'])
+        output += 'twr_module_climate_set_update_interval_lux_meter({update_interval});\n\t'.format(update_interval=block['fields']['UPDATE_INTERVAL'])
+        output += 'twr_module_climate_set_update_interval_barometer({update_interval});\n\t'.format(update_interval=block['fields']['UPDATE_INTERVAL'])
+        output += 'twr_module_climate_measure_all_sensors();\n\t'
+
+        output = output.replace('---EVENT HANDLER---', '''void climate_module_event_handler(twr_module_climate_event_t event, void *event_param)
+{
+    float value;
+
+    if (event == TWR_MODULE_CLIMATE_EVENT_UPDATE_THERMOMETER)
+    {
+        if (twr_module_climate_get_temperature_celsius(&value))
+        {  
+            climate_temperature_value = value;
+        }
+    }
+    else if (event == TWR_MODULE_CLIMATE_EVENT_UPDATE_HYGROMETER)
+    {
+        if (twr_module_climate_get_humidity_percentage(&value))
+        {
+            climate_humidity_value = value;
+        }
+    }
+    else if (event == TWR_MODULE_CLIMATE_EVENT_UPDATE_LUX_METER)
+    {
+        if (twr_module_climate_get_illuminance_lux(&value))
+        {
+            if (value < 1)
+            {
+                value = 0;
+            }
+            
+            climate_illuminance_value = value;
+        }
+    }
+    else if (event == TWR_MODULE_CLIMATE_EVENT_UPDATE_BAROMETER)
+    {
+        if (twr_module_climate_get_pressure_pascal(&value))
+        {
+            float meter;
+
+            if (!twr_module_climate_get_altitude_meter(&meter))
+            {
+                return;
+            }
+            climate_pressure_value = value;
+        }
+    }
+}\n\n---EVENT HANDLER---''')
+
+
     if 'next' in block.keys():
         output = add_initialization_part(block['next']['block'], output)
 
@@ -169,7 +233,7 @@ def add_action(action, json, output):
         log_type = json['type'].split('_')[-1]
         if 'inputs' in json.keys():
             if(json['inputs']['VARIABLE']['block']['type'] == 'hio_core_tmp112_value'):
-                output = output.replace(action, '\t\ttwr_log_{log_type}("{message} %.2f", core_module_temperature_{random_suffix});\n{action}'.format(log_type=log_type, message=json['fields']['MESSAGE'], action=action, random_suffix=random_core_temperature_suffix))
+                output = output.replace(action, '\t\ttwr_log_{log_type}("{message} %.2f", core_tmp112_value);\n{action}'.format(log_type=log_type, message=json['fields']['MESSAGE'], action=action))
         else:
             output = output.replace(action, '\t\ttwr_log_{log_type}("{message}");\n{action}'.format(log_type=log_type, message=json['fields']['MESSAGE'], action=action))
     elif(json['type'] == 'hio_power_relay_state_set'):
@@ -204,6 +268,12 @@ def add_action(action, json, output):
 
     elif(json['type'] == 'hio_lcd_draw_pixel'):
         output = output.replace(action, '\t\ttwr_gfx_draw_pixel(pgfx, {x}, {y}, true);\n{action}'.format(x=json['fields']['LEFT'], y=json['fields']['TOP'], action=action))
+
+    elif(json['type'] == 'hio_lcd_printf'):
+        if(variables[json['inputs']['VALUE']['block']['fields']['VAR']['id']]['type'] == 'Integer'):
+            output = output.replace(action, '\t\ttwr_gfx_printf(pgfx, {x}, {y}, true, "%d", {variable});\n{action}'.format(x=json['fields']['LEFT'], y=json['fields']['TOP'], variable=variables[json['inputs']['VALUE']['block']['fields']['VAR']['id']]['name'], action=action))
+        elif(variables[json['inputs']['VALUE']['block']['fields']['VAR']['id']]['type'] == 'Float'):
+            output = output.replace(action, '\t\ttwr_gfx_printf(pgfx, {x}, {y}, true, "%.1f", {variable});\n{action}'.format(x=json['fields']['LEFT'], y=json['fields']['TOP'], variable=variables[json['inputs']['VALUE']['block']['fields']['VAR']['id']]['name'], action=action))
 
     elif(json['type'] == 'hio_lcd_set_font'):
         output = output.replace(action, '\t\ttwr_gfx_set_font(pgfx, &{font});\n{action}'.format(font=json['fields']['FONT'], action=action))
@@ -267,7 +337,10 @@ def construct_if_statement(block, action, output):
                     output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), 'false')
             elif(if_json['type'] == 'logic_negate'):
                 output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '(!({condition}))'.format(condition=construct_sub_section(if_json['inputs']['BOOL']['block'])))
-                
+
+            elif(if_json['type'].startswith('hio_') and if_json['type'].endswith('_value')):
+                output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({condition})'.format(condition=if_json['type'][4:]))
+
             output = add_action('---{if_random_signature} ACTION---'.format(if_random_signature=if_random_signature), block['inputs']['DO{index}'.format(index=if_index)]['block'], output)
 
         elif(if_statement == 'ELSE'):
@@ -296,6 +369,9 @@ def construct_if_statement(block, action, output):
             elif(if_json['type'] == 'logic_negate'):
                 output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '(!({condition}))'.format(condition=construct_sub_section(if_json['inputs']['BOOL']['block'])))
 
+            elif(if_json['type'].startswith('hio_') and if_json['type'].endswith('_value')):
+                output = output.replace('---{if_random_signature} CONDITION---'.format(if_random_signature=if_random_signature), '({condition})'.format(condition=if_json['type'][4:]))
+           
             output = add_action('---{if_random_signature} ACTION---'.format(if_random_signature=if_random_signature), block['inputs']['DO{index}'.format(index=if_index)]['block'], output)
 
         if(if_statement != 'ELSE'):
@@ -319,16 +395,18 @@ def construct_sub_section(block):
             return 'false'
     elif(block['type'] == 'logic_negate'):
         return '(!({condition}))'.format(condition=construct_sub_section(block['inputs']['BOOL']['block']))
-    elif(block['type'] == 'variables_get'):
-        return variables[block['fields']['VAR']['id']]
-    
+    elif('variables_get' in block['type']):
+        return variables[block['fields']['VAR']['id']]['name']
+    elif(block['type'].startswith('hio_') and block['type'].endswith('_value')):
+        return block['type'][4:]
+           
 def construct_application_task(block, output):
     interval = block['fields']['TASK_INTERVAL']
     output = output.replace('---APPLICATION TASK SCHEDULE---', '\ttwr_scheduler_plan_from_now(0, {interval});'.format(interval=interval))
 
     output = output.replace('---APPLICATION TASK---', 'void application_task()\r\n{\r\n---APPLICATION TASK ACTION---\r\n}')
 
-    output = add_action('---APPLICATION TASK ACTION---', block['inputs']['hio_application_task']['block'], output)
+    output = add_action('---APPLICATION TASK ACTION---', block['inputs']['BLOCKS']['block'], output)
 
     output = output.replace('---APPLICATION TASK ACTION---', '\ttwr_scheduler_plan_current_relative({interval});'.format(interval=interval))
 
@@ -358,8 +436,8 @@ def construct_event_handler(event_handler, output):
 
 def create_variables_list(data, output):
     for variable in data:
-        variables[variable['id']] = variable['name']
-        output = output.replace("---GLOBAL VARIABLE---", "int {variable_name} = 0;\n---GLOBAL VARIABLE---".format(variable_name=variable['name']))
+        variables[variable['id']] = {'name' : variable['name'], 'type' : variable['type']}
+        output = output.replace("---GLOBAL VARIABLE---", "{variable_type} {variable_name} = 0;\n---GLOBAL VARIABLE---".format(variable_type=variable_types[variable['type']], variable_name=variable['name']))
 
     return output
 
@@ -381,17 +459,12 @@ void application_init(void)
 
     return output
 
-def generate_code():  
-    data = ''
-    
-    with open('output.json') as json_file:
-        data = json.load(json_file)
+def generate_code(code):  
+    data = json.loads(code)
         
-    #print(json.dumps(data, indent = 4, sort_keys=True))
+    print(json.dumps(data, indent = 4, sort_keys=True))
 
     output = ""
-
-    print(variables)
     
     for i in data['blocks']['blocks']:
         if(i['type'] == 'hio_application_initialize'):
@@ -416,16 +489,14 @@ def generate_code():
     print(output)
 
     if os.path.exists('skeleton') and os.path.isdir('skeleton'):
-        shutil.rmtree('skeleton')
-        
-    Repo.clone_from('https://github.com/hardwario/twr-skeleton.git', 'skeleton', recursive=True)
-
-    with open('skeleton/src/application.c', 'w') as f:
-        f.write(output)
+        with open('skeleton/src/application.c', 'w') as f:
+            f.write(output)
+    else:        
+        Repo.clone_from('https://github.com/hardwario/twr-skeleton.git', 'skeleton', recursive=True)
+        with open('skeleton/src/application.c', 'w') as f:
+            f.write(output)
 
     command = "cmake skeleton -B skeleton/obj/debug -G Ninja -DCMAKE_TOOLCHAIN_FILE=sdk/toolchain/toolchain.cmake -DTYPE=debug && ninja -C skeleton/obj/debug"
     ret = subprocess.run(command, capture_output=True, shell=True)
     print(ret.stdout.decode())
     
-if __name__ == "__main__":
-    generate_code()

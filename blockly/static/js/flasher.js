@@ -3,7 +3,7 @@ import flash from "./flasher-serial.js";
 const connectButton = document.getElementById('connectButton');
 
 document.addEventListener('DOMContentLoaded', () => {
-  connectButton.addEventListener('click', clickConnect);
+  //connectButton.addEventListener('click', clickConnect);
 });
 
 async function connect() {

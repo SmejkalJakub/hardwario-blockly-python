@@ -1,0 +1,18 @@
+---
+radio:
+  application_init:
+    - twr_radio_init({RADIO_MODE});
+    - twr_radio_pairing_request("{FIRMWARE_NAME}", "1.0.0");
+  action:
+    send_string:
+      - twr_radio_pub_string("{SUBTOPIC}", "{STRING_TO_BE_SEND}");
+    send_integer:
+      - int {RANDOM_VARIABLE} = {INT_TO_BE_SEND};
+      - twr_radio_pub_int("{SUBTOPIC}", &{RANDOM_VARIABLE});
+    send_float:
+      - float {RANDOM_VARIABLE} = {FLOAT_TO_BE_SEND};
+      - twr_radio_pub_float("{SUBTOPIC}", &{RANDOM_VARIABLE});
+    send_boolean:
+      - bool {RANDOM_VARIABLE} = {BOOL_TO_BE_SEND};
+      - twr_radio_pub_bool("{SUBTOPIC}", &{RANDOM_VARIABLE});
+   

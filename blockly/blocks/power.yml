@@ -1,0 +1,7 @@
+---
+power:
+  application_init:
+    - twr_module_power_init();
+  action:
+    relay_state_set:
+      - twr_module_power_relay_set_state({STATE});
