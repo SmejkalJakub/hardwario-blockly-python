@@ -290,7 +290,7 @@ class Genarator:
                             code = code.format(**block['fields'])
                         self.global_variable.append(code)
                     random_variable_name = ''.join([random.choice(string.ascii_letters) for n in range(12)])
-                    for code in block_definition.get('application_init',[]):
+                    for code in block_definition['application_init']['code']:
                         if('fields' in block):
                             block['fields']['RANDOM_VARIABLE'] = random_variable_name
                             code = code.format(**block['fields'])
@@ -308,7 +308,7 @@ class Genarator:
 
                 if block_definition:
                     random_variable_name = ''.join([random.choice(string.ascii_letters) for n in range(12)])
-                    for code in block_definition['action'][action]:
+                    for code in block_definition['action'][action]['code']:
                         if('fields' in block):
                             if('inputs' in block):
                                 variable=self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['name']

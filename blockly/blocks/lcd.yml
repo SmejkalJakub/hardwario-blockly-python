@@ -6,21 +6,27 @@ lcd:
     - twr_led_t lcdLedGreen;
     - twr_led_t lcdLedBlue;
   application_init:
-    - twr_module_lcd_init();
-    - pgfx = twr_module_lcd_get_gfx();
-    - twr_gfx_set_font(pgfx, &twr_font_ubuntu_15);
-    - twr_gfx_draw_string(pgfx, 20, 50, "LCD WORKING", true);
-    - twr_gfx_update(pgfx);
-    - const twr_led_driver_t* driver = twr_module_lcd_get_led_driver();
-    - twr_led_init_virtual(&lcdLedRed, TWR_MODULE_LCD_LED_RED, driver, 1);
-    - twr_led_init_virtual(&lcdLedGreen, TWR_MODULE_LCD_LED_GREEN, driver, 1);
-    - twr_led_init_virtual(&lcdLedBlue, TWR_MODULE_LCD_LED_BLUE, driver, 1);
-    - twr_module_lcd_set_event_handler(lcd_event_handler, NULL);
+    block:
+      text:
+        - Initialize LCD Module
+    code:
+      - twr_module_lcd_init();
+      - pgfx = twr_module_lcd_get_gfx();
+      - twr_gfx_set_font(pgfx, &twr_font_ubuntu_15);
+      - twr_gfx_draw_string(pgfx, 20, 50, "LCD WORKING", true);
+      - twr_gfx_update(pgfx);
+      - const twr_led_driver_t* driver = twr_module_lcd_get_led_driver();
+      - twr_led_init_virtual(&lcdLedRed, TWR_MODULE_LCD_LED_RED, driver, 1);
+      - twr_led_init_virtual(&lcdLedGreen, TWR_MODULE_LCD_LED_GREEN, driver, 1);
+      - twr_led_init_virtual(&lcdLedBlue, TWR_MODULE_LCD_LED_BLUE, driver, 1);
+      - twr_module_lcd_set_event_handler(lcd_event_handler, NULL);
   handler:
+    block:
+      text: On LCD Button %1
     declaration: void lcd_event_handler(twr_module_lcd_event_t event, void *param)
     events:
       prefix: TWR_MODULE_LCD_EVENT_
-      enum: 
+      enum:
         LEFT_PRESS:
         LEFT_RELEASE:
         LEFT_CLICK:
@@ -32,29 +38,272 @@ lcd:
         BOTH_HOLD:
   action:
     draw_string:
-      - twr_gfx_draw_string(pgfx, {LEFT}, {TOP}, "{STRING}", true);
+      block:
+        text:
+          - Draw String %1 on LCD %2
+          - "%3 Pixels from Left %4"
+          - "%5 Pixels from Top"
+        arguments:
+          STRING:
+            type: text
+            value: string
+          X:
+            type: new_line
+          LEFT:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          Y:
+            type: new_line
+          TOP:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+      code:
+        - twr_gfx_draw_string(pgfx, {LEFT}, {TOP}, "{STRING}", true);
     draw_circle:
-      - twr_gfx_draw_circle(pgfx, {CENTER_X}, {CENTER_Y}, {RADIUS}, true);
+      block:
+        text:
+          - Draw Circle on LCD %1
+          - "Center: x: %2 y: %3 %4"
+          - "Radius: %5"
+        arguments:
+          X:
+            type: new_line
+          CENTER_X:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          CENTER_Y:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          Y:
+            type: new_line
+          RADIUS:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+      code:
+        - twr_gfx_draw_circle(pgfx, {CENTER_X}, {CENTER_Y}, {RADIUS}, true);
     draw_line:
-      - twr_gfx_draw_line(pgfx, {START_X}, {START_Y}, {END_X}, {END_Y}, true);
+      block:
+        text:
+          - Draw Line on LCD %1
+          - "Start: x: %2 y: %3 %4"
+          - "End: x: %5 y: %6"
+        arguments:
+          X:
+            type: new_line
+          START_X:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          START_Y:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          Y:
+            type: new_line
+          END_X:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          END_Y:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+      code:
+        - twr_gfx_draw_line(pgfx, {START_X}, {START_Y}, {END_X}, {END_Y}, true);
     draw_rectangle:
-      - twr_gfx_draw_rectangle(pgfx, {START_X}, {START_Y}, {END_X}, {END_Y}, true);
+      block:
+        text:
+          - Draw Rectangle on LCD %1
+          - "Start: x: %2 y: %3 %4"
+          - "End: x: %5 y: %6"
+        arguments:
+          X:
+            type: new_line
+          START_X:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          START_Y:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          Y:
+            type: new_line
+          END_X:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          END_Y:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+      code:
+        - twr_gfx_draw_rectangle(pgfx, {START_X}, {START_Y}, {END_X}, {END_Y}, true);
     draw_pixel:
-      - twr_gfx_draw_pixel(pgfx, {LEFT}, {TOP}, true);
+      block:
+        text:
+          - Draw Pixel on LCD %1
+          - "%2 Pixels from Left %3"
+          - "%4 Pixels from Top"
+        arguments:
+          X:
+            type: new_line
+          LEFT:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          Y:
+            type: new_line
+          TOP:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+      code:
+        - twr_gfx_draw_pixel(pgfx, {LEFT}, {TOP}, true);
     set_power_state:
-      - twr_module_lcd_{STATE}();
+      block:
+        text:
+          - Turn LCD %1
+        arguments:
+          STATE:
+            type: dropdown
+            options:
+              - ["ON", "on"]
+              - ["OFF", "off"]
+      code:
+        - twr_module_lcd_{STATE}();
     clear:
-      - twr_gfx_clear(pgfx);
+      block:
+        text:
+          - Clear LCD
+      code:
+        - twr_gfx_clear(pgfx);
     update:
-      - twr_gfx_update(pgfx);
+      block:
+        text:
+          - Update LCD
+      code:
+        - twr_gfx_update(pgfx);
     set_font:
-      - twr_gfx_set_font(pgfx, &{FONT});
+      block:
+        text:
+          - Set LCD Font Size to %1
+        arguments:
+          FONT:
+            type: dropdown
+            options:
+              - ["11", "twr_font_ubuntu_11"]
+              - ["13", "twr_font_ubuntu_13"]
+              - ["15", "twr_font_ubuntu_15"]
+              - ["24", "twr_font_ubuntu_24"]
+              - ["28", "twr_font_ubuntu_28"]
+              - ["33", "twr_font_ubuntu_33"]
+      code:
+        - twr_gfx_set_font(pgfx, &{FONT});
     printf:
-      - twr_gfx_printf(pgfx, {LEFT}, {TOP}, true, "{FORMAT_STRING}", {VARIABLE});
+      block:
+        text:
+          - Print variable on LCD %1
+          - "%2 Pixels from Left %3"
+          - "%4 Pixels from Top %5"
+          - 'Variable: %6'
+        arguments:
+          X:
+            type: new_line
+          LEFT:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          Y:
+            type: new_line
+          TOP:
+            type: number
+            min: 0
+            max: 128
+            value: 0
+          Z:
+            type: new_line
+          VALUE:
+            type: input
+      code:
+        - twr_gfx_printf(pgfx, {LEFT}, {TOP}, true, "{FORMAT_STRING}", {VARIABLE});
     led_blink:
-      - twr_led_blink(&{LED}, {COUNT});
+      block:
+        text: 
+          - LCD %1 LED Blink %2 Times
+        arguments:
+          LED:
+            type: dropdown
+            options:
+              - ["RED", "lcdLedRed"]
+              - ["GREEN", "lcdLedGreen"]
+              - ["BLUE", "lcdLedBlue"]
+          COUNT:
+            type: number
+            min: 1
+            max: 50
+            value: 5
+      code:
+        - twr_led_blink(&{LED}, {COUNT});
     led_pulse:
-      - twr_led_pulse(&{LED}, {DURATION});
+      block:
+        text: 
+          - LCD %1 LED Pulse for %2 ms
+        arguments:
+          LED:
+            type: dropdown
+            options:
+              - ["RED", "lcdLedRed"]
+              - ["GREEN", "lcdLedGreen"]
+              - ["BLUE", "lcdLedBlue"]
+          DURATION:
+            type: number
+            min: 1
+            max: 1000000
+            value: 1000
+      code:
+        - twr_led_pulse(&{LED}, {DURATION});
     led_set_mode:
-      - twr_led_set_mode(&{LED}, {MODE});
-    
+      block:
+        text: 
+          - Set LCD %1 LED mode to %2
+        arguments:
+          LED:
+            type: dropdown
+            options:
+              - ["RED", "lcdLedRed"]
+              - ["GREEN", "lcdLedGreen"]
+              - ["BLUE", "lcdLedBlue"]
+          MODE:
+            type: dropdown
+            options:
+              - ["TWR_LED_MODE_BLINK", "TWR_LED_MODE_BLINK"]
+              - ["TWR_LED_MODE_BLINK_FAST", "TWR_LED_MODE_BLINK_FAST"]
+              - ["TWR_LED_MODE_BLINK_SLOW", "TWR_LED_MODE_BLINK_SLOW"]
+              - ["TWR_LED_MODE_FLASH", "TWR_LED_MODE_FLASH"]
+              - ["TWR_LED_MODE_OFF", "TWR_LED_MODE_OFF"]
+              - ["TWR_LED_MODE_ON", "TWR_LED_MODE_ON"]
+              - ["TWR_LED_MODE_TOGGLE", "TWR_LED_MODE_TOGGLE"]
+      code:
+        - twr_led_set_mode(&{LED}, {MODE});

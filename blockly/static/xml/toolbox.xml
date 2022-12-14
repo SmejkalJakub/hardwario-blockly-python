@@ -147,14 +147,6 @@
     <block type="hio_climate_illuminance_value"></block>
     <block type="hio_climate_pressure_value"></block>
   </category>
-  <category name="Values" colour="#E30427">
-    <block type="hio_integer_value">
-      <field name="VALUE">0</field>
-    </block>
-    <block type="hio_string_value">
-      <field name="VALUE">text</field>
-    </block>
-  </category>
   <category name="Variables" colour="#a55b80" custom="VARIABLE"></category>
   <category name="Logic" colour="#5b80a5">
     <block type="controls_if"></block>

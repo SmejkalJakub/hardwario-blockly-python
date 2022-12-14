@@ -1,7 +1,21 @@
 ---
 power:
   application_init:
-    - twr_module_power_init();
+    block:
+      text:
+        - Initialize Power Module
+    code:
+      - twr_module_power_init();
   action:
     relay_state_set:
-      - twr_module_power_relay_set_state({STATE});
+      block:
+        text:
+          - Power Module Relay Set State %1
+        arguments:
+          STATE:
+            type: dropdown
+            options:
+              - ["ON", "true"]
+              - ["OFF", "false"]
+      code:
+        - twr_module_power_relay_set_state({STATE});
