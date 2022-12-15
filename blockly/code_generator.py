@@ -152,12 +152,10 @@ class Genarator:
     def load_blocks(self):
         for filename in os.listdir(self.blocks_path):
             if filename.endswith('.yml') or filename.endswith('.yaml'):
-                print(filename)
                 with open(os.path.join(self.blocks_path, filename)) as f:
                     data = yaml.load(f, Loader=yaml.FullLoader)
                     for name in data:
                         self.blocks[name] = data[name]
-        print(json.dumps(self.blocks, indent=2))
 
     def add_event_handler(self, event_handler, name):
         block_definition = self.blocks[name]
@@ -193,7 +191,6 @@ class Genarator:
                     self.next(block['inputs']['BLOCKS'], self.application_init)
 
         for block in data['blocks']['blocks']:
-            print(block['type'])
             if block['type'] == 'hio_application_task':
                 if('inputs' in block):
                     self.indent = 1
@@ -202,7 +199,6 @@ class Genarator:
                     self.application_task.append('\ttwr_scheduler_plan_current_relative({TASK_INTERVAL});'.format(**block['fields']))
                 self.indent = 0
             if 'event' in block['type']:
-                print(self.event_handlers)
                 name = block['type'][len('hio_'):(len(block['type']) - len('_event'))]
                 full_event_name = self.blocks[name]['handler']['events']['prefix'] + block['fields']['NAME']
                 if('inputs' in block):
@@ -211,10 +207,10 @@ class Genarator:
                 self.indent = 0
             print('#')
 
-        print('global_variable', self.global_variable)
-        print('application_init', self.application_init)
-        print('application_task', self.application_task)
-        print('event_handlers', self.event_handlers)
+        #print('global_variable', self.global_variable)
+        #print('application_init', self.application_init)
+        #print('application_task', self.application_task)
+        #print('event_handlers', self.event_handlers)
 
         return self.print_code()
     
@@ -272,12 +268,10 @@ class Genarator:
         return output
 
     def next(self, next, event_handler):
-        print('next', next)
         if 'block' in next:
             block = next['block']
             if '_initialize' in block['type']:
                 name = block['type'][len('hio_'):(len(block['type']) - len('_initialize'))]
-                print('initialize', name)
                 block_definition = self.blocks[name]
                 if block_definition:
                     if 'handler' in block_definition:
@@ -339,13 +333,9 @@ class Genarator:
 def generate_code(code, only_update=False):  
     data = json.loads(code)
         
-    print(json.dumps(data, indent = 4, sort_keys=True))
-
     gen = Genarator()
 
     output = gen.generate_code(data)
-
-    print(output)
 
     if(only_update):
         return output

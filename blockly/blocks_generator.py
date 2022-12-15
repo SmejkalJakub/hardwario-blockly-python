@@ -36,11 +36,8 @@ class BlockGenarator:
             if filename.endswith('.yml') or filename.endswith('.yaml'):
                 with open(os.path.join(self.categories_path, filename)) as f:
                     data = yaml.load(f, Loader=yaml.FullLoader)
-                    print(data)
                     for name in data['categories']:
-                        print(name)
                         self.categories[name] = {'configuration' : data['categories'][name], 'blocks': []}
-        print(self.categories)
 
     def generate_static_blocks(self):
         block = {}
@@ -253,7 +250,6 @@ class BlockGenarator:
         actions_yaml = module['action']
         category = module['category'][0]
 
-        print(module_name)
         for action in actions_yaml:
             block = {}
             block_yaml = actions_yaml[action]['block']
