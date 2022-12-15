@@ -40,8 +40,6 @@ class BlockGenarator:
                     for name in data['categories']:
                         print(name)
                         self.categories[name] = {'configuration' : data['categories'][name], 'blocks': []}
-                        if(name == 'Initialization'):
-                            self.categories['Task'] = {'configuration': {'colour': '#000000'}, 'blocks': []}
         print(self.categories)
 
     def generate_static_blocks(self):
@@ -210,7 +208,8 @@ class BlockGenarator:
 
         block["previousStatement"] = 'null'
         block["nextStatement"] = 'null'
-        #block["colour"] = '345'
+        if 'colour' in block_yaml:
+            block["colour"] = block_yaml['colour']
         block["tooltip"] = ""
         block["helpUrl"] = ""
         self.blocks.append(block)
@@ -243,7 +242,8 @@ class BlockGenarator:
                 'name': 'BLOCKS'
             }
         ]
-        #block["colour"] = '345'
+        if 'colour' in handler_yaml:
+            block["colour"] = handler_yaml['colour']
         block["tooltip"] = ""
         block["helpUrl"] = ""
         self.blocks.append(block)
@@ -300,7 +300,8 @@ class BlockGenarator:
                         })
             block["previousStatement"] = 'null'
             block["nextStatement"] = 'null'
-            #block["colour"] = '345'
+            if 'colour' in block_yaml:
+                block["colour"] = block_yaml['colour']
             block["tooltip"] = ""
             block["helpUrl"] = ""
             self.blocks.append(block)
@@ -327,12 +328,16 @@ class BlockGenarator:
         root = ET.Element('categories')
 
         for category in self.categories:
+            if self.categories[category]['configuration'] != None and 'colour' in self.categories[category]['configuration']:
+                colour = self.categories[category]['configuration']['colour']  
+            else :
+                colour = '#000000'
             if(category == 'Integer Variables'):
-                category_element = ET.SubElement(root, 'category', {'name': category, 'colour': self.categories[category]['configuration']['colour'], 'custom': 'INTEGER_PALETTE'})
+                category_element = ET.SubElement(root, 'category', {'name': category, 'colour': colour, 'custom': 'INTEGER_PALETTE'})
             elif(category == 'Float Variables'):
-                category_element = ET.SubElement(root, 'category', {'name': category, 'colour': self.categories[category]['configuration']['colour'], 'custom': 'FLOAT_PALETTE'})
+                category_element = ET.SubElement(root, 'category', {'name': category, 'colour': colour, 'custom': 'FLOAT_PALETTE'})
             else:
-                category_element = ET.SubElement(root, 'category', {'name': category, 'colour': self.categories[category]['configuration']['colour']})
+                category_element = ET.SubElement(root, 'category', {'name': category, 'colour': colour})
             
             if(category == 'Logic'):
                 block_element = ET.SubElement(category_element, 'block', {'type': 'controls_if'})

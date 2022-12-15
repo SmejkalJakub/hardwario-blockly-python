@@ -152,42 +152,60 @@ function checkUniqueBlock(block_type, event) {
 }
 
 function checkCategories() {
+  var categories = {
+    'blockly-1': false,
+    'blockly-2': false,
+    'blockly-3': false,
+    'blockly-4': false,
+    'blockly-5': false,
+    'blockly-6': false,
+    'blockly-7': false,
+    'blockly-8': false,
+    'blockly-9': false,
+    'blockly-a': false,
+    'blockly-b': false,
+  }
   for (const category of workspace.toolbox_.contents_) {
-    if (category.name_ != 'Initialization' && category.name_ != 'Values' && category.name_ != 'Variables'
-      && category.name_ != 'Task' && category.name_ != 'Logic' && category.name_ != 'Math' && category.name_ != 'Loops' 
-      && category.name_ != 'Integer Variables' && category.name_ != 'Float Variables') {
-      document.getElementById(category.id_).style.display = 'none';
-    }
+      document.getElementById(category.id_).style.display = '';
   }
   for (const block of workspace.blockDB.values()) {
     if (block.type == 'hio_button_initialize') {
+      categories['blockly-2'] = true;
       document.getElementById('blockly-2').style.display = '';
       //workspace.createVariable('button_click_count', 'Integer');
       //workspace.createVariable('button_hold_count', 'Integer');
     }
     else if (block.type == 'hio_radio_initialize') {
+      categories['blockly-3'] = true;
       document.getElementById('blockly-3').style.display = '';
     }
     else if (block.type == 'hio_led_initialize') {
+      categories['blockly-4'] = true;
       document.getElementById('blockly-4').style.display = '';
     }
     else if (block.type == 'hio_logging_initialize') {
+      categories['blockly-5'] = true;
       document.getElementById('blockly-5').style.display = '';
     }
     else if (block.type == 'hio_coreTmp112_initialize') {
+      categories['blockly-6'] = true;
       workspace.createVariable('core_tmp112_value', 'Float');
       document.getElementById('blockly-6').style.display = '';
     }
     else if (block.type == 'hio_pir_initialize') {
+      categories['blockly-7'] = true;
       document.getElementById('blockly-7').style.display = '';
     }
     else if (block.type == 'hio_power_initialize') {
+      categories['blockly-8'] = true;
       document.getElementById('blockly-8').style.display = '';
     }
     else if (block.type == 'hio_lcd_initialize') {
+      categories['blockly-9'] = true;
       document.getElementById('blockly-9').style.display = '';
     }
     else if (block.type == 'hio_climate_initialize') {
+      categories['blockly-a'] = true;
       workspace.createVariable('climate_temperature_value', 'Float');
       workspace.createVariable('climate_humidity_value', 'Float');
       workspace.createVariable('climate_illuminance_value', 'Float');
@@ -196,8 +214,13 @@ function checkCategories() {
       document.getElementById('blockly-a').style.display = '';
     }
     else if(block.type == 'hio_battery_initialize'){
-      document.getElementById('blockly-b').style.display = '';
+      categories['blockly-b'] = true;
       workspace.createVariable('battery_voltage_value', 'Float');
+    }
+  }
+  for (const [key, value] of Object.entries(categories)) {
+    if (value == false) {
+      document.getElementById(key).style.display = 'none';
     }
   }
 }

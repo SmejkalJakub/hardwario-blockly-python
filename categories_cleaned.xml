@@ -12,6 +12,7 @@
   <block type="hio_pir_initialize"></block>
   <block type="hio_power_initialize"></block>
   <block type="hio_radio_initialize"></block>
+  <block type="hio_relay_initialize"></block>
   </category>
 <category name="Task" colour="#000000">
     <block type="hio_application_task"></block>
@@ -75,6 +76,7 @@
 <category name="Battery Module" colour="#000000">
     <block type="hio_battery_event"></block>
   <block type="hio_battery_publish_voltage"></block>
+  <block type="hio_battery_publish_voltage_minus_three"></block>
   </category>
 <category name="Logic" colour="#000000">
     <block type="controls_if"></block>
@@ -94,4 +96,9 @@
   </category>
 <category name="Integer Variables" colour="#000000" custom="INTEGER_PALETTE"></category>
 <category name="Float Variables" colour="#000000" custom="FLOAT_PALETTE"></category>
+<category name="Relay Module" colour="#000000">
+    <block type="hio_relay_set_state"></block>
+  <block type="hio_relay_pulse"></block>
+  <block type="hio_relay_toggle"></block>
+  </category>
 

@@ -2,6 +2,8 @@
 categories:
   Initialization:
     colour: '#000000'
+  Task:
+    colour: '#000000'
   Button:
     colour: '#000000'
   Radio:
@@ -32,3 +34,4 @@ categories:
     colour: '#000000'
   Float Variables:
     colour: '#000000'
+  Relay Module:

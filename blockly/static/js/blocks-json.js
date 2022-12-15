@@ -154,12 +154,21 @@ Blockly.defineBlocksWithJsonArray([
                 "name": "BLOCKS"
             }
         ],
+        "colour": "#FE45DD",
         "tooltip": "",
         "helpUrl": ""
     },
     {
         "type": "hio_battery_publish_voltage",
         "message0": "Publish Battery Voltage Over the Radio",
+        "previousStatement": "null",
+        "nextStatement": "null",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "hio_battery_publish_voltage_minus_three",
+        "message0": "Publish Battery Voltage minus 3 over the radio",
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
@@ -1385,6 +1394,113 @@ Blockly.defineBlocksWithJsonArray([
                 "text": "string"
             }
         ],
+        "previousStatement": "null",
+        "nextStatement": "null",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "hio_relay_initialize",
+        "message0": "Initialize Relay Module on address %1 %2 With defult state %3",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "ADDRESS",
+                "options": [
+                    [
+                        "TWR_MODULE_RELAY_I2C_ADDRESS_DEFAULT",
+                        "TWR_MODULE_RELAY_I2C_ADDRESS_DEFAULT"
+                    ],
+                    [
+                        "TWR_MODULE_RELAY_I2C_ADDRESS_ALTERNATE",
+                        "TWR_MODULE_RELAY_I2C_ADDRESS_ALTERNATE"
+                    ]
+                ]
+            },
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "DEFAULT_STATE",
+                "options": [
+                    [
+                        "TRUE",
+                        "true"
+                    ],
+                    [
+                        "FALSE",
+                        "false"
+                    ]
+                ]
+            }
+        ],
+        "previousStatement": "null",
+        "nextStatement": "null",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "hio_relay_set_state",
+        "message0": "Set Relay State %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "STATE",
+                "options": [
+                    [
+                        "TRUE",
+                        "true"
+                    ],
+                    [
+                        "FALSE",
+                        "false"
+                    ]
+                ]
+            }
+        ],
+        "previousStatement": "null",
+        "nextStatement": "null",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "hio_relay_pulse",
+        "message0": "Relay Send Pulse with Direction %1 %2 For %3 ms",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DIRECTION",
+                "options": [
+                    [
+                        "TRUE",
+                        "true"
+                    ],
+                    [
+                        "FALSE",
+                        "false"
+                    ]
+                ]
+            },
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_number",
+                "name": "DURATION",
+                "value": 100,
+                "min": 0,
+                "max": 5000
+            }
+        ],
+        "previousStatement": "null",
+        "nextStatement": "null",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "hio_relay_toggle",
+        "message0": "Relay Toggle",
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
