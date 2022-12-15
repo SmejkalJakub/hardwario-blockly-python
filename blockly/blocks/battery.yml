@@ -1,5 +1,7 @@
 ---
 battery:
+  category:
+    - Battery Module
   application_init:
     block:
       text:

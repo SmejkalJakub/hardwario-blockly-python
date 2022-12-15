@@ -1,5 +1,7 @@
 ---
 radio:
+  category:
+    - Radio
   application_init:
     block:
       text:

@@ -1,5 +1,7 @@
 ---
 logging:
+  category:
+    - Logging
   application_init:
     block:
       text:

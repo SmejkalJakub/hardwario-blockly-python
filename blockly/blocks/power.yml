@@ -1,5 +1,7 @@
 ---
 power:
+  category:
+    - Power Module
   application_init:
     block:
       text:

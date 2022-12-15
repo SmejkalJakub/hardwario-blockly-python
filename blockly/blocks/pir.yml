@@ -1,5 +1,7 @@
 ---
 pir:
+  category:
+    - Motion Detector
   global_variable:
     - twr_module_pir_t pir;
     - uint16_t pir_event_count = 0;

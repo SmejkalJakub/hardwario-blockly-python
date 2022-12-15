@@ -6,18 +6,22 @@ import random
 import subprocess
 from git import Repo
 import pyperclip
-
+import xml.etree.ElementTree as ET
 
 class BlockGenarator:
     def __init__(self):
         path = os.path.dirname(os.path.abspath(__file__))
         self.modules_path = os.path.join(path, 'blocks')
+        self.categories_path = os.path.join(path, 'categories')
 
         self.modules = {}
 
         self.blocks = []
 
+        self.categories = {}
+
         self.load_modules()
+        self.load_categories()
 
     def load_modules(self):
         for filename in os.listdir(self.modules_path):
@@ -26,6 +30,19 @@ class BlockGenarator:
                     data = yaml.load(f, Loader=yaml.FullLoader)
                     for name in data:
                         self.modules[name] = data[name]
+    
+    def load_categories(self):
+        for filename in os.listdir(self.categories_path):
+            if filename.endswith('.yml') or filename.endswith('.yaml'):
+                with open(os.path.join(self.categories_path, filename)) as f:
+                    data = yaml.load(f, Loader=yaml.FullLoader)
+                    print(data)
+                    for name in data['categories']:
+                        print(name)
+                        self.categories[name] = {'configuration' : data['categories'][name], 'blocks': []}
+                        if(name == 'Initialization'):
+                            self.categories['Task'] = {'configuration': {'colour': '#000000'}, 'blocks': []}
+        print(self.categories)
 
     def generate_static_blocks(self):
         block = {}
@@ -41,10 +58,11 @@ class BlockGenarator:
                 'name': 'BLOCKS'
             }
         ]
-        block['colour'] = 230
+        #block['colour'] = 230
         block['tooltip'] = 'Application Initialization'
         block['helpUrl'] = ''
         self.blocks.append(block)
+        self.categories['Initialization']['blocks'].append(block['type'])
 
         block = {}
         block['type'] = 'hio_application_task'
@@ -67,10 +85,11 @@ class BlockGenarator:
                 "name": "BLOCKS"
             }
         ]
-        block['colour'] = 230
+        #block['colour'] = 230
         block['tooltip'] = 'Application Task'
         block['helpUrl'] = ''
         self.blocks.append(block)
+        self.categories['Task']['blocks'].append(block['type'])
 
         block = {
             "type": "variables_get_integer",
@@ -191,13 +210,15 @@ class BlockGenarator:
 
         block["previousStatement"] = 'null'
         block["nextStatement"] = 'null'
-        block["colour"] = '345'
+        #block["colour"] = '345'
         block["tooltip"] = ""
         block["helpUrl"] = ""
         self.blocks.append(block)
+        self.categories['Initialization']['blocks'].append(block['type'])
     
     def generate_module_event_handler(self, module, module_name):
         block = {}
+        category = module['category'][0]
         handler_yaml = module['handler']
 
         block['type'] = 'hio_' + module_name + '_event'
@@ -222,13 +243,15 @@ class BlockGenarator:
                 'name': 'BLOCKS'
             }
         ]
-        block["colour"] = '345'
+        #block["colour"] = '345'
         block["tooltip"] = ""
         block["helpUrl"] = ""
         self.blocks.append(block)
+        self.categories[category]['blocks'].append(block['type'])
 
     def generate_module_actions(self, module, module_name):
         actions_yaml = module['action']
+        category = module['category'][0]
 
         print(module_name)
         for action in actions_yaml:
@@ -277,11 +300,69 @@ class BlockGenarator:
                         })
             block["previousStatement"] = 'null'
             block["nextStatement"] = 'null'
-            block["colour"] = '345'
+            #block["colour"] = '345'
             block["tooltip"] = ""
             block["helpUrl"] = ""
             self.blocks.append(block)
+            self.categories[category]['blocks'].append(block['type'])
 
+    def indent(self, elem, level=0):
+        i = "\n" + level*"  "
+        j = "\n" + (level-1)*"  "
+        if len(elem):
+            if not elem.text or not elem.text.strip():
+                elem.text = i + "  "
+            if not elem.tail or not elem.tail.strip():
+                elem.tail = i
+            for subelem in elem:
+                self.indent(subelem, level+1)
+            if not elem.tail or not elem.tail.strip():
+                elem.tail = j
+        else:
+            if level and (not elem.tail or not elem.tail.strip()):
+                elem.tail = j
+        return elem
+
+    def generate_categories(self):
+        root = ET.Element('categories')
+
+        for category in self.categories:
+            if(category == 'Integer Variables'):
+                category_element = ET.SubElement(root, 'category', {'name': category, 'colour': self.categories[category]['configuration']['colour'], 'custom': 'INTEGER_PALETTE'})
+            elif(category == 'Float Variables'):
+                category_element = ET.SubElement(root, 'category', {'name': category, 'colour': self.categories[category]['configuration']['colour'], 'custom': 'FLOAT_PALETTE'})
+            else:
+                category_element = ET.SubElement(root, 'category', {'name': category, 'colour': self.categories[category]['configuration']['colour']})
+            
+            if(category == 'Logic'):
+                block_element = ET.SubElement(category_element, 'block', {'type': 'controls_if'})
+                block_element = ET.SubElement(category_element, 'block', {'type': 'logic_compare'})
+                block_element = ET.SubElement(category_element, 'block', {'type': 'logic_operation'})
+                block_element = ET.SubElement(category_element, 'block', {'type': 'logic_negate'})
+                block_element = ET.SubElement(category_element, 'block', {'type': 'logic_boolean'})
+            elif(category == 'Math'):
+                block_element = ET.SubElement(category_element, 'block', {'type': 'math_number'})
+                block_element = ET.SubElement(category_element, 'block', {'type': 'math_arithmetic'})
+            elif(category == 'Loops'):
+                block_element = ET.SubElement(category_element, 'block', {'type': 'controls_repeat_ext'})
+                block_element = ET.SubElement(category_element, 'block', {'type': 'controls_whileUntil'})
+                block_element = ET.SubElement(category_element, 'block', {'type': 'controls_for'})
+            else:
+                for block in self.categories[category]['blocks']:
+                    block_element = ET.SubElement(category_element, 'block', {'type': block})
+
+        tree = ET.ElementTree(self.indent(root))
+        tree.write('categories.xml', xml_declaration=False, method="html")
+
+        infile = "categories.xml"
+        outfile = "categories_cleaned.xml"
+
+        delete_list = ["<categories>", "</categories>"]
+        with open(infile) as fin, open(outfile, "w+") as fout:
+            for line in fin:
+                for word in delete_list:
+                    line = line.replace(word, "")
+                fout.write(line)      
 
     def generate_blocks(self):
         self.generate_static_blocks()
@@ -293,21 +374,27 @@ class BlockGenarator:
                 self.generate_module_event_handler(module, module_name)
             if('action' in module):
                 self.generate_module_actions(module, module_name)
-            blocks_to_print = json.dumps(self.blocks, indent=2)
-            #print(blocks_to_print)
 
-        return self.blocks
+        self.generate_categories()
+        return self.blocks, self.categories
 
-def generate_blocks():  
+def generate_blocks():
     gen = BlockGenarator()
 
-    output = gen.generate_blocks()
-    # Pretty print json
-    output = json.dumps(output, indent=2)
-    pyperclip.copy(output)
+    blocks, categories = gen.generate_blocks()
+    path = os.path.dirname(os.path.abspath(__file__))
+    with open("categories_cleaned.xml", "rt") as fin:
+        with open(os.path.join(path, 'templates', 'index.html'), "wt") as fout:
+            with open(os.path.join(path, 'templates', 'index.html.template'), "rt") as fin_template:
+                template = fin_template.read()
+                categories = fin.read()
+                template = template.replace('<!--CATEGORIES-->', categories)
+                fout.write(template)
 
-
-    #print(output)
+    with open(os.path.join(path, 'static', 'js', 'blocks-json.js'), "wt") as fout:
+        json_blocks = json.dumps(blocks, indent = 4)
+        string = 'Blockly.defineBlocksWithJsonArray(' + json_blocks + ');'
+        fout.write(string)
 
 if __name__ == '__main__':
     generate_blocks()

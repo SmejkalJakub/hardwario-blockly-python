@@ -1,5 +1,7 @@
 ---
 lcd:
+  category:
+    - LCD Module
   global_variable:
     - twr_gfx_t *pgfx;
     - twr_led_t lcdLedRed;

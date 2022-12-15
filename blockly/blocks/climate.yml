@@ -1,5 +1,7 @@
 ---
 climate:
+  category:
+    - Climate Module
   application_init:
     block:
       text:

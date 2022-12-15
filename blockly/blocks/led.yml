@@ -1,5 +1,7 @@
 ---
 led:
+  category:
+    - LED
   global_variable:
     - twr_led_t led;
   application_init:

@@ -1,5 +1,7 @@
 ---
 ledStrip:
+  category:
+    - LED Strip
   global_variable:
     - "#define LED_STRIP_COUNT {LEDS}"
     - "#define LED_STRIP_TYPE 4"

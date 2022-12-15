@@ -154,7 +154,7 @@ function checkUniqueBlock(block_type, event) {
 function checkCategories() {
   for (const category of workspace.toolbox_.contents_) {
     if (category.name_ != 'Initialization' && category.name_ != 'Values' && category.name_ != 'Variables'
-      && category.name_ != 'Controls' && category.name_ != 'Logic' && category.name_ != 'Math' && category.name_ != 'Loops' 
+      && category.name_ != 'Task' && category.name_ != 'Logic' && category.name_ != 'Math' && category.name_ != 'Loops' 
       && category.name_ != 'Integer Variables' && category.name_ != 'Float Variables') {
       document.getElementById(category.id_).style.display = 'none';
     }
@@ -251,6 +251,19 @@ function switch_code() {
     $(".grid-container").css("display","grid").css("grid-template-columns","1fr");
   }
   onresize();
+
+  var text, parser, xmlDoc;
+
+  text = "<bookstore><book>" +
+  "<title>Everyday Italian</title>" +
+  "<author>Giada De Laurentiis</author>" +
+  "<year>2005</year>" +
+  "</book></bookstore>";
+
+  parser = new DOMParser();
+  xmlDoc = parser.parseFromString(text,"text/xml");
+
+  document.getElementById("toolbox").innerHTML = xmlDoc.toString();
 }
 
 function update_code() {

@@ -1,5 +1,7 @@
 ---
 coreTmp112:
+  category:
+    - Core Temperature
   global_variable:
     - twr_tmp112_t core_tmp112;
   application_init:
