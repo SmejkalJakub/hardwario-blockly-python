@@ -305,13 +305,15 @@ class Genarator:
                     for code in block_definition['action'][action]['code']:
                         if('fields' in block):
                             if('inputs' in block):
-                                variable=self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['name']
-                                if(self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['type'] == 'Integer'):
-                                    format_string = '%d'
-                                elif(self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['type'] == 'Float'):
-                                    format_string = '%.1f'
-                                block['fields']['VARIABLE'] = variable
-                                block['fields']['FORMAT_STRING'] = format_string          
+                                for input in block['inputs']:
+                                    block['fields'][input] = self.generate_sub_section(block['inputs'][input]['block'])
+                                #variable=self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['name']
+                                #if(self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['type'] == 'Integer'):
+                                #    format_string = '%d'
+                                #elif(self.variables[block['inputs']['VALUE']['block']['fields']['VAR']['id']]['type'] == 'Float'):
+                                #    format_string = '%.1f'
+                                #block['fields']['VARIABLE'] = variable
+                                #block['fields']['FORMAT_STRING'] = format_string          
                             block['fields']['RANDOM_VARIABLE'] = random_variable_name
                             code = code.format(**block['fields'])
                         event_handler.append('\t' * self.indent + code)

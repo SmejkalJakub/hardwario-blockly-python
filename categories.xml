@@ -4,6 +4,7 @@
   <block type="hio_battery_initialize"></block>
   <block type="hio_button_initialize"></block>
   <block type="hio_climate_initialize"></block>
+  <block type="hio_co2_initialize"></block>
   <block type="hio_coreTmp112_initialize"></block>
   <block type="hio_lcd_initialize"></block>
   <block type="hio_led_initialize"></block>
@@ -100,5 +101,9 @@
     <block type="hio_relay_set_state"></block>
   <block type="hio_relay_pulse"></block>
   <block type="hio_relay_toggle"></block>
+  </category>
+<category name="CO2 Module" colour="#000000">
+    <block type="hio_co2_event"></block>
+  <block type="hio_co2_publish_co2"></block>
   </category>
 </categories>

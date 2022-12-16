@@ -326,7 +326,7 @@ class BlockGenarator:
         for category in self.categories:
             if self.categories[category]['configuration'] != None and 'colour' in self.categories[category]['configuration']:
                 colour = self.categories[category]['configuration']['colour']  
-            else :
+            else:
                 colour = '#000000'
             if(category == 'Integer Variables'):
                 category_element = ET.SubElement(root, 'category', {'name': category, 'colour': colour, 'custom': 'INTEGER_PALETTE'})
@@ -336,21 +336,24 @@ class BlockGenarator:
                 category_element = ET.SubElement(root, 'category', {'name': category, 'colour': colour})
             
             if(category == 'Logic'):
-                block_element = ET.SubElement(category_element, 'block', {'type': 'controls_if'})
-                block_element = ET.SubElement(category_element, 'block', {'type': 'logic_compare'})
-                block_element = ET.SubElement(category_element, 'block', {'type': 'logic_operation'})
-                block_element = ET.SubElement(category_element, 'block', {'type': 'logic_negate'})
-                block_element = ET.SubElement(category_element, 'block', {'type': 'logic_boolean'})
+                ET.SubElement(category_element, 'block', {'type': 'controls_if'})
+                ET.SubElement(category_element, 'block', {'type': 'logic_compare'})
+                ET.SubElement(category_element, 'block', {'type': 'logic_operation'})
+                ET.SubElement(category_element, 'block', {'type': 'logic_negate'})
+                ET.SubElement(category_element, 'block', {'type': 'logic_boolean'})
             elif(category == 'Math'):
-                block_element = ET.SubElement(category_element, 'block', {'type': 'math_number'})
-                block_element = ET.SubElement(category_element, 'block', {'type': 'math_arithmetic'})
+                ET.SubElement(category_element, 'block', {'type': 'math_number'})
+                ET.SubElement(category_element, 'block', {'type': 'math_arithmetic'})
             elif(category == 'Loops'):
-                block_element = ET.SubElement(category_element, 'block', {'type': 'controls_repeat_ext'})
-                block_element = ET.SubElement(category_element, 'block', {'type': 'controls_whileUntil'})
-                block_element = ET.SubElement(category_element, 'block', {'type': 'controls_for'})
+                ET.SubElement(category_element, 'block', {'type': 'controls_repeat_ext'})
+                ET.SubElement(category_element, 'block', {'type': 'controls_whileUntil'})
+                ET.SubElement(category_element, 'block', {'type': 'controls_for'})
             else:
                 for block in self.categories[category]['blocks']:
-                    block_element = ET.SubElement(category_element, 'block', {'type': block})
+                    block_dictionary = next(item for item in self.blocks if item["type"] == block)
+                    if('colour' not in block_dictionary):
+                        block_dictionary['colour'] = colour
+                    ET.SubElement(category_element, 'block', {'type': block})
 
         tree = ET.ElementTree(self.indent(root))
         tree.write('categories.xml', xml_declaration=False, method="html")

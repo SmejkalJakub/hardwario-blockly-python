@@ -12,7 +12,8 @@ Blockly.defineBlocksWithJsonArray([
             }
         ],
         "tooltip": "Application Initialization",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_application_task",
@@ -36,7 +37,8 @@ Blockly.defineBlocksWithJsonArray([
             }
         ],
         "tooltip": "Application Task",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "variables_get_integer",
@@ -130,7 +132,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_battery_event",
@@ -164,7 +167,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_battery_publish_voltage_minus_three",
@@ -172,7 +176,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_button_initialize",
@@ -233,7 +238,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_button_event",
@@ -270,7 +276,8 @@ Blockly.defineBlocksWithJsonArray([
             }
         ],
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_button_publish_click_count",
@@ -278,7 +285,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_button_publish_hold_count",
@@ -286,7 +294,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_climate_initialize",
@@ -306,7 +315,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_climate_event",
@@ -343,7 +353,8 @@ Blockly.defineBlocksWithJsonArray([
             }
         ],
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_climate_publish_temperature",
@@ -351,7 +362,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_climate_publish_humidity",
@@ -359,7 +371,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_climate_publish_luminosity",
@@ -367,7 +380,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_climate_publish_barometer",
@@ -375,7 +389,64 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
+    },
+    {
+        "type": "hio_co2_initialize",
+        "message0": "Initialize CO2 Module %1 With Update Interval %2 ms",
+        "args0": [
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "field_number",
+                "name": "UPDATE_INTERVAL",
+                "value": 5000,
+                "min": 1,
+                "max": 1000000
+            }
+        ],
+        "previousStatement": "null",
+        "nextStatement": "null",
+        "tooltip": "",
+        "helpUrl": "",
+        "colour": "#000000"
+    },
+    {
+        "type": "hio_co2_event",
+        "message0": "On CO2 Module %1 %2 %3",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "NAME",
+                "options": [
+                    [
+                        "UPDATE",
+                        "UPDATE"
+                    ]
+                ]
+            },
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "input_statement",
+                "name": "BLOCKS"
+            }
+        ],
+        "tooltip": "",
+        "helpUrl": "",
+        "colour": "#000000"
+    },
+    {
+        "type": "hio_co2_publish_co2",
+        "message0": "Publish CO2 Value Over the Radio",
+        "previousStatement": "null",
+        "nextStatement": "null",
+        "tooltip": "",
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_coreTmp112_initialize",
@@ -395,7 +466,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_coreTmp112_event",
@@ -420,7 +492,8 @@ Blockly.defineBlocksWithJsonArray([
             }
         ],
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_coreTmp112_publish_temperature_value",
@@ -428,7 +501,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_initialize",
@@ -436,7 +510,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_event",
@@ -493,7 +568,8 @@ Blockly.defineBlocksWithJsonArray([
             }
         ],
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_draw_string",
@@ -528,7 +604,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_draw_circle",
@@ -565,7 +642,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_draw_line",
@@ -609,7 +687,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_draw_rectangle",
@@ -653,7 +732,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_draw_pixel",
@@ -683,7 +763,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_set_power_state",
@@ -707,7 +788,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_clear",
@@ -715,7 +797,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_update",
@@ -723,7 +806,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_set_font",
@@ -763,7 +847,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_printf",
@@ -800,7 +885,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_led_blink",
@@ -835,7 +921,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_led_pulse",
@@ -870,7 +957,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_lcd_led_set_mode",
@@ -932,7 +1020,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_led_initialize",
@@ -940,7 +1029,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_led_blink",
@@ -957,7 +1047,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_led_pulse",
@@ -974,7 +1065,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_led_set_mode",
@@ -1018,7 +1110,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_ledStrip_initialize",
@@ -1049,7 +1142,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_logging_initialize",
@@ -1057,7 +1151,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_logging_info",
@@ -1082,7 +1177,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_logging_debug",
@@ -1107,7 +1203,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_logging_error",
@@ -1132,7 +1229,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_logging_warning",
@@ -1157,7 +1255,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_pir_initialize",
@@ -1192,7 +1291,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_pir_event",
@@ -1217,7 +1317,8 @@ Blockly.defineBlocksWithJsonArray([
             }
         ],
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_pir_publish_motion_count",
@@ -1225,7 +1326,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_power_initialize",
@@ -1233,7 +1335,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_power_relay_state_set",
@@ -1257,7 +1360,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_radio_initialize",
@@ -1292,7 +1396,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_radio_send_string",
@@ -1315,18 +1420,16 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_radio_send_integer",
         "message0": "Send Integer %1 Over the Radio %2 with Subtopic %3",
         "args0": [
             {
-                "type": "field_number",
-                "name": "INT_TO_BE_SEND",
-                "value": 1,
-                "min": "-inf",
-                "max": "inf"
+                "type": "input_value",
+                "name": "INT_TO_BE_SEND"
             },
             {
                 "type": "input_dummy"
@@ -1340,18 +1443,16 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_radio_send_float",
         "message0": "Send Float %1 Over the Radio %2 with Subtopic %3",
         "args0": [
             {
-                "type": "field_number",
-                "name": "FLOAT_TO_BE_SEND",
-                "value": 1.0,
-                "min": "-inf",
-                "max": "inf"
+                "type": "input_value",
+                "name": "INT_TO_BE_SEND"
             },
             {
                 "type": "input_dummy"
@@ -1365,25 +1466,16 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_radio_send_boolean",
         "message0": "Send Boolean %1 Over the Radio %2 with Subtopic %3",
         "args0": [
             {
-                "type": "field_dropdown",
-                "name": "BOOL_TO_BE_SEND",
-                "options": [
-                    [
-                        "true",
-                        "true"
-                    ],
-                    [
-                        "false",
-                        "false"
-                    ]
-                ]
+                "type": "input_value",
+                "name": "BOOL_TO_BE_SEND"
             },
             {
                 "type": "input_dummy"
@@ -1397,7 +1489,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_relay_initialize",
@@ -1438,7 +1531,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_relay_set_state",
@@ -1462,7 +1556,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_relay_pulse",
@@ -1496,7 +1591,8 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     },
     {
         "type": "hio_relay_toggle",
@@ -1504,6 +1600,7 @@ Blockly.defineBlocksWithJsonArray([
         "previousStatement": "null",
         "nextStatement": "null",
         "tooltip": "",
-        "helpUrl": ""
+        "helpUrl": "",
+        "colour": "#000000"
     }
 ]);
